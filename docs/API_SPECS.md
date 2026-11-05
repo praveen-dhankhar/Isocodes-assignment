@@ -544,4 +544,4 @@ Seeded history makes S7 and S8 non-empty: corrections on SHP-24813/24816/24817 (
 | `EXTRACTION_MODE` | no | `auto` (default) · `live` · `sample` |
 | `SEED_DEMO_PASSWORD` | seed | demo users' password |
 
-`src/lib/env.ts` validates these with Zod at startup and fails fast with the missing names (never values).
+`src/lib/env.ts` validates these with Zod on first server use (`env()`, cached), not at import, so `next build` and unit tests run without secrets. It fails with the missing or invalid names (never values). Empty strings count as unset; `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` are required when `STORAGE_DRIVER=supabase`.
