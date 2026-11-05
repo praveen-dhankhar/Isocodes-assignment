@@ -147,12 +147,12 @@ The model returns text **exactly as printed**. All conversion happens in pure, u
 |---|---|---|
 | MONEY, DECIMAL | `"16320.00"` (dot decimal, no grouping, printed precision kept) | Decimal separator detected **per document** from all numeric texts (A-09). `1.460,00` → `1460.00`. A lone `1,460` on a comma-decimal document is ambiguous → flag. If no number on the document settles the separator (only integers and lone `1,460`/`1.460` shapes, or a tied vote), the document has none: every lone separator + 3 digits on it is ambiguous → flag (read dot-decimal). A value whose own punctuation contradicts its document (`6.80` on a comma-decimal document) → flag. Spaces and apostrophes group thousands. Currency symbols/codes stripped. Never JS floats — `decimal.js`. |
 | WEIGHT | kg, 3 dp: `"3120.000"` | Units (whole words, any case, plurals and long forms accepted): KG/KGS/KGM/K.G./KILOS/KILOGRAMS ×1; LB/LBS/POUNDS ×0.45359237; MT/TON/TONNE ×1000; rounded half-up to 3 dp. No unit found → assume kg + flag `unitAssumed`. |
-| INTEGER | `"240"` | First integer in text (`240 CTNS` → 240). |
-| DATE | ISO `"2026-10-14"` | DD/MM/YYYY, DD-MM-YYYY, YYYY-MM-DD, `14 Oct 2026`, `Oct 14, 2026`. Both parts ≤ 12 → DD/MM unless supplier country is US (MM/DD); flag `ambiguousDate` (A-10). |
-| CURRENCY | ISO 4217 | `US$`/`$`→USD, `€`→EUR, `RMB`/`¥` on a CN supplier→CNY, `¥` on JP supplier→JPY; unknown → invalid. |
+| INTEGER | `"240"` | First integer in text (`240 CTNS` → 240). A count has no fraction, so a lone `1,200`/`1.200` groups thousands on any document; `240.00` → 240; `12.5` or a negative → invalid. |
+| DATE | ISO `"2026-10-14"` | DD/MM/YYYY, DD-MM-YYYY, YYYY-MM-DD, `14 Oct 2026`, `Oct 14, 2026`. Also `.` separators, `YYYY/MM/DD`, full month names and ordinals (`14th October 2026`). Both parts ≤ 12 → DD/MM unless supplier country is US (MM/DD); flag `ambiguousDate` (A-10) only when both readings are real, different days (`05/05/2026` is not ambiguous). |
+| CURRENCY | ISO 4217 | `US$`/`$`→USD, `€`→EUR, `RMB`/`¥` on a CN supplier→CNY, `¥` on JP supplier→JPY; `RMB`→CNY on any supplier; `£`→GBP, `₹`→INR; `HK$`/`S$`/`A$`/`C$`/`NZ$` → their dollars; words `US Dollars`/`Euro`; active ISO 4217 codes as printed (fund, metal and test codes excluded); unknown → invalid. |
 | INCOTERM | 3-letter code | One of EXW FCA CPT CIP DAP DPU DDP FAS FOB CFR CIF; `C&F`/`CNF`→CFR. Named place kept in `rawText`. |
 | HS_CODE | digits only | Strip dots/spaces; valid if 6–10 digits. No classification (non-goal). |
-| CONTAINER_LIST | `"XZQU4821171\|KQZU2073199"` sorted, uppercase | Each must match `^[A-Z]{3}[UJZ]\d{7}$` **and** pass the ISO 6346 check digit. |
+| CONTAINER_LIST | `"XZQU4821171\|KQZU2073199"` sorted, uppercase | Each must match `^[A-Z]{3}[UJZ]\d{7}$` **and** pass the ISO 6346 check digit. Spaces/dashes inside a number are removed; duplicates dropped. Invalid numbers stay in the list, flagged, so CC-07 can show them. |
 | IDENTIFIER | trimmed, inner spaces collapsed, uppercase for comparison | |
 | TEXT | trimmed, whitespace collapsed | |
 | UNIT | uppercase; mapped to UQC where known (PCS, NOS, SET, KGS, MTR, PRS) | Unknown kept as printed (A-21). |

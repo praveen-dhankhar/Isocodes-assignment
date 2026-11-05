@@ -52,6 +52,19 @@ export function detectDecimalSeparator(texts: readonly string[]): DecimalSeparat
   return votes > 0 ? "." : votes < 0 ? "," : null;
 }
 
+/** INTEGER (PRD §7): first number in `text` ("240 CTNS" → "240"). Counts have no fraction, so any lone
+ * "1,200" / "1.200" groups thousands; a real fraction ("12.5") or a negative is invalid → null. */
+export function parseInteger(text: string): string | null {
+  const token = NUMBER.exec(text)?.[0];
+  if (token === undefined || token.startsWith("-")) return null;
+  const digits = unsigned(token);
+  const s = shape(digits);
+  const [int = "", frac = "", ...more] =
+    s.kind === "decided" ? digits.replaceAll(other(s.decimal), "").split(s.decimal) : [digits.replace(/[.,]/g, "")];
+  if (more.length > 0 || /[1-9]/.test(frac)) return null;
+  return new D(int).toFixed(0);
+}
+
 /** First number in `text` (currency symbols and codes ignored), read with the document's separator. */
 export function parseDecimal(text: string, sep: DecimalSeparator | null): ParsedDecimal | null {
   const token = NUMBER.exec(text)?.[0];

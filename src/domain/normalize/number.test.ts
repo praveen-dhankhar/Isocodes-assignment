@@ -1,6 +1,23 @@
 import fc from "fast-check";
 import { describe, expect, it } from "vitest";
-import { detectDecimalSeparator, parseDecimal, type DecimalSeparator } from "./number";
+import { detectDecimalSeparator, parseDecimal, parseInteger, type DecimalSeparator } from "./number";
+
+describe("parseInteger (PRD §7: first integer)", () => {
+  it.each<[string, string | null]>([
+    ["240 CTNS", "240"],
+    ["6 pallets", "6"],
+    ["1,200 CTNS", "1200"],
+    ["1.200 colli", "1200"],
+    ["1,234,567", "1234567"],
+    ["240.00", "240"],
+    ["12.5", null],
+    ["1.460,00,5", null],
+    ["-3", null],
+    ["N/A", null],
+  ])("%j → %j", (text, value) => {
+    expect(parseInteger(text)).toBe(value);
+  });
+});
 
 describe("detectDecimalSeparator (A-09)", () => {
   it.each<[string, string[], DecimalSeparator | null]>([
