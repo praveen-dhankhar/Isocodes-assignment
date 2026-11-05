@@ -19,6 +19,7 @@
     "verify": "pnpm typecheck && pnpm lint && pnpm test && pnpm build"
   },
   "dependencies": {
+    "@noble/hashes": "2.4.0",
     "class-variance-authority": "0.7.1",
     "cn": "0.5.2",
     "decimal.js": "10.6.0",

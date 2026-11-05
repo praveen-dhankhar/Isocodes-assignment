@@ -1,4 +1,4 @@
-import { HEADER_FIELDS, LINE_FIELDS, type DocType, type FieldDef } from "../../fields";
+import { HEADER_FIELDS, LINE_FIELDS, type DocType, type FieldDef, type HeaderFieldKey, type LineFieldKey } from "../../fields";
 import { detectDecimalSeparator, parseDecimal } from "../../normalize/number";
 import { parseWeightKg } from "../../normalize/weight";
 import type { FieldRef, FieldStatus, ShipmentSnapshot, ShipmentStatus, SnapshotDocument } from "../../snapshot";
@@ -205,6 +205,32 @@ export function shp24816(): ShipmentSnapshot {
       grossWeight: "1000.000", containerNumbers: "KQZU2074003",
     }),
   ]);
+}
+
+// Variations for rule tests. Each returns a deep copy; null clears a value.
+
+export function withValue(snap: ShipmentSnapshot, docType: DocType, key: HeaderFieldKey, value: string | null) {
+  const copy = structuredClone(snap);
+  const field = copy.documents[docType]?.header[key];
+  if (!field) throw new Error(`${snap.ref}: ${docType} has no ${key}`);
+  field.value = value;
+  return copy;
+}
+
+export function withLineValue(snap: ShipmentSnapshot, docType: DocType, lineNo: number, key: LineFieldKey, value: string | null) {
+  const copy = structuredClone(snap);
+  const field = copy.documents[docType]?.lines.find((l) => l.lineNo === lineNo)?.cells[key];
+  if (!field) throw new Error(`${snap.ref}: ${docType} line ${lineNo} has no ${key}`);
+  field.value = value;
+  return copy;
+}
+
+export function withLines(snap: ShipmentSnapshot, docType: DocType, lines: Cells[]) {
+  const copy = structuredClone(snap);
+  const target = copy.documents[docType];
+  if (!target) throw new Error(`${snap.ref}: no ${docType}`);
+  target.lines = doc(snap.ref, docType, {}, lines).lines;
+  return copy;
 }
 
 export const SCENARIOS = {

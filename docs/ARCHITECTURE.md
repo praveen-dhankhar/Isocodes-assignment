@@ -399,7 +399,7 @@ export interface PriorResolution {
 export interface CheckOutcome {
   ruleId: RuleId; scope: string; status: CheckStatus; severity: CheckSeverity;
   observed: ObservedValue[]; delta: string | null; message: string; notes: string[];
-  fingerprint: string;                     // set by runCrossChecks
+  fingerprint: string;                     // set when the rule builds the outcome (checks/fingerprint.ts)
   resolution: PriorResolution | null;      // carried over only if the fingerprint is unchanged
 }
 export interface CheckRule { id: RuleId; name: string; run(s: ShipmentSnapshot, cfg: CheckConfig): CheckOutcome[] }
@@ -410,11 +410,11 @@ export interface CheckConfig {                       // values in checks/config.
 
 ### 6.3 Pipeline inside `runCrossChecks`
 1. For each rule in `RULES` (fixed order CC-01 → CC-08) call `rule.run(snapshot, config)`.
-2. Each rule reads canonical strings, converts with `Decimal`, compares, and emits outcomes. Shared helpers:
+2. Each rule reads canonical strings, converts with `Decimal`, compares, and emits outcomes. Rules read only documents that are `EXTRACTED` or `MANUAL`; a missing or unfinished slot is skipped because it already blocks as `DOCUMENT_MISSING` / `DOCUMENT_NOT_READY`. Shared helpers:
    - `compareAcrossDocs(fieldKey, requiredOn, tolerance)` — used by CC-03/04/05: collects values from INV/PL/BL; a required value missing → `INCOMPLETE`; < 2 values present → `NOT_APPLICABLE`; `max − min > tolerance` → `FAIL` with `delta = max − min`.
    - `matchLines(invLines, plLines, cfg)` — CC-06 greedy matcher (PRD §9).
    - `iso6346Valid(code)` — CC-07.
-3. `fingerprint(outcome) = sha256(ruleId | scope | sorted observed values)` (hex, first 16 chars). Pure: hashing uses a bundled JS SHA-256, not `node:crypto`, so the domain stays platform-free.
+3. `fingerprint(outcome) = sha256(ruleId | scope | sorted docType=value pairs)` (hex, first 16 chars; display text excluded). Pure: hashing uses a bundled JS SHA-256, not `node:crypto`, so the domain stays platform-free.
 4. Attach `snapshot.priorResolutions[(ruleId, scope)]` when its fingerprint equals the new one; otherwise `resolution = null` (the check re-opens).
 5. Outcomes are sorted by `(severityRank, ruleId, scope)` for stable UI and snapshot tests.
 

@@ -48,3 +48,10 @@ export const ShipmentSnapshot = z.object({
   priorResolutions: z.partialRecord(RuleId, z.record(z.string(), PriorResolution)), // by rule, then scope
 });
 export type ShipmentSnapshot = z.infer<typeof ShipmentSnapshot>;
+
+/** A document the checks read: extraction finished or entered by hand. A missing or unfinished slot has its own
+ * blocking issue (PRD §10.1), so checks skip it instead of blocking twice. */
+export function readyDocument(snapshot: ShipmentSnapshot, docType: DocType): SnapshotDocument | undefined {
+  const doc = snapshot.documents[docType];
+  return doc && (doc.status === "EXTRACTED" || doc.status === "MANUAL") ? doc : undefined;
+}
