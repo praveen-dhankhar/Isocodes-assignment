@@ -145,8 +145,8 @@ The model returns text **exactly as printed**. All conversion happens in pure, u
 
 | Kind | Canonical form | Rules |
 |---|---|---|
-| MONEY, DECIMAL | `"16320.00"` (dot decimal, no grouping, printed precision kept) | Decimal separator detected **per document** from all numeric texts (A-09). `1.460,00` → `1460.00`. A lone `1,460` on a comma-decimal document is ambiguous → flag. Currency symbols/codes stripped. Never JS floats — `decimal.js`. |
-| WEIGHT | kg, 3 dp: `"3120.000"` | Units: KG/KGS/KGM/K.G. ×1; LB/LBS ×0.45359237; MT/TON/TONNE ×1000. No unit found → assume kg + flag `unitAssumed`. |
+| MONEY, DECIMAL | `"16320.00"` (dot decimal, no grouping, printed precision kept) | Decimal separator detected **per document** from all numeric texts (A-09). `1.460,00` → `1460.00`. A lone `1,460` on a comma-decimal document is ambiguous → flag. If no number on the document settles the separator (only integers and lone `1,460`/`1.460` shapes, or a tied vote), the document has none: every lone separator + 3 digits on it is ambiguous → flag (read dot-decimal). A value whose own punctuation contradicts its document (`6.80` on a comma-decimal document) → flag. Spaces and apostrophes group thousands. Currency symbols/codes stripped. Never JS floats — `decimal.js`. |
+| WEIGHT | kg, 3 dp: `"3120.000"` | Units (whole words, any case, plurals and long forms accepted): KG/KGS/KGM/K.G./KILOS/KILOGRAMS ×1; LB/LBS/POUNDS ×0.45359237; MT/TON/TONNE ×1000; rounded half-up to 3 dp. No unit found → assume kg + flag `unitAssumed`. |
 | INTEGER | `"240"` | First integer in text (`240 CTNS` → 240). |
 | DATE | ISO `"2026-10-14"` | DD/MM/YYYY, DD-MM-YYYY, YYYY-MM-DD, `14 Oct 2026`, `Oct 14, 2026`. Both parts ≤ 12 → DD/MM unless supplier country is US (MM/DD); flag `ambiguousDate` (A-10). |
 | CURRENCY | ISO 4217 | `US$`/`$`→USD, `€`→EUR, `RMB`/`¥` on a CN supplier→CNY, `¥` on JP supplier→JPY; unknown → invalid. |
