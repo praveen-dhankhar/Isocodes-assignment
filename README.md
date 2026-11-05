@@ -32,8 +32,8 @@ pnpm dev                         # http://localhost:3000
 Local values for `.env.local` (the compose database uses local-only credentials):
 
 ```bash
-DATABASE_URL=postgres://postgres:postgres@localhost:5432/customs
-DATABASE_URL_TEST=postgres://postgres:postgres@localhost:5432/customs_test
+DATABASE_URL=postgres://postgres:postgres@localhost:5433/customs
+DATABASE_URL_TEST=postgres://postgres:postgres@localhost:5433/customs_test
 BETTER_AUTH_SECRET=              # openssl rand -base64 32
 BETTER_AUTH_URL=http://localhost:3000
 STORAGE_DRIVER=local
