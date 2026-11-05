@@ -1,13 +1,17 @@
 import type { ShipmentSnapshot } from "../snapshot";
 import { invoiceTotal, lineTotals } from "./rules/amounts";
+import { lineItemMatch } from "./rules/items";
 import { grossWeight, netWeight, packageCount } from "./rules/quantities";
+import { containerNumbers, invoiceReference } from "./rules/references";
 import type { CheckConfig, CheckOutcome, CheckRule, CheckSeverity } from "./types";
 
 /** Stored with every result; bump when any rule's behaviour changes. */
 export const ENGINE_VERSION = "ce-1.0.0";
 
-// Fixed order CC-01 → CC-08 (CC-06…CC-08 arrive with M2.5).
-const RULES: readonly CheckRule[] = [lineTotals, invoiceTotal, grossWeight, netWeight, packageCount];
+// Fixed order CC-01 → CC-08.
+const RULES: readonly CheckRule[] = [
+  lineTotals, invoiceTotal, grossWeight, netWeight, packageCount, lineItemMatch, containerNumbers, invoiceReference,
+];
 
 const SEVERITY_RANK: Record<CheckSeverity, number> = { CRITICAL: 0, WARNING: 1, INFO: 2 };
 const naturalScope = (scope: string) => scope.replace(/\d+/g, (n) => n.padStart(6, "0")); // line:2 before line:10

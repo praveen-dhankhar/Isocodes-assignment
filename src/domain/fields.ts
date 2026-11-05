@@ -3,6 +3,12 @@ import { z } from "zod";
 export const DocType = z.enum(["INVOICE", "PACKING_LIST", "BILL_OF_LADING"]);
 export type DocType = z.infer<typeof DocType>;
 
+export const DOC_LABEL: Record<DocType, string> = {
+  INVOICE: "Invoice",
+  PACKING_LIST: "Packing list",
+  BILL_OF_LADING: "Bill of lading",
+};
+
 export type FieldKind =
   | "TEXT" | "IDENTIFIER" | "DATE" | "CURRENCY" | "INCOTERM" | "MONEY" | "DECIMAL"
   | "INTEGER" | "WEIGHT" | "CONTAINER_LIST" | "HS_CODE" | "UNIT";

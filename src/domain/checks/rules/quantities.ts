@@ -1,14 +1,8 @@
-import { DocType, HEADER_FIELDS, type FieldDef } from "../../fields";
-import { D } from "../../money";
+import { DOC_LABEL, DocType, HEADER_FIELDS, type FieldDef } from "../../fields";
+import { D, formatEnIn } from "../../money";
 import { readyDocument, type ShipmentSnapshot } from "../../snapshot";
 import { observe, outcome } from "../fingerprint";
 import type { CheckOutcome, CheckRule, RuleId } from "../types";
-
-const DOC_LABEL: Record<DocType, string> = {
-  INVOICE: "Invoice",
-  PACKING_LIST: "Packing list",
-  BILL_OF_LADING: "Bill of lading",
-};
 
 /**
  * One header value across the extracted documents that carry it (ARCHITECTURE §6.3): a required value missing →
@@ -30,7 +24,7 @@ export function compareAcrossDocs(
     return doc ? [{ docType, ref: doc.header[key], required: requirement === "R" }] : [];
   });
 
-  const observed = docs.map((d) => observe(d.docType, d.ref, unit));
+  const observed = docs.map((d) => observe(d.docType, d.ref, (v) => `${formatEnIn(v)}${unit}`));
   const notes = docs.filter((d) => !d.required && d.ref?.value == null).map((d) => `${DOC_LABEL[d.docType]}: not stated`);
   const base = { ruleId, scope: "shipment", observed, notes };
 

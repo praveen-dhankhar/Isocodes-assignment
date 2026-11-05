@@ -48,6 +48,21 @@ describe("runCrossChecks", () => {
     expect(find(runCrossChecks(shp24816(), CHECK_CONFIG), "CC-03").status).toBe("PASS");
   });
 
+  it("CC-06 fails on line:2 for SHP-24814", () => {
+    const failed = runCrossChecks(SCENARIOS["SHP-24814"](), CHECK_CONFIG).filter((r) => r.status === "FAIL");
+    expect(failed.map((r) => `${r.ruleId} ${r.scope}`)).toEqual(["CC-06 line:2"]);
+  });
+
+  it("CC-07 fails for SHP-24815", () => {
+    const failed = runCrossChecks(SCENARIOS["SHP-24815"](), CHECK_CONFIG).filter((r) => r.status === "FAIL");
+    expect(failed.map((r) => `${r.ruleId} ${r.scope}`)).toEqual(["CC-07 shipment"]);
+  });
+
+  it("runs all eight rules in order", () => {
+    const rules = new Set(runCrossChecks(shp24811(), CHECK_CONFIG).map((r) => r.ruleId));
+    expect([...rules].sort()).toEqual(["CC-01", "CC-02", "CC-03", "CC-04", "CC-05", "CC-06", "CC-07", "CC-08"]);
+  });
+
   it("sorts by severity, then rule, then scope (line:2 before line:10)", () => {
     const tenLines = Array.from({ length: 10 }, () => ({ description: "Part", quantity: "1", unitPrice: "1.00", lineTotal: "1.00" }));
     const snap = withLines(withValue(shp24811(), "INVOICE", "invoiceTotal", "10.00"), "INVOICE", tenLines);

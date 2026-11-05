@@ -26,7 +26,10 @@ export function outcome(draft: Omit<CheckOutcome, "severity" | "fingerprint" | "
   return { ...draft, severity: SEVERITY[draft.status], fingerprint: fingerprint(draft), resolution: null };
 }
 
-export function observe(docType: DocType, ref: FieldRef | undefined, unit = ""): ObservedValue {
+/** `show` formats a present value for people; numbers by default, text and codes pass `asPrinted`. */
+export function observe(docType: DocType, ref: FieldRef | undefined, show: (value: string) => string = formatEnIn): ObservedValue {
   const value = ref?.value ?? null;
-  return { docType, fieldId: ref?.fieldId ?? null, value, display: value === null ? "not stated" : `${formatEnIn(value)}${unit}` };
+  return { docType, fieldId: ref?.fieldId ?? null, value, display: value === null ? "not stated" : show(value) };
 }
+
+export const asPrinted = (value: string) => value;

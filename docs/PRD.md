@@ -193,7 +193,7 @@ Pure functions over a shipment snapshot (`ARCHITECTURE §6`). Tolerances are in 
 | CC-04 | NET_WEIGHT | `netWeight` on INV, PL, BL (kg) | max − min ≤ 0.5 kg | shipment |
 | CC-05 | PACKAGE_COUNT | `totalPackages` on INV, PL, BL | all equal | shipment |
 | CC-06 | LINE_ITEM_MATCH | INV lines ↔ PL lines | every line matched; quantities equal; units equal when both present | per INV line + one per unmatched PL line |
-| CC-07 | CONTAINER_NUMBERS | `containerNumbers` PL vs BL (and INV if present) | same set; every number passes ISO 6346 | shipment |
+| CC-07 | CONTAINER_NUMBERS | `containerNumbers` PL vs BL (and INV if present) | same set; every number passes ISO 6346 (checked even when only one document states containers) | shipment |
 | CC-08 | INVOICE_REFERENCE | PL `invoiceNumber` vs INV `invoiceNumber` | equal after normalisation | shipment |
 
 CC-01…CC-06 are the brief's required checks. CC-07 and CC-08 are cheap extra depth.
@@ -209,7 +209,7 @@ CC-01…CC-06 are the brief's required checks. CC-07 and CC-08 are cheap extra d
 
 Rules run on the values present; e.g. CC-03 with no invoice gross weight compares PL vs BL and notes "Invoice: not stated".
 
-**CC-06 matching algorithm.** Normalise descriptions (uppercase, strip punctuation, collapse spaces) → token Jaccard similarity; HS code equality adds +0.2. Greedy pairing by highest similarity ≥ 0.5 (A-12). If no pair reaches 0.5 and both sides have the same number of lines, pair by position and add a WARNING note "matched by position". Unmatched lines on either side → `FAIL`.
+**CC-06 matching algorithm.** Normalise descriptions (uppercase, punctuation to spaces, collapse spaces) → token Jaccard similarity, computed as an exact decimal; HS code equality adds +0.2 when both lines carry an HS code — packing-list lines don't extract one (§6.2), so today the bonus never applies. Greedy pairing by highest similarity ≥ 0.5 (A-12), ties broken by invoice line then packing-list line order. If no pair reaches 0.5 and both sides have the same number of lines, pair by position and add a WARNING note "matched by position". Unmatched lines on either side → `FAIL`.
 
 **Resolution memory.** Each result has a fingerprint = hash(rule, scope, observed canonical values). A resolution survives a re-run only if the fingerprint is unchanged; if a value later changes, the check re-opens.
 
@@ -305,7 +305,7 @@ Each is labelled in code comments as `// A-xx` where it is applied.
 | A-09 | Number format is detected per document; anything ambiguous goes to review. |
 | A-10 | Dates default to DD/MM; MM/DD only for US suppliers; ambiguous dates go to review. |
 | A-11 | HS code is optional on supplier invoices and only format-validated (6–10 digits). |
-| A-12 | Line items match when description token similarity ≥ 0.5 (HS code match adds 0.2). |
+| A-12 | Line items match when description token similarity ≥ 0.5 (HS code match adds 0.2 when both sides carry one; packing lists currently don't). |
 | A-13 | Seed data: from the brief come only SHP-24811 (invoice line, invoice gross 3,120 kg, packing-list gross 3,165 kg) and SHP-24812 (invoice line, invoice gross 1,460 kg). Everything else — BL weight 3,165 kg, SHP-24812's PL/BL values, packages, net weights, container numbers, invoice numbers, dates, importers and shipments SHP-24813…SHP-24819 — is invented. |
 | A-14 | Four-eyes: the manager who approves cannot be the user who submitted. |
 | A-15 | Display: en-IN number grouping; times in Asia/Kolkata; storage in UTC. |
