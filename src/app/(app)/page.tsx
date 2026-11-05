@@ -2,7 +2,8 @@ import { Mono } from "@/components/ui/mono";
 import { Num } from "@/components/ui/num";
 import { StateBadge } from "@/components/ui/state-badge";
 
-// Temporary style check for the design tokens and tabular numbers. Replaced by the shipment list (S2).
+// Temporary style check for the design tokens and tabular numbers, inside the app shell.
+// Replaced by a redirect to the shipment list (S2) when it exists.
 const ROWS = [
   ["Gross weight, invoice (kg)", "3120.000"],
   ["Gross weight, packing list (kg)", "3165.000"],

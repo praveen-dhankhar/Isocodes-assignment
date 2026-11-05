@@ -26,6 +26,8 @@ const eslintConfig = defineConfig([
   },
   {
     files: ["src/components/**/*.{ts,tsx}", "src/app/**/*.tsx"],
+    // shadcn primitives in components/ui are generated (`shadcn add`) and kept as generated.
+    ignores: ["src/components/ui/**"],
     rules: { "max-lines": ["error", 250] },
   },
   {
