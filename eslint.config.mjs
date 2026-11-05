@@ -51,6 +51,11 @@ const eslintConfig = defineConfig([
     },
   },
   {
+    // Tests may read files (fields.test.ts compares the registry with the PRD); domain code may not.
+    files: ["src/domain/**/*.test.ts"],
+    rules: { "import/no-nodejs-modules": "off" },
+  },
+  {
     files: ["src/lib/**"],
     rules: restrict({ regex: layer("(app|components|server)"), message: "src/lib is shared; it cannot depend on app layers." }),
   },

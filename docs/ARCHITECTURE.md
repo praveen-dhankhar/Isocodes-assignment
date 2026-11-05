@@ -403,8 +403,8 @@ export interface CheckOutcome {
   resolution: PriorResolution | null;      // carried over only if the fingerprint is unchanged
 }
 export interface CheckRule { id: RuleId; name: string; run(s: ShipmentSnapshot, cfg: CheckConfig): CheckOutcome[] }
-export interface CheckConfig {                       // checks/config.ts — A-04, A-12
-  moneyTolerance: '0.01'; weightToleranceKg: '0.5'; descriptionMatchMin: 0.5; hsMatchBonus: 0.2;
+export interface CheckConfig {                       // values in checks/config.ts: '0.01', '0.5', 0.5, 0.2 (A-04, A-12)
+  moneyTolerance: string; weightToleranceKg: string; descriptionMatchMin: number; hsMatchBonus: number;
 }
 ```
 
