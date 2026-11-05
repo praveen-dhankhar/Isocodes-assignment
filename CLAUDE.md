@@ -77,6 +77,9 @@ AI: NVIDIA API (OpenAI-compatible, plain `fetch`) — primary `nvidia/nemotron-3
 - Use `src/proxy.ts` (exports `proxy`), not `middleware.ts`. It only redirects signed-out users; real auth runs in every action and route.
 - `params` / `searchParams` are async: `const { id } = await props.params`.
 - Upload, extract and export routes: `export const runtime = 'nodejs'`; extract route `export const maxDuration = 300`.
+- `cacheComponents` stays off: it forbids the `runtime` segment export above.
+- Docs for the installed version ship in `node_modules/next/dist/docs/`. Read the relevant guide before using an API you're unsure of; APIs differ from older Next.js.
+- `agentRules: false` in `next.config.ts` keeps `next dev` from writing an `AGENTS.md`; this file is the contributor guide.
 
 ## Workflow
 - One PLAN step per commit: `feat(domain): CC-03 gross weight check [M2.4]`. Run the step's verify command and `pnpm verify` first.
