@@ -70,6 +70,7 @@ Exact versions are pinned (no `^`) in `package.json` at scaffold time.
 ├── next.config.ts                # security headers, serverExternalPackages
 ├── vercel.json                   # { "regions": ["bom1"] }
 ├── vitest.config.ts              # projects: unit (src/**/*.test.ts), integration (*.int.test.ts)
+├── vitest.integration-setup.ts   # migrates DATABASE_URL_TEST before integration tests
 ├── playwright.config.ts
 ├── eslint.config.mjs
 ├── .env.example                  # names only, no values
@@ -535,7 +536,7 @@ type AiError = { code: 'AI_UNAVAILABLE' | 'AI_RATE_LIMITED' | 'AI_INVALID_OUTPUT
 
 | Layer | Control |
 |---|---|
-| Identity | Better Auth email/password; sign-up disabled; httpOnly, Secure, SameSite=Lax cookies; built-in login rate limiting. |
+| Identity | Better Auth email/password; sign-up disabled; httpOnly, Secure, SameSite=Lax cookies; built-in login rate limiting with counters in Postgres (`rate_limit` table) so limits hold across serverless instances; `role` is an `input: false` field, so no auth endpoint can set it. |
 | Authorisation | `requireUser()` / `requireRole(role)` at the top of every Server Action and Route Handler; resource ownership is org-wide (single tenant). `proxy.ts` only redirects; it is not trusted. |
 | Input | Zod on every action/route input; uploads checked by magic bytes, size, page count; filenames never used in storage keys; route params validated as UUIDs. |
 | Model output | Treated as untrusted data: Zod-validated, length-capped, normalised by code; never rendered as HTML; never used to choose code paths beyond documented fields. Prompt tells the model to ignore instructions inside documents; even if it obeys one, cross-checks and human review catch the result. |
