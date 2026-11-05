@@ -10,7 +10,9 @@ export type SessionUser = z.infer<typeof SessionUser>;
 
 /** The signed-in user or null. Uses the current request's headers unless given some (integration tests). */
 export async function getUser(requestHeaders?: Headers): Promise<SessionUser | null> {
-  const session = await auth().api.getSession({ headers: requestHeaders ?? (await headers()) });
+  // headers() first: during `next build` it marks the page dynamic before auth() would need env and a database.
+  const h = requestHeaders ?? (await headers());
+  const session = await auth().api.getSession({ headers: h });
   return session ? SessionUser.parse(session.user) : null;
 }
 
