@@ -1,4 +1,6 @@
 import { describe, expect, it } from "vitest";
+import { computeBlockingIssues } from "../issues";
+import { canExport } from "../status";
 import { CHECK_CONFIG } from "./config";
 import { ENGINE_VERSION, runCrossChecks } from "./run-checks";
 import { SCENARIOS, shp24811, shp24816, withLines, withValue } from "./__fixtures__/snapshots";
@@ -24,6 +26,12 @@ describe("SHP-24811 — gross weight mismatch (brief)", () => {
   it("passes the invoice maths (2400 × 6.80 = 16,320.00)", () => {
     expect(results.find((r) => r.ruleId === "CC-01")!.status).toBe("PASS");
     expect(results.find((r) => r.ruleId === "CC-02")!.status).toBe("PASS");
+  });
+
+  it("blocks export", () => {
+    const issues = computeBlockingIssues(snap, results);
+    expect(issues.some((i) => i.type === "CHECK_FAILED")).toBe(true);
+    expect(canExport(snap, issues, { approvedAt: null }).ok).toBe(false);
   });
 
   it("keeps an accepted discrepancy when re-run unchanged, re-opens it when PL weight changes", () => {

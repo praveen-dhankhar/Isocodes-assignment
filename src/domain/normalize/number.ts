@@ -65,6 +65,11 @@ export function parseInteger(text: string): string | null {
   return new D(int).toFixed(0);
 }
 
+/** Canonical value of every number in `text`, read with the document's separator (evidence matching). */
+export function numbersIn(text: string, sep: DecimalSeparator | null): string[] {
+  return (text.match(NUMBERS) ?? []).flatMap((token) => parseDecimal(token, sep)?.value ?? []);
+}
+
 /** First number in `text` (currency symbols and codes ignored), read with the document's separator. */
 export function parseDecimal(text: string, sep: DecimalSeparator | null): ParsedDecimal | null {
   const token = NUMBER.exec(text)?.[0];

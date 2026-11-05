@@ -251,7 +251,7 @@ Rules run on the values present; e.g. CC-03 with no invoice gross weight compare
 - **Derived states** (`DRAFT`, `EXTRACTING`, `NEEDS_REVIEW`, `EXTRACTED`) are always computed by `deriveReviewStatus()`; never set by hand.
 - **Human states** (`READY_FOR_APPROVAL`, `APPROVED`, `EXPORTED`, `ON_HOLD`) change only through the named actions.
 - Any data change (field edit, check resolution, upload, re-extract) while `READY_FOR_APPROVAL` or `APPROVED` re-derives status and logs `APPROVAL_INVALIDATED`.
-- `EXPORTED` shipments are read-only until reopened.
+- `EXPORTED` shipments are read-only until reopened. Reopen (manager, from `APPROVED` or `EXPORTED`, F8) re-derives the status; a new export then needs submit and approval again.
 
 ### 10.3 Hard gates (enforced on the server, mirrored in the UI)
 1. **Submit** requires `unresolvedIssuesCount = 0` and status `EXTRACTED`.

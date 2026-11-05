@@ -375,7 +375,7 @@ function deriveReviewStatus(s: ShipmentSnapshot, unresolved: number): Derived {
 ```
 
 `nextStatusAfterDataChange(current, derived)`: `READY_FOR_APPROVAL | APPROVED → derived` (+ `APPROVAL_INVALIDATED`), `ON_HOLD → ON_HOLD`, `EXPORTED → error INVALID_STATE` (must reopen), derived → derived.
-`transition(current, action, ctx)` handles `submit | approve | sendBack | export | raiseQuery | resume | reopen` per PRD §10.2 and returns `Result<Status, DomainError>`. `canExport(snapshot, issues, ctx)` returns `{ ok: true } | { ok: false, reasons: ExportBlockReason[] }`.
+`transition(current, action, ctx)` handles `submit | approve | sendBack | export | raiseQuery | resume | reopen` per PRD §10.2 and returns `Result<Status, DomainError>` (the domain declares the same `{ ok, data } | { ok, error }` shape as `src/lib/result.ts` and uses the API error codes). `sendBack`, `resume` and `reopen` (manager, from `APPROVED` or `EXPORTED`, PRD F8) hand back the freshly derived status. `canExport(snapshot, issues, { approvedAt, lastDataChangeAt })` returns `{ ok: true } | { ok: false, reasons: ExportBlockReason[] }`; it fails closed — with an approval but no `lastDataChangeAt`, the data counts as changed after approval.
 
 ## 6. Deterministic cross-check engine
 
@@ -419,7 +419,7 @@ export interface CheckConfig {                       // values in checks/config.
 5. Outcomes are sorted by `(severityRank, ruleId, scope)` for stable UI and snapshot tests.
 
 ### 6.4 Blocking issues (`src/domain/issues.ts`)
-`computeBlockingIssues(snapshot, outcomes)` returns `BlockingIssue { type, ref: { documentId? fieldId? checkScope? }, label }[]` per PRD §10.1. A `FAIL` counts unless `outcome.resolution?.type === 'DISCREPANCY_ACCEPTED'`; an `INCOMPLETE` counts unless it is `ACKNOWLEDGED_MISSING`. Because resolutions only carry over on an unchanged fingerprint, a changed value automatically re-blocks.
+`computeBlockingIssues(snapshot, outcomes)` returns `BlockingIssue { type, ref: { documentId? fieldId? ruleId? checkScope? }, label }[]` per PRD §10.1, ordered as the issues panel shows them (documents, failed checks, fields to review, incomplete checks, hold). A field needs review when it is `UNREVIEWED` and its final confidence is below 0.85 or unknown. A `FAIL` counts unless `outcome.resolution?.type === 'DISCREPANCY_ACCEPTED'`; an `INCOMPLETE` counts unless it is `ACKNOWLEDGED_MISSING`. Because resolutions only carry over on an unchanged fingerprint, a changed value automatically re-blocks.
 
 ### 6.5 Testing strategy
 - **Table-driven unit tests** per normaliser and rule (`*.test.ts` next to the file).
@@ -471,14 +471,14 @@ POST /api/shipments/:id/documents/:docId/extract  { force?, discardHumanEdits? }
 The whole per-document budget is 240 s (below the 300 s function limit); exceeding it fails with `AI_TIMEOUT`.
 
 ### 7.3 Evidence matching (`src/domain/evidence.ts`)
-For digital PDFs only. Given a field kind, its canonical value and the page's text items:
-- numeric kinds: every numeric token in the text layer is parsed with the document's separator convention; match = `Decimal.eq`.
-- identifiers/text: case- and whitespace-insensitive substring match.
-- containers: every container in the list must appear.
-Returns `FOUND (box)` | `NOT_FOUND` | `NO_TEXT_LAYER`. When `FOUND`, the text-layer box replaces the model's box (more reliable for highlighting).
+For digital PDFs only. `findEvidence(kind, rawText, textItems, separator)` looks for the value **as printed** (`rawText`), not the canonical value, so `14/10/2026`, `US$` or `2,204.62 LBS` are found as they appear:
+- numeric kinds: the printed number vs every numeric token in the text layer, both parsed with the document's separator convention; match = `Decimal.eq`.
+- everything else: case- and whitespace-insensitive substring match, first within one text item, then across the page.
+- containers: every container in the list must appear (spaces and dashes ignored).
+Returns `FOUND (box)` | `NOT_FOUND` | `NO_TEXT_LAYER`. When `FOUND` within one item, the text-layer box replaces the model's box (more reliable for highlighting); a match spanning items keeps the model's box.
 
 ### 7.4 Confidence (`src/domain/confidence.ts`)
-`applyConfidencePolicy(modelConfidence, signals) → { final, caps[] }` implementing PRD §8 exactly. Constants exported for the UI legend.
+`applyConfidencePolicy(modelConfidence, facts) → { final, signals: { model, caps[], evidence } }` implementing PRD §8 exactly; `facts` says whether a value exists, is required, passed its format check, parsed ambiguously, had its unit assumed, its evidence result and its page's readability/issues. `CONFIDENCE_CAPS` and `REVIEW_THRESHOLD` are exported for the UI legend.
 
 ### 7.5 Recompute (`src/server/services/recompute.ts`)
 ```
