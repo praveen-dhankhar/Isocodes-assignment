@@ -492,8 +492,10 @@ recomputeShipment(tx, shipmentId):
   next     = nextStatusAfterDataChange(snap.status, deriveReviewStatus(snap, issues.length))
   update shipments set status, unresolved_issues_count, failed_check_count,
          last_data_change_at = now(), version = version + 1
+         (+ approved_by/approved_at = null when the approval was invalidated)
   audit STATUS_CHANGED / APPROVAL_INVALIDATED when relevant
 ```
+`failed_check_count` counts every `FAIL`, accepted or not (S2 shows mismatches). An `EXPORTED` shipment makes `nextStatusAfterDataChange` fail, so recompute throws `INVALID_STATE` and the caller's transaction rolls back — exported data stays read-only until a manager reopens it.
 
 ## 8. Dual-mode AI extraction
 
