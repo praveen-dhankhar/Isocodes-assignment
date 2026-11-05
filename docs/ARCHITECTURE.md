@@ -541,7 +541,7 @@ type AiError = { code: 'AI_UNAVAILABLE' | 'AI_RATE_LIMITED' | 'AI_INVALID_OUTPUT
 | Model output | Treated as untrusted data: Zod-validated, length-capped, normalised by code; never rendered as HTML; never used to choose code paths beyond documented fields. Prompt tells the model to ignore instructions inside documents; even if it obeys one, cross-checks and human review catch the result. |
 | Output | CSV formula-injection guard; React escaping; no `dangerouslySetInnerHTML`. |
 | Transport/headers | HTTPS (Vercel); CSP (`default-src 'self'; img-src 'self' blob: data:; connect-src 'self'`), `X-Frame-Options: DENY`, `Referrer-Policy: same-origin`, `Permissions-Policy` minimal — in `next.config.ts`. |
-| Secrets | Only in Vercel/Supabase env; `.env.example` lists names; `.env*` git-ignored; CI runs a secret scan (gitleaks action). Supabase service-role key is server-only. |
+| Secrets | Only in Vercel/Supabase env; `.env.example` lists names; `.env*` git-ignored; CI runs a gitleaks secret scan over the full git history (pinned release binary, checksum-verified). Supabase service-role key is server-only. |
 | PII (DPDP Act 2023) | Minimisation (A-07); importer contacts masked (`r•••@example.test`, `+91 ••••• ••321`) with explicit reveal → `PII_REVEALED` audit; no document text, AI output or PII in logs (structured logs carry ids/codes only); storage bucket private, files streamed through authorised routes. |
 | Residency | App functions `bom1` (Mumbai), DB + storage `ap-south-1` (Mumbai). Demo model calls go to NVIDIA's hosted API (global) with synthetic data only (A-16); production swaps `NVIDIA_BASE_URL` to a self-hosted NIM in an India region. |
 
