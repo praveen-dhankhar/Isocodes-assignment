@@ -19,13 +19,13 @@ const fromExcluded = (column: string) => sql.raw(`excluded."${column}"`);
  * Lock order matters: take this lock before writing rows that reference the shipment. Those inserts take a key-share
  * lock on the shipment row, and two transactions that both hold one and then ask for FOR UPDATE deadlock.
  */
-export async function lockShipment(tx: Tx, shipmentId: string, expectedVersion?: number) {
+export async function lockShipment(tx: Tx, shipmentId: string, expectedVersion?: number, opts: { allowExported?: boolean } = {}) {
   const [row] = await tx.select().from(shipments).where(eq(shipments.id, shipmentId)).for("update");
   if (!row) throw new AppError("NOT_FOUND", "Shipment not found");
   if (expectedVersion !== undefined && row.version !== expectedVersion) {
     throw new AppError("VERSION_CONFLICT", "Someone else changed this shipment; reload to see the latest", { current: await shipmentStatus(tx, shipmentId) });
   }
-  if (row.status === "EXPORTED") throw new AppError("INVALID_STATE", "Exported shipments are read-only until a manager reopens them");
+  if (row.status === "EXPORTED" && !opts.allowExported) throw new AppError("INVALID_STATE", "Exported shipments are read-only until a manager reopens them");
   return row;
 }
 

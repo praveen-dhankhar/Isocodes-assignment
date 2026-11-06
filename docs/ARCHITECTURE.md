@@ -96,6 +96,7 @@ Exact versions are pinned (no `^`) in `package.json` at scaffold time.
     │   ├── (app)/layout.tsx  loading.tsx
     │   ├── (app)/shipments/page.tsx                    # S2
     │   ├── (app)/shipments/new/page.tsx                # S3
+    │   ├── (app)/shipments/[id]/layout.tsx             # shared header + Review · Approval · Export · History tabs
     │   ├── (app)/shipments/[id]/page.tsx               # S4
     │   ├── (app)/shipments/[id]/approval/page.tsx      # S5
     │   ├── (app)/shipments/[id]/export/page.tsx        # S6
@@ -114,13 +115,13 @@ Exact versions are pinned (no `^`) in `package.json` at scaffold time.
     ├── components/
     │   ├── ui/                   # shadcn primitives + num.tsx, mono.tsx, state-badge.tsx
     │   ├── auth/       login-form.tsx
-    │   ├── shipments/  shipment-table.tsx shipment-filters.tsx status-badge.tsx format.ts new-shipment-form.tsx upload-slot.tsx upload.ts sample-picker.tsx
+    │   ├── shipments/  shipment-table.tsx shipment-filters.tsx status-badge.tsx format.ts new-shipment-form.tsx upload-slot.tsx upload.ts sample-picker.tsx shipment-nav.tsx
     │   ├── review/     workstation.tsx document-viewer.tsx field-panel.tsx field-row.tsx issues-panel.tsx check-card.tsx extraction-progress.tsx
     │   │               resolve-check-dialog.tsx query-importer-dialog.tsx submit-bar.tsx shortcut-help.tsx
     │   │               use-review-shortcuts.ts use-review-action.ts field-actions.ts labels.ts
     │   │               extraction-progress.tsx resolve-check-dialog.tsx query-importer-dialog.tsx
     │   │               submit-bar.tsx shortcut-help.tsx use-review-shortcuts.ts
-    │   ├── approval/   approval-summary.tsx
+    │   ├── approval/   approval-summary.tsx approval-actions.tsx
     │   ├── export/     export-preview.tsx
     │   └── reports/    accuracy-table.tsx calibration-table.tsx
     ├── domain/                   # PURE — no I/O, no React, no DB, no Date.now(), no Math.random()
@@ -144,7 +145,7 @@ Exact versions are pinned (no `^`) in `package.json` at scaffold time.
     │   ├── ai/ provider.ts schemas.ts prompts.ts images.ts nvidia.ts sample.ts
     │   ├── services/ snapshot.ts recompute.ts shipments.ts documents.ts extraction.ts manual-entry.ts
     │   │             review.ts resolutions.ts approval.ts export.ts audit.ts
-    │   ├── queries/ shipments.ts review-model.ts accuracy.ts history.ts
+    │   ├── queries/ shipments.ts review-model.ts approval.ts accuracy.ts history.ts
     │   └── actions/ shipments.ts review.ts approval.ts importers.ts
     └── lib/ env.ts errors.ts result.ts format.ts pii.ts cn.ts
 ```

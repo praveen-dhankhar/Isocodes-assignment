@@ -123,3 +123,18 @@ export const listImporters = () => db().select({ id: importers.id, name: importe
 
 /** S3 sample-set picker: the bundled sets (API_SPECS §7.2). */
 export const listSampleSets = () => SAMPLES.map((s) => ({ ref: s.ref, title: s.title, documents: s.uploaded.length }));
+
+/** The header every shipment screen shows (S4–S6, S8). */
+export async function getShipmentHeader(shipmentId: string) {
+  const [row] = await db()
+    .select({
+      id: shipments.id, ref: shipments.ref, status: shipments.status, unresolvedIssuesCount: shipments.unresolvedIssuesCount,
+      failedCheckCount: shipments.failedCheckCount, supplier: suppliers.name, importer: importers.name, iec: importers.iec,
+    })
+    .from(shipments)
+    .innerJoin(suppliers, eq(suppliers.id, shipments.supplierId))
+    .innerJoin(importers, eq(importers.id, shipments.importerId))
+    .where(eq(shipments.id, shipmentId));
+  if (!row) throw new AppError("NOT_FOUND", "Shipment not found");
+  return row;
+}
