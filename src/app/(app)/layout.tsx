@@ -14,9 +14,10 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
   return (
     <div className="flex flex-1 flex-col">
       <header className="border-b">
-        <div className="mx-auto flex h-14 w-full max-w-7xl items-center gap-6 px-4">
-          <Link href="/" className="rounded-sm font-semibold">
-            Customs cross-check
+        <div className="mx-auto flex h-14 w-full max-w-7xl items-center gap-4 px-4 sm:gap-6">
+          <Link href="/" className="rounded-sm font-semibold whitespace-nowrap">
+            <span className="sm:hidden">Cross-check</span>
+            <span className="hidden sm:inline">Customs cross-check</span>
           </Link>
           <nav aria-label="Main" className="flex items-center gap-4 text-sm">
             <Link href="/shipments" className={navLink}>

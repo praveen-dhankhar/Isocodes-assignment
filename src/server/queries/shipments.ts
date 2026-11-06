@@ -1,10 +1,10 @@
 import "server-only";
-import { and, asc, eq, isNull } from "drizzle-orm";
+import { and, asc, desc, eq, ilike, isNull, or, sql } from "drizzle-orm";
 import type { DocType } from "@/domain/fields";
 import type { ShipmentStatus } from "@/domain/snapshot";
 import { AppError } from "@/lib/errors";
 import { db, type Db, type Tx } from "../db/client";
-import { documents, shipments } from "../db/schema";
+import { documents, importers, shipments, suppliers } from "../db/schema";
 
 // API_SPECS §3 DTOs shared by routes and pages.
 
@@ -62,3 +62,60 @@ export async function shipmentStatus(q: Db | Tx, shipmentId: string): Promise<Sh
 
 /** API_SPECS §4.3 polling. */
 export const getShipmentStatus = (shipmentId: string) => shipmentStatus(db(), shipmentId);
+
+// ── S2 shipment list (PRD §5.1) ─────────────────────────────────────────────────────────────────────────────────
+
+export interface ShipmentListRow {
+  id: string;
+  ref: string;
+  status: ShipmentStatus;
+  supplier: string;
+  importer: string;
+  invoiceNumber: string | null; // as extracted or entered; untrusted text, rendered as text only
+  documentCount: number;
+  unresolvedIssuesCount: number;
+  failedCheckCount: number;
+  updatedAt: string; // ISO
+}
+
+export interface ShipmentListFilters {
+  status?: ShipmentStatus;
+  supplierId?: string;
+  q?: string;
+}
+
+const LIST_LIMIT = 200; // ponytail: no pagination; add keyset paging on updated_at when a desk passes ~200 open shipments
+
+export async function listShipments(filters: ShipmentListFilters): Promise<ShipmentListRow[]> {
+  const invoiceNumber = sql<string | null>`(
+    select f.value from extracted_fields f join documents d on d.id = f.document_id
+    where d.shipment_id = ${shipments.id} and d.superseded_at is null and d.doc_type = 'INVOICE'
+      and f.field_key = 'invoiceNumber' and f.line_item_id is null limit 1)`;
+  const pattern = filters.q ? `%${filters.q.replace(/[\\%_]/g, "\\$&")}%` : null;
+
+  const rows = await db()
+    .select({
+      id: shipments.id, ref: shipments.ref, status: shipments.status, supplier: suppliers.name, importer: importers.name,
+      invoiceNumber,
+      documentCount: sql<number>`(select count(*)::int from documents d where d.shipment_id = ${shipments.id} and d.superseded_at is null)`,
+      unresolvedIssuesCount: shipments.unresolvedIssuesCount, failedCheckCount: shipments.failedCheckCount, updatedAt: shipments.updatedAt,
+    })
+    .from(shipments)
+    .innerJoin(suppliers, eq(suppliers.id, shipments.supplierId))
+    .innerJoin(importers, eq(importers.id, shipments.importerId))
+    .where(
+      and(
+        filters.status ? eq(shipments.status, filters.status) : undefined,
+        filters.supplierId ? eq(shipments.supplierId, filters.supplierId) : undefined,
+        pattern ? or(ilike(shipments.ref, pattern), sql`${invoiceNumber} ilike ${pattern}`) : undefined,
+      ),
+    )
+    .orderBy(desc(shipments.updatedAt))
+    .limit(LIST_LIMIT);
+  return rows.map((r) => ({ ...r, updatedAt: r.updatedAt.toISOString() }));
+}
+
+export const listSuppliers = () =>
+  db().select({ id: suppliers.id, name: suppliers.name, countryCode: suppliers.countryCode }).from(suppliers).orderBy(asc(suppliers.name));
+
+export const listImporters = () => db().select({ id: importers.id, name: importers.name }).from(importers).orderBy(asc(importers.name));

@@ -36,7 +36,7 @@ export function UserMenu({ name, email, role }: { name: string; email: string; r
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="sm" className="gap-2">
           <span>{name}</span>
-          <span className="text-muted-foreground">{ROLE_LABEL[role]}</span>
+          <span className="hidden text-muted-foreground sm:inline">{ROLE_LABEL[role]}</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="min-w-56">
