@@ -8,9 +8,9 @@ import { DOC_LABEL, type DocType } from "@/domain/fields";
 import { cn } from "@/lib/cn";
 import type { DocumentDTO } from "@/server/queries/shipments";
 import type { PageDTO } from "@/server/queries/review-model";
+import { SHORT } from "./labels";
 
 export const SLOTS: DocType[] = ["INVOICE", "PACKING_LIST", "BILL_OF_LADING"];
-export const SHORT: Record<DocType, string> = { INVOICE: "INV", PACKING_LIST: "PL", BILL_OF_LADING: "B/L" };
 export const ZOOMS = [0.75, 1, 1.25, 1.5, 2, 3] as const;
 const MAX_ZOOM = 3;
 
@@ -125,8 +125,9 @@ export function DocumentViewer({ view, onView, documents, pages, highlight, high
                 <div
                   aria-label={highlightLabel ? `Source of ${highlightLabel}` : "Source of the selected value"}
                   role="img"
-                  className="pointer-events-none absolute rounded-sm ring-2 ring-foreground ring-offset-2 ring-offset-background/0 animate-in fade-in-0 duration-200"
-                  style={{ left: `${highlight.x * 100}%`, top: `${highlight.y * 100}%`, width: `${highlight.w * 100}%`, height: `${highlight.h * 100}%`, boxShadow: "0 0 0 9999px color-mix(in oklch, var(--foreground) 12%, transparent)" }}
+                  data-testid="source-box"
+                  className="pointer-events-none absolute rounded-[3px] outline-2 outline-offset-2 outline-foreground animate-in fade-in-0 duration-200"
+                  style={{ left: `${highlight.x * 100}%`, top: `${highlight.y * 100}%`, width: `${highlight.w * 100}%`, height: `${highlight.h * 100}%`, boxShadow: "0 0 0 9999px color-mix(in oklch, var(--foreground) 22%, transparent)" }}
                 />
               )}
             </div>

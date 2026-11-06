@@ -4,6 +4,9 @@ import { useEffect, useState } from "react";
 import { cn } from "@/lib/cn";
 import type { ReviewModel } from "@/server/queries/review-model";
 import { DocumentViewer, SLOTS, ZOOMS, type ViewState } from "./document-viewer";
+import { ExtractionProgress } from "./extraction-progress";
+import { FieldPanel } from "./field-panel";
+import { IssuesPanel, sortIssues } from "./issues-panel";
 
 export type Focus = { kind: "field"; fieldId: string } | { kind: "check"; checkId: string; sourceFieldId: string | null } | null;
 type MobileTab = "document" | "fields" | "issues";
@@ -50,6 +53,15 @@ export function Workstation({ model }: { model: ReviewModel }) {
         const i = ZOOMS.indexOf(view.zoom as (typeof ZOOMS)[number]);
         onView({ zoom: ZOOMS[Math.min(ZOOMS.length - 1, Math.max(0, i + dir))] });
       };
+      // J/K: next/previous item needing review, in the issues panel's order.
+      const step = (dir: 1 | -1) => {
+        type Target = { fieldId: string } | { checkId: string };
+        const targets = sortIssues(model.issues).flatMap((i): Target[] => (i.fieldId ? [{ fieldId: i.fieldId }] : i.checkId ? [{ checkId: i.checkId }] : []));
+        if (targets.length === 0) return;
+        const at = targets.findIndex((t) => ("fieldId" in t ? focus?.kind === "field" && focus.fieldId === t.fieldId : focus?.kind === "check" && focus.checkId === t.checkId));
+        const next = targets[(at + dir + targets.length) % targets.length] ?? targets[0];
+        if (next) select(next);
+      };
       const actions: Record<string, () => void> = {
         "1": () => onView({ docType: "INVOICE", pageNo: 1 }),
         "2": () => onView({ docType: "PACKING_LIST", pageNo: 1 }),
@@ -61,6 +73,8 @@ export function Workstation({ model }: { model: ReviewModel }) {
         "[": () => onView({ fine: Math.max(-10, view.fine - 0.5) }),
         "]": () => onView({ fine: Math.min(10, view.fine + 0.5) }),
         Escape: () => setFocus(null),
+        j: () => step(1),
+        k: () => step(-1),
       };
       const run = actions[e.key.length === 1 ? e.key.toLowerCase() : e.key];
       if (run) {
@@ -70,7 +84,7 @@ export function Workstation({ model }: { model: ReviewModel }) {
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [view]);
+  });
 
   const tabs: Array<{ id: MobileTab; label: string; count?: number }> = [
     { id: "document", label: "Document" },
@@ -99,30 +113,15 @@ export function Workstation({ model }: { model: ReviewModel }) {
           <DocumentViewer view={view} onView={onView} documents={model.shipment.documents} pages={model.pages} highlight={highlight} highlightLabel={source?.label} />
         </div>
         <div className="min-h-0 overflow-y-auto">
+          <ExtractionProgress shipment={model.shipment} />
           <div className={cn(tab !== "issues" && "max-lg:hidden")}>
-            <PanelSummary model={model} focus={focus} select={select} />
+            <IssuesPanel model={model} focus={focus} select={select} />
           </div>
-          <div className={cn(tab !== "fields" && "max-lg:hidden")} />
+          <div className={cn("border-t", tab !== "fields" && "max-lg:hidden")}>
+            <FieldPanel model={model} focus={focus} select={select} />
+          </div>
         </div>
       </div>
     </div>
-  );
-}
-
-// Placeholder until the issues and field panels land (PLAN M7.4): issue labels, each selectable.
-function PanelSummary({ model, focus, select }: { model: ReviewModel; focus: Focus; select: (f: { fieldId: string } | { checkId: string }) => void }) {
-  return (
-    <ul className="divide-y">
-      {model.issues.map((i, n) => (
-        <li key={n}>
-          <button
-            className={cn("w-full px-4 py-2 text-left text-sm hover:bg-muted", focus?.kind === "field" && focus.fieldId === i.fieldId && "bg-muted")}
-            onClick={() => (i.fieldId ? select({ fieldId: i.fieldId }) : i.checkId ? select({ checkId: i.checkId }) : undefined)}
-          >
-            {i.label}
-          </button>
-        </li>
-      ))}
-    </ul>
   );
 }

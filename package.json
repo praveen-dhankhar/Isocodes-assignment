@@ -16,6 +16,7 @@
     "test": "vitest run --project unit",
     "test:watch": "vitest --project unit",
     "test:int": "vitest run --project integration --passWithNoTests",
+    "test:e2e": "playwright test",
     "db:generate": "NODE_OPTIONS=--conditions=react-server drizzle-kit generate",
     "db:migrate": "NODE_OPTIONS=--conditions=react-server drizzle-kit migrate",
     "db:seed": "tsx --conditions=react-server --env-file-if-exists=.env.local src/server/db/seed.ts",

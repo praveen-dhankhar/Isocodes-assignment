@@ -54,6 +54,7 @@ Leave `NVIDIA_API_KEY` empty to run without the live model. Every variable is de
 | `pnpm lint` | ESLint with zero warnings allowed (includes layering rules) |
 | `pnpm test` / `pnpm test:watch` | Unit tests (`*.test.ts`) |
 | `pnpm test:int` | Integration tests (`*.int.test.ts`) against `DATABASE_URL_TEST` |
+| `pnpm test:e2e` | Playwright against a dev server on port 3100 with `EXTRACTION_MODE=sample`; needs the seeded local database (`pnpm db:reset`) and no other `next dev` running |
 | `pnpm db:generate` / `pnpm db:migrate` | New migration from `src/server/db/schema.ts` / apply migrations |
 | `pnpm db:seed` | Demo users, importers, suppliers and the sample shipments SHP-24811…24819 (uploaded and extracted from recorded samples); refuses a non-local database unless `--allow-remote` |
 | `pnpm db:reset` | Drop, migrate and seed; local databases only |

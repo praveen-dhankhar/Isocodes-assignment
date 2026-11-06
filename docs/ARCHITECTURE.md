@@ -115,7 +115,7 @@ Exact versions are pinned (no `^`) in `package.json` at scaffold time.
     │   ├── ui/                   # shadcn primitives + num.tsx, mono.tsx, state-badge.tsx
     │   ├── auth/       login-form.tsx
     │   ├── shipments/  shipment-table.tsx shipment-filters.tsx status-badge.tsx format.ts new-shipment-form.tsx upload-slot.tsx upload.ts sample-picker.tsx
-    │   ├── review/     workstation.tsx document-viewer.tsx field-panel.tsx field-row.tsx issues-panel.tsx
+    │   ├── review/     workstation.tsx document-viewer.tsx field-panel.tsx field-row.tsx issues-panel.tsx extraction-progress.tsx labels.ts
     │   │               extraction-progress.tsx resolve-check-dialog.tsx query-importer-dialog.tsx
     │   │               submit-bar.tsx shortcut-help.tsx use-review-shortcuts.ts
     │   ├── approval/   approval-summary.tsx
