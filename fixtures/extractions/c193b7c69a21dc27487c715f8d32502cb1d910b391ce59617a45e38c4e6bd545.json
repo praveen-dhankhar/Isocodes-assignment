@@ -43,22 +43,22 @@
           },
           "totalPackages": {
             "text": null,
-            "confidence": 0.9,
+            "confidence": 0,
             "bbox": null
           },
           "grossWeight": {
             "text": null,
-            "confidence": 0.9,
+            "confidence": 0,
             "bbox": null
           },
           "netWeight": {
             "text": null,
-            "confidence": 0.9,
+            "confidence": 0,
             "bbox": null
           },
           "containerNumbers": {
             "text": null,
-            "confidence": 0.9,
+            "confidence": 0,
             "bbox": null
           }
         },
@@ -109,37 +109,37 @@
         "fields": {
           "supplierName": {
             "text": null,
-            "confidence": 0.9,
+            "confidence": 0,
             "bbox": null
           },
           "consigneeName": {
             "text": null,
-            "confidence": 0.9,
+            "confidence": 0,
             "bbox": null
           },
           "invoiceNumber": {
             "text": null,
-            "confidence": 0.9,
+            "confidence": 0,
             "bbox": null
           },
           "totalPackages": {
             "text": null,
-            "confidence": 0.9,
+            "confidence": 0,
             "bbox": null
           },
           "grossWeight": {
             "text": null,
-            "confidence": 0.9,
+            "confidence": 0,
             "bbox": null
           },
           "netWeight": {
             "text": null,
-            "confidence": 0.9,
+            "confidence": 0,
             "bbox": null
           },
           "containerNumbers": {
             "text": null,
-            "confidence": 0.9,
+            "confidence": 0,
             "bbox": null
           }
         },

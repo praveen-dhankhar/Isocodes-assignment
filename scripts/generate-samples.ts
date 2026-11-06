@@ -190,7 +190,7 @@ function extractionFixture(ship: SampleShipment, doc: SampleDocument, sha256: st
   const where = (field: string, line: number | null) => placed.find((p) => p.field === field && p.line === line);
   const aiValue = (pageNo: number, field: string, line: number | null, text: string | undefined, key: string) => {
     const at = where(field, line);
-    if (text === undefined || !at || at.pageNo !== pageNo || unreadable(pageNo)) return { text: null, confidence: 0.9, bbox: null };
+    if (text === undefined || !at || at.pageNo !== pageNo || unreadable(pageNo)) return { text: null, confidence: 0, bbox: null }; // prompt rule 2
     return { text, confidence: confidenceFor(ship, doc, key), bbox: at.box };
   };
   const slotKeys = (registry: Record<string, FieldDef>) => Object.keys(registry).filter((k) => registry[k]?.on[doc.docType]);

@@ -1,0 +1,2358 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`toModelJsonSchema (API_SPECS §2.2) > BILL_OF_LADING schema is pinned 1`] = `
+{
+  "additionalProperties": false,
+  "properties": {
+    "detectedDocumentType": {
+      "enum": [
+        "COMMERCIAL_INVOICE",
+        "PACKING_LIST",
+        "BILL_OF_LADING",
+        "OTHER",
+      ],
+      "type": "string",
+    },
+    "fields": {
+      "additionalProperties": false,
+      "properties": {
+        "blNumber": {
+          "additionalProperties": false,
+          "properties": {
+            "bbox": {
+              "anyOf": [
+                {
+                  "additionalProperties": false,
+                  "description": "Value location as fractions of page width/height, origin top-left",
+                  "properties": {
+                    "h": {
+                      "type": "number",
+                    },
+                    "w": {
+                      "type": "number",
+                    },
+                    "x": {
+                      "type": "number",
+                    },
+                    "y": {
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "x",
+                    "y",
+                    "w",
+                    "h",
+                  ],
+                  "type": "object",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+            },
+            "confidence": {
+              "description": "Probability that text is exactly what the document states for this field",
+              "type": "number",
+            },
+            "text": {
+              "anyOf": [
+                {
+                  "type": "string",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+              "description": "Exactly as printed, including separators, units and currency symbols. null if not on this page.",
+            },
+          },
+          "required": [
+            "text",
+            "confidence",
+            "bbox",
+          ],
+          "type": "object",
+        },
+        "consigneeName": {
+          "additionalProperties": false,
+          "properties": {
+            "bbox": {
+              "anyOf": [
+                {
+                  "additionalProperties": false,
+                  "description": "Value location as fractions of page width/height, origin top-left",
+                  "properties": {
+                    "h": {
+                      "type": "number",
+                    },
+                    "w": {
+                      "type": "number",
+                    },
+                    "x": {
+                      "type": "number",
+                    },
+                    "y": {
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "x",
+                    "y",
+                    "w",
+                    "h",
+                  ],
+                  "type": "object",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+            },
+            "confidence": {
+              "description": "Probability that text is exactly what the document states for this field",
+              "type": "number",
+            },
+            "text": {
+              "anyOf": [
+                {
+                  "type": "string",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+              "description": "Exactly as printed, including separators, units and currency symbols. null if not on this page.",
+            },
+          },
+          "required": [
+            "text",
+            "confidence",
+            "bbox",
+          ],
+          "type": "object",
+        },
+        "containerNumbers": {
+          "additionalProperties": false,
+          "properties": {
+            "bbox": {
+              "anyOf": [
+                {
+                  "additionalProperties": false,
+                  "description": "Value location as fractions of page width/height, origin top-left",
+                  "properties": {
+                    "h": {
+                      "type": "number",
+                    },
+                    "w": {
+                      "type": "number",
+                    },
+                    "x": {
+                      "type": "number",
+                    },
+                    "y": {
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "x",
+                    "y",
+                    "w",
+                    "h",
+                  ],
+                  "type": "object",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+            },
+            "confidence": {
+              "description": "Probability that text is exactly what the document states for this field",
+              "type": "number",
+            },
+            "text": {
+              "anyOf": [
+                {
+                  "type": "string",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+              "description": "Exactly as printed, including separators, units and currency symbols. null if not on this page.",
+            },
+          },
+          "required": [
+            "text",
+            "confidence",
+            "bbox",
+          ],
+          "type": "object",
+        },
+        "grossWeight": {
+          "additionalProperties": false,
+          "properties": {
+            "bbox": {
+              "anyOf": [
+                {
+                  "additionalProperties": false,
+                  "description": "Value location as fractions of page width/height, origin top-left",
+                  "properties": {
+                    "h": {
+                      "type": "number",
+                    },
+                    "w": {
+                      "type": "number",
+                    },
+                    "x": {
+                      "type": "number",
+                    },
+                    "y": {
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "x",
+                    "y",
+                    "w",
+                    "h",
+                  ],
+                  "type": "object",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+            },
+            "confidence": {
+              "description": "Probability that text is exactly what the document states for this field",
+              "type": "number",
+            },
+            "text": {
+              "anyOf": [
+                {
+                  "type": "string",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+              "description": "Exactly as printed, including separators, units and currency symbols. null if not on this page.",
+            },
+          },
+          "required": [
+            "text",
+            "confidence",
+            "bbox",
+          ],
+          "type": "object",
+        },
+        "netWeight": {
+          "additionalProperties": false,
+          "properties": {
+            "bbox": {
+              "anyOf": [
+                {
+                  "additionalProperties": false,
+                  "description": "Value location as fractions of page width/height, origin top-left",
+                  "properties": {
+                    "h": {
+                      "type": "number",
+                    },
+                    "w": {
+                      "type": "number",
+                    },
+                    "x": {
+                      "type": "number",
+                    },
+                    "y": {
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "x",
+                    "y",
+                    "w",
+                    "h",
+                  ],
+                  "type": "object",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+            },
+            "confidence": {
+              "description": "Probability that text is exactly what the document states for this field",
+              "type": "number",
+            },
+            "text": {
+              "anyOf": [
+                {
+                  "type": "string",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+              "description": "Exactly as printed, including separators, units and currency symbols. null if not on this page.",
+            },
+          },
+          "required": [
+            "text",
+            "confidence",
+            "bbox",
+          ],
+          "type": "object",
+        },
+        "portOfDischarge": {
+          "additionalProperties": false,
+          "properties": {
+            "bbox": {
+              "anyOf": [
+                {
+                  "additionalProperties": false,
+                  "description": "Value location as fractions of page width/height, origin top-left",
+                  "properties": {
+                    "h": {
+                      "type": "number",
+                    },
+                    "w": {
+                      "type": "number",
+                    },
+                    "x": {
+                      "type": "number",
+                    },
+                    "y": {
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "x",
+                    "y",
+                    "w",
+                    "h",
+                  ],
+                  "type": "object",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+            },
+            "confidence": {
+              "description": "Probability that text is exactly what the document states for this field",
+              "type": "number",
+            },
+            "text": {
+              "anyOf": [
+                {
+                  "type": "string",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+              "description": "Exactly as printed, including separators, units and currency symbols. null if not on this page.",
+            },
+          },
+          "required": [
+            "text",
+            "confidence",
+            "bbox",
+          ],
+          "type": "object",
+        },
+        "portOfLoading": {
+          "additionalProperties": false,
+          "properties": {
+            "bbox": {
+              "anyOf": [
+                {
+                  "additionalProperties": false,
+                  "description": "Value location as fractions of page width/height, origin top-left",
+                  "properties": {
+                    "h": {
+                      "type": "number",
+                    },
+                    "w": {
+                      "type": "number",
+                    },
+                    "x": {
+                      "type": "number",
+                    },
+                    "y": {
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "x",
+                    "y",
+                    "w",
+                    "h",
+                  ],
+                  "type": "object",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+            },
+            "confidence": {
+              "description": "Probability that text is exactly what the document states for this field",
+              "type": "number",
+            },
+            "text": {
+              "anyOf": [
+                {
+                  "type": "string",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+              "description": "Exactly as printed, including separators, units and currency symbols. null if not on this page.",
+            },
+          },
+          "required": [
+            "text",
+            "confidence",
+            "bbox",
+          ],
+          "type": "object",
+        },
+        "supplierName": {
+          "additionalProperties": false,
+          "properties": {
+            "bbox": {
+              "anyOf": [
+                {
+                  "additionalProperties": false,
+                  "description": "Value location as fractions of page width/height, origin top-left",
+                  "properties": {
+                    "h": {
+                      "type": "number",
+                    },
+                    "w": {
+                      "type": "number",
+                    },
+                    "x": {
+                      "type": "number",
+                    },
+                    "y": {
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "x",
+                    "y",
+                    "w",
+                    "h",
+                  ],
+                  "type": "object",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+            },
+            "confidence": {
+              "description": "Probability that text is exactly what the document states for this field",
+              "type": "number",
+            },
+            "text": {
+              "anyOf": [
+                {
+                  "type": "string",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+              "description": "Exactly as printed, including separators, units and currency symbols. null if not on this page.",
+            },
+          },
+          "required": [
+            "text",
+            "confidence",
+            "bbox",
+          ],
+          "type": "object",
+        },
+        "totalPackages": {
+          "additionalProperties": false,
+          "properties": {
+            "bbox": {
+              "anyOf": [
+                {
+                  "additionalProperties": false,
+                  "description": "Value location as fractions of page width/height, origin top-left",
+                  "properties": {
+                    "h": {
+                      "type": "number",
+                    },
+                    "w": {
+                      "type": "number",
+                    },
+                    "x": {
+                      "type": "number",
+                    },
+                    "y": {
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "x",
+                    "y",
+                    "w",
+                    "h",
+                  ],
+                  "type": "object",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+            },
+            "confidence": {
+              "description": "Probability that text is exactly what the document states for this field",
+              "type": "number",
+            },
+            "text": {
+              "anyOf": [
+                {
+                  "type": "string",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+              "description": "Exactly as printed, including separators, units and currency symbols. null if not on this page.",
+            },
+          },
+          "required": [
+            "text",
+            "confidence",
+            "bbox",
+          ],
+          "type": "object",
+        },
+      },
+      "required": [
+        "blNumber",
+        "supplierName",
+        "consigneeName",
+        "portOfLoading",
+        "portOfDischarge",
+        "totalPackages",
+        "grossWeight",
+        "netWeight",
+        "containerNumbers",
+      ],
+      "type": "object",
+    },
+    "pageIssues": {
+      "items": {
+        "enum": [
+          "BLURRY",
+          "SKEWED",
+          "CUT_OFF",
+          "HANDWRITTEN",
+          "LOW_CONTRAST",
+          "NON_ENGLISH",
+          "BLANK",
+        ],
+        "type": "string",
+      },
+      "type": "array",
+    },
+    "pageReadable": {
+      "type": "boolean",
+    },
+  },
+  "required": [
+    "detectedDocumentType",
+    "pageReadable",
+    "pageIssues",
+    "fields",
+  ],
+  "type": "object",
+}
+`;
+
+exports[`toModelJsonSchema (API_SPECS §2.2) > INVOICE schema is pinned 1`] = `
+{
+  "additionalProperties": false,
+  "properties": {
+    "detectedDocumentType": {
+      "enum": [
+        "COMMERCIAL_INVOICE",
+        "PACKING_LIST",
+        "BILL_OF_LADING",
+        "OTHER",
+      ],
+      "type": "string",
+    },
+    "fields": {
+      "additionalProperties": false,
+      "properties": {
+        "consigneeName": {
+          "additionalProperties": false,
+          "properties": {
+            "bbox": {
+              "anyOf": [
+                {
+                  "additionalProperties": false,
+                  "description": "Value location as fractions of page width/height, origin top-left",
+                  "properties": {
+                    "h": {
+                      "type": "number",
+                    },
+                    "w": {
+                      "type": "number",
+                    },
+                    "x": {
+                      "type": "number",
+                    },
+                    "y": {
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "x",
+                    "y",
+                    "w",
+                    "h",
+                  ],
+                  "type": "object",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+            },
+            "confidence": {
+              "description": "Probability that text is exactly what the document states for this field",
+              "type": "number",
+            },
+            "text": {
+              "anyOf": [
+                {
+                  "type": "string",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+              "description": "Exactly as printed, including separators, units and currency symbols. null if not on this page.",
+            },
+          },
+          "required": [
+            "text",
+            "confidence",
+            "bbox",
+          ],
+          "type": "object",
+        },
+        "containerNumbers": {
+          "additionalProperties": false,
+          "properties": {
+            "bbox": {
+              "anyOf": [
+                {
+                  "additionalProperties": false,
+                  "description": "Value location as fractions of page width/height, origin top-left",
+                  "properties": {
+                    "h": {
+                      "type": "number",
+                    },
+                    "w": {
+                      "type": "number",
+                    },
+                    "x": {
+                      "type": "number",
+                    },
+                    "y": {
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "x",
+                    "y",
+                    "w",
+                    "h",
+                  ],
+                  "type": "object",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+            },
+            "confidence": {
+              "description": "Probability that text is exactly what the document states for this field",
+              "type": "number",
+            },
+            "text": {
+              "anyOf": [
+                {
+                  "type": "string",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+              "description": "Exactly as printed, including separators, units and currency symbols. null if not on this page.",
+            },
+          },
+          "required": [
+            "text",
+            "confidence",
+            "bbox",
+          ],
+          "type": "object",
+        },
+        "currency": {
+          "additionalProperties": false,
+          "properties": {
+            "bbox": {
+              "anyOf": [
+                {
+                  "additionalProperties": false,
+                  "description": "Value location as fractions of page width/height, origin top-left",
+                  "properties": {
+                    "h": {
+                      "type": "number",
+                    },
+                    "w": {
+                      "type": "number",
+                    },
+                    "x": {
+                      "type": "number",
+                    },
+                    "y": {
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "x",
+                    "y",
+                    "w",
+                    "h",
+                  ],
+                  "type": "object",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+            },
+            "confidence": {
+              "description": "Probability that text is exactly what the document states for this field",
+              "type": "number",
+            },
+            "text": {
+              "anyOf": [
+                {
+                  "type": "string",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+              "description": "Exactly as printed, including separators, units and currency symbols. null if not on this page.",
+            },
+          },
+          "required": [
+            "text",
+            "confidence",
+            "bbox",
+          ],
+          "type": "object",
+        },
+        "grossWeight": {
+          "additionalProperties": false,
+          "properties": {
+            "bbox": {
+              "anyOf": [
+                {
+                  "additionalProperties": false,
+                  "description": "Value location as fractions of page width/height, origin top-left",
+                  "properties": {
+                    "h": {
+                      "type": "number",
+                    },
+                    "w": {
+                      "type": "number",
+                    },
+                    "x": {
+                      "type": "number",
+                    },
+                    "y": {
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "x",
+                    "y",
+                    "w",
+                    "h",
+                  ],
+                  "type": "object",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+            },
+            "confidence": {
+              "description": "Probability that text is exactly what the document states for this field",
+              "type": "number",
+            },
+            "text": {
+              "anyOf": [
+                {
+                  "type": "string",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+              "description": "Exactly as printed, including separators, units and currency symbols. null if not on this page.",
+            },
+          },
+          "required": [
+            "text",
+            "confidence",
+            "bbox",
+          ],
+          "type": "object",
+        },
+        "importerName": {
+          "additionalProperties": false,
+          "properties": {
+            "bbox": {
+              "anyOf": [
+                {
+                  "additionalProperties": false,
+                  "description": "Value location as fractions of page width/height, origin top-left",
+                  "properties": {
+                    "h": {
+                      "type": "number",
+                    },
+                    "w": {
+                      "type": "number",
+                    },
+                    "x": {
+                      "type": "number",
+                    },
+                    "y": {
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "x",
+                    "y",
+                    "w",
+                    "h",
+                  ],
+                  "type": "object",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+            },
+            "confidence": {
+              "description": "Probability that text is exactly what the document states for this field",
+              "type": "number",
+            },
+            "text": {
+              "anyOf": [
+                {
+                  "type": "string",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+              "description": "Exactly as printed, including separators, units and currency symbols. null if not on this page.",
+            },
+          },
+          "required": [
+            "text",
+            "confidence",
+            "bbox",
+          ],
+          "type": "object",
+        },
+        "incoterm": {
+          "additionalProperties": false,
+          "properties": {
+            "bbox": {
+              "anyOf": [
+                {
+                  "additionalProperties": false,
+                  "description": "Value location as fractions of page width/height, origin top-left",
+                  "properties": {
+                    "h": {
+                      "type": "number",
+                    },
+                    "w": {
+                      "type": "number",
+                    },
+                    "x": {
+                      "type": "number",
+                    },
+                    "y": {
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "x",
+                    "y",
+                    "w",
+                    "h",
+                  ],
+                  "type": "object",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+            },
+            "confidence": {
+              "description": "Probability that text is exactly what the document states for this field",
+              "type": "number",
+            },
+            "text": {
+              "anyOf": [
+                {
+                  "type": "string",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+              "description": "Exactly as printed, including separators, units and currency symbols. null if not on this page.",
+            },
+          },
+          "required": [
+            "text",
+            "confidence",
+            "bbox",
+          ],
+          "type": "object",
+        },
+        "invoiceDate": {
+          "additionalProperties": false,
+          "properties": {
+            "bbox": {
+              "anyOf": [
+                {
+                  "additionalProperties": false,
+                  "description": "Value location as fractions of page width/height, origin top-left",
+                  "properties": {
+                    "h": {
+                      "type": "number",
+                    },
+                    "w": {
+                      "type": "number",
+                    },
+                    "x": {
+                      "type": "number",
+                    },
+                    "y": {
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "x",
+                    "y",
+                    "w",
+                    "h",
+                  ],
+                  "type": "object",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+            },
+            "confidence": {
+              "description": "Probability that text is exactly what the document states for this field",
+              "type": "number",
+            },
+            "text": {
+              "anyOf": [
+                {
+                  "type": "string",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+              "description": "Exactly as printed, including separators, units and currency symbols. null if not on this page.",
+            },
+          },
+          "required": [
+            "text",
+            "confidence",
+            "bbox",
+          ],
+          "type": "object",
+        },
+        "invoiceNumber": {
+          "additionalProperties": false,
+          "properties": {
+            "bbox": {
+              "anyOf": [
+                {
+                  "additionalProperties": false,
+                  "description": "Value location as fractions of page width/height, origin top-left",
+                  "properties": {
+                    "h": {
+                      "type": "number",
+                    },
+                    "w": {
+                      "type": "number",
+                    },
+                    "x": {
+                      "type": "number",
+                    },
+                    "y": {
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "x",
+                    "y",
+                    "w",
+                    "h",
+                  ],
+                  "type": "object",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+            },
+            "confidence": {
+              "description": "Probability that text is exactly what the document states for this field",
+              "type": "number",
+            },
+            "text": {
+              "anyOf": [
+                {
+                  "type": "string",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+              "description": "Exactly as printed, including separators, units and currency symbols. null if not on this page.",
+            },
+          },
+          "required": [
+            "text",
+            "confidence",
+            "bbox",
+          ],
+          "type": "object",
+        },
+        "invoiceTotal": {
+          "additionalProperties": false,
+          "properties": {
+            "bbox": {
+              "anyOf": [
+                {
+                  "additionalProperties": false,
+                  "description": "Value location as fractions of page width/height, origin top-left",
+                  "properties": {
+                    "h": {
+                      "type": "number",
+                    },
+                    "w": {
+                      "type": "number",
+                    },
+                    "x": {
+                      "type": "number",
+                    },
+                    "y": {
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "x",
+                    "y",
+                    "w",
+                    "h",
+                  ],
+                  "type": "object",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+            },
+            "confidence": {
+              "description": "Probability that text is exactly what the document states for this field",
+              "type": "number",
+            },
+            "text": {
+              "anyOf": [
+                {
+                  "type": "string",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+              "description": "Exactly as printed, including separators, units and currency symbols. null if not on this page.",
+            },
+          },
+          "required": [
+            "text",
+            "confidence",
+            "bbox",
+          ],
+          "type": "object",
+        },
+        "netWeight": {
+          "additionalProperties": false,
+          "properties": {
+            "bbox": {
+              "anyOf": [
+                {
+                  "additionalProperties": false,
+                  "description": "Value location as fractions of page width/height, origin top-left",
+                  "properties": {
+                    "h": {
+                      "type": "number",
+                    },
+                    "w": {
+                      "type": "number",
+                    },
+                    "x": {
+                      "type": "number",
+                    },
+                    "y": {
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "x",
+                    "y",
+                    "w",
+                    "h",
+                  ],
+                  "type": "object",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+            },
+            "confidence": {
+              "description": "Probability that text is exactly what the document states for this field",
+              "type": "number",
+            },
+            "text": {
+              "anyOf": [
+                {
+                  "type": "string",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+              "description": "Exactly as printed, including separators, units and currency symbols. null if not on this page.",
+            },
+          },
+          "required": [
+            "text",
+            "confidence",
+            "bbox",
+          ],
+          "type": "object",
+        },
+        "supplierName": {
+          "additionalProperties": false,
+          "properties": {
+            "bbox": {
+              "anyOf": [
+                {
+                  "additionalProperties": false,
+                  "description": "Value location as fractions of page width/height, origin top-left",
+                  "properties": {
+                    "h": {
+                      "type": "number",
+                    },
+                    "w": {
+                      "type": "number",
+                    },
+                    "x": {
+                      "type": "number",
+                    },
+                    "y": {
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "x",
+                    "y",
+                    "w",
+                    "h",
+                  ],
+                  "type": "object",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+            },
+            "confidence": {
+              "description": "Probability that text is exactly what the document states for this field",
+              "type": "number",
+            },
+            "text": {
+              "anyOf": [
+                {
+                  "type": "string",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+              "description": "Exactly as printed, including separators, units and currency symbols. null if not on this page.",
+            },
+          },
+          "required": [
+            "text",
+            "confidence",
+            "bbox",
+          ],
+          "type": "object",
+        },
+        "totalPackages": {
+          "additionalProperties": false,
+          "properties": {
+            "bbox": {
+              "anyOf": [
+                {
+                  "additionalProperties": false,
+                  "description": "Value location as fractions of page width/height, origin top-left",
+                  "properties": {
+                    "h": {
+                      "type": "number",
+                    },
+                    "w": {
+                      "type": "number",
+                    },
+                    "x": {
+                      "type": "number",
+                    },
+                    "y": {
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "x",
+                    "y",
+                    "w",
+                    "h",
+                  ],
+                  "type": "object",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+            },
+            "confidence": {
+              "description": "Probability that text is exactly what the document states for this field",
+              "type": "number",
+            },
+            "text": {
+              "anyOf": [
+                {
+                  "type": "string",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+              "description": "Exactly as printed, including separators, units and currency symbols. null if not on this page.",
+            },
+          },
+          "required": [
+            "text",
+            "confidence",
+            "bbox",
+          ],
+          "type": "object",
+        },
+      },
+      "required": [
+        "supplierName",
+        "importerName",
+        "consigneeName",
+        "invoiceNumber",
+        "invoiceDate",
+        "currency",
+        "incoterm",
+        "invoiceTotal",
+        "totalPackages",
+        "grossWeight",
+        "netWeight",
+        "containerNumbers",
+      ],
+      "type": "object",
+    },
+    "lineItems": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "description": {
+            "additionalProperties": false,
+            "properties": {
+              "bbox": {
+                "anyOf": [
+                  {
+                    "additionalProperties": false,
+                    "description": "Value location as fractions of page width/height, origin top-left",
+                    "properties": {
+                      "h": {
+                        "type": "number",
+                      },
+                      "w": {
+                        "type": "number",
+                      },
+                      "x": {
+                        "type": "number",
+                      },
+                      "y": {
+                        "type": "number",
+                      },
+                    },
+                    "required": [
+                      "x",
+                      "y",
+                      "w",
+                      "h",
+                    ],
+                    "type": "object",
+                  },
+                  {
+                    "type": "null",
+                  },
+                ],
+              },
+              "confidence": {
+                "description": "Probability that text is exactly what the document states for this field",
+                "type": "number",
+              },
+              "text": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                  },
+                  {
+                    "type": "null",
+                  },
+                ],
+                "description": "Exactly as printed, including separators, units and currency symbols. null if not on this page.",
+              },
+            },
+            "required": [
+              "text",
+              "confidence",
+              "bbox",
+            ],
+            "type": "object",
+          },
+          "hsCode": {
+            "additionalProperties": false,
+            "properties": {
+              "bbox": {
+                "anyOf": [
+                  {
+                    "additionalProperties": false,
+                    "description": "Value location as fractions of page width/height, origin top-left",
+                    "properties": {
+                      "h": {
+                        "type": "number",
+                      },
+                      "w": {
+                        "type": "number",
+                      },
+                      "x": {
+                        "type": "number",
+                      },
+                      "y": {
+                        "type": "number",
+                      },
+                    },
+                    "required": [
+                      "x",
+                      "y",
+                      "w",
+                      "h",
+                    ],
+                    "type": "object",
+                  },
+                  {
+                    "type": "null",
+                  },
+                ],
+              },
+              "confidence": {
+                "description": "Probability that text is exactly what the document states for this field",
+                "type": "number",
+              },
+              "text": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                  },
+                  {
+                    "type": "null",
+                  },
+                ],
+                "description": "Exactly as printed, including separators, units and currency symbols. null if not on this page.",
+              },
+            },
+            "required": [
+              "text",
+              "confidence",
+              "bbox",
+            ],
+            "type": "object",
+          },
+          "lineTotal": {
+            "additionalProperties": false,
+            "properties": {
+              "bbox": {
+                "anyOf": [
+                  {
+                    "additionalProperties": false,
+                    "description": "Value location as fractions of page width/height, origin top-left",
+                    "properties": {
+                      "h": {
+                        "type": "number",
+                      },
+                      "w": {
+                        "type": "number",
+                      },
+                      "x": {
+                        "type": "number",
+                      },
+                      "y": {
+                        "type": "number",
+                      },
+                    },
+                    "required": [
+                      "x",
+                      "y",
+                      "w",
+                      "h",
+                    ],
+                    "type": "object",
+                  },
+                  {
+                    "type": "null",
+                  },
+                ],
+              },
+              "confidence": {
+                "description": "Probability that text is exactly what the document states for this field",
+                "type": "number",
+              },
+              "text": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                  },
+                  {
+                    "type": "null",
+                  },
+                ],
+                "description": "Exactly as printed, including separators, units and currency symbols. null if not on this page.",
+              },
+            },
+            "required": [
+              "text",
+              "confidence",
+              "bbox",
+            ],
+            "type": "object",
+          },
+          "quantity": {
+            "additionalProperties": false,
+            "properties": {
+              "bbox": {
+                "anyOf": [
+                  {
+                    "additionalProperties": false,
+                    "description": "Value location as fractions of page width/height, origin top-left",
+                    "properties": {
+                      "h": {
+                        "type": "number",
+                      },
+                      "w": {
+                        "type": "number",
+                      },
+                      "x": {
+                        "type": "number",
+                      },
+                      "y": {
+                        "type": "number",
+                      },
+                    },
+                    "required": [
+                      "x",
+                      "y",
+                      "w",
+                      "h",
+                    ],
+                    "type": "object",
+                  },
+                  {
+                    "type": "null",
+                  },
+                ],
+              },
+              "confidence": {
+                "description": "Probability that text is exactly what the document states for this field",
+                "type": "number",
+              },
+              "text": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                  },
+                  {
+                    "type": "null",
+                  },
+                ],
+                "description": "Exactly as printed, including separators, units and currency symbols. null if not on this page.",
+              },
+            },
+            "required": [
+              "text",
+              "confidence",
+              "bbox",
+            ],
+            "type": "object",
+          },
+          "unit": {
+            "additionalProperties": false,
+            "properties": {
+              "bbox": {
+                "anyOf": [
+                  {
+                    "additionalProperties": false,
+                    "description": "Value location as fractions of page width/height, origin top-left",
+                    "properties": {
+                      "h": {
+                        "type": "number",
+                      },
+                      "w": {
+                        "type": "number",
+                      },
+                      "x": {
+                        "type": "number",
+                      },
+                      "y": {
+                        "type": "number",
+                      },
+                    },
+                    "required": [
+                      "x",
+                      "y",
+                      "w",
+                      "h",
+                    ],
+                    "type": "object",
+                  },
+                  {
+                    "type": "null",
+                  },
+                ],
+              },
+              "confidence": {
+                "description": "Probability that text is exactly what the document states for this field",
+                "type": "number",
+              },
+              "text": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                  },
+                  {
+                    "type": "null",
+                  },
+                ],
+                "description": "Exactly as printed, including separators, units and currency symbols. null if not on this page.",
+              },
+            },
+            "required": [
+              "text",
+              "confidence",
+              "bbox",
+            ],
+            "type": "object",
+          },
+          "unitPrice": {
+            "additionalProperties": false,
+            "properties": {
+              "bbox": {
+                "anyOf": [
+                  {
+                    "additionalProperties": false,
+                    "description": "Value location as fractions of page width/height, origin top-left",
+                    "properties": {
+                      "h": {
+                        "type": "number",
+                      },
+                      "w": {
+                        "type": "number",
+                      },
+                      "x": {
+                        "type": "number",
+                      },
+                      "y": {
+                        "type": "number",
+                      },
+                    },
+                    "required": [
+                      "x",
+                      "y",
+                      "w",
+                      "h",
+                    ],
+                    "type": "object",
+                  },
+                  {
+                    "type": "null",
+                  },
+                ],
+              },
+              "confidence": {
+                "description": "Probability that text is exactly what the document states for this field",
+                "type": "number",
+              },
+              "text": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                  },
+                  {
+                    "type": "null",
+                  },
+                ],
+                "description": "Exactly as printed, including separators, units and currency symbols. null if not on this page.",
+              },
+            },
+            "required": [
+              "text",
+              "confidence",
+              "bbox",
+            ],
+            "type": "object",
+          },
+        },
+        "required": [
+          "description",
+          "hsCode",
+          "quantity",
+          "unit",
+          "unitPrice",
+          "lineTotal",
+        ],
+        "type": "object",
+      },
+      "type": "array",
+    },
+    "pageIssues": {
+      "items": {
+        "enum": [
+          "BLURRY",
+          "SKEWED",
+          "CUT_OFF",
+          "HANDWRITTEN",
+          "LOW_CONTRAST",
+          "NON_ENGLISH",
+          "BLANK",
+        ],
+        "type": "string",
+      },
+      "type": "array",
+    },
+    "pageReadable": {
+      "type": "boolean",
+    },
+  },
+  "required": [
+    "detectedDocumentType",
+    "pageReadable",
+    "pageIssues",
+    "fields",
+    "lineItems",
+  ],
+  "type": "object",
+}
+`;
+
+exports[`toModelJsonSchema (API_SPECS §2.2) > PACKING_LIST schema is pinned 1`] = `
+{
+  "additionalProperties": false,
+  "properties": {
+    "detectedDocumentType": {
+      "enum": [
+        "COMMERCIAL_INVOICE",
+        "PACKING_LIST",
+        "BILL_OF_LADING",
+        "OTHER",
+      ],
+      "type": "string",
+    },
+    "fields": {
+      "additionalProperties": false,
+      "properties": {
+        "consigneeName": {
+          "additionalProperties": false,
+          "properties": {
+            "bbox": {
+              "anyOf": [
+                {
+                  "additionalProperties": false,
+                  "description": "Value location as fractions of page width/height, origin top-left",
+                  "properties": {
+                    "h": {
+                      "type": "number",
+                    },
+                    "w": {
+                      "type": "number",
+                    },
+                    "x": {
+                      "type": "number",
+                    },
+                    "y": {
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "x",
+                    "y",
+                    "w",
+                    "h",
+                  ],
+                  "type": "object",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+            },
+            "confidence": {
+              "description": "Probability that text is exactly what the document states for this field",
+              "type": "number",
+            },
+            "text": {
+              "anyOf": [
+                {
+                  "type": "string",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+              "description": "Exactly as printed, including separators, units and currency symbols. null if not on this page.",
+            },
+          },
+          "required": [
+            "text",
+            "confidence",
+            "bbox",
+          ],
+          "type": "object",
+        },
+        "containerNumbers": {
+          "additionalProperties": false,
+          "properties": {
+            "bbox": {
+              "anyOf": [
+                {
+                  "additionalProperties": false,
+                  "description": "Value location as fractions of page width/height, origin top-left",
+                  "properties": {
+                    "h": {
+                      "type": "number",
+                    },
+                    "w": {
+                      "type": "number",
+                    },
+                    "x": {
+                      "type": "number",
+                    },
+                    "y": {
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "x",
+                    "y",
+                    "w",
+                    "h",
+                  ],
+                  "type": "object",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+            },
+            "confidence": {
+              "description": "Probability that text is exactly what the document states for this field",
+              "type": "number",
+            },
+            "text": {
+              "anyOf": [
+                {
+                  "type": "string",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+              "description": "Exactly as printed, including separators, units and currency symbols. null if not on this page.",
+            },
+          },
+          "required": [
+            "text",
+            "confidence",
+            "bbox",
+          ],
+          "type": "object",
+        },
+        "grossWeight": {
+          "additionalProperties": false,
+          "properties": {
+            "bbox": {
+              "anyOf": [
+                {
+                  "additionalProperties": false,
+                  "description": "Value location as fractions of page width/height, origin top-left",
+                  "properties": {
+                    "h": {
+                      "type": "number",
+                    },
+                    "w": {
+                      "type": "number",
+                    },
+                    "x": {
+                      "type": "number",
+                    },
+                    "y": {
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "x",
+                    "y",
+                    "w",
+                    "h",
+                  ],
+                  "type": "object",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+            },
+            "confidence": {
+              "description": "Probability that text is exactly what the document states for this field",
+              "type": "number",
+            },
+            "text": {
+              "anyOf": [
+                {
+                  "type": "string",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+              "description": "Exactly as printed, including separators, units and currency symbols. null if not on this page.",
+            },
+          },
+          "required": [
+            "text",
+            "confidence",
+            "bbox",
+          ],
+          "type": "object",
+        },
+        "invoiceNumber": {
+          "additionalProperties": false,
+          "properties": {
+            "bbox": {
+              "anyOf": [
+                {
+                  "additionalProperties": false,
+                  "description": "Value location as fractions of page width/height, origin top-left",
+                  "properties": {
+                    "h": {
+                      "type": "number",
+                    },
+                    "w": {
+                      "type": "number",
+                    },
+                    "x": {
+                      "type": "number",
+                    },
+                    "y": {
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "x",
+                    "y",
+                    "w",
+                    "h",
+                  ],
+                  "type": "object",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+            },
+            "confidence": {
+              "description": "Probability that text is exactly what the document states for this field",
+              "type": "number",
+            },
+            "text": {
+              "anyOf": [
+                {
+                  "type": "string",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+              "description": "Exactly as printed, including separators, units and currency symbols. null if not on this page.",
+            },
+          },
+          "required": [
+            "text",
+            "confidence",
+            "bbox",
+          ],
+          "type": "object",
+        },
+        "netWeight": {
+          "additionalProperties": false,
+          "properties": {
+            "bbox": {
+              "anyOf": [
+                {
+                  "additionalProperties": false,
+                  "description": "Value location as fractions of page width/height, origin top-left",
+                  "properties": {
+                    "h": {
+                      "type": "number",
+                    },
+                    "w": {
+                      "type": "number",
+                    },
+                    "x": {
+                      "type": "number",
+                    },
+                    "y": {
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "x",
+                    "y",
+                    "w",
+                    "h",
+                  ],
+                  "type": "object",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+            },
+            "confidence": {
+              "description": "Probability that text is exactly what the document states for this field",
+              "type": "number",
+            },
+            "text": {
+              "anyOf": [
+                {
+                  "type": "string",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+              "description": "Exactly as printed, including separators, units and currency symbols. null if not on this page.",
+            },
+          },
+          "required": [
+            "text",
+            "confidence",
+            "bbox",
+          ],
+          "type": "object",
+        },
+        "supplierName": {
+          "additionalProperties": false,
+          "properties": {
+            "bbox": {
+              "anyOf": [
+                {
+                  "additionalProperties": false,
+                  "description": "Value location as fractions of page width/height, origin top-left",
+                  "properties": {
+                    "h": {
+                      "type": "number",
+                    },
+                    "w": {
+                      "type": "number",
+                    },
+                    "x": {
+                      "type": "number",
+                    },
+                    "y": {
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "x",
+                    "y",
+                    "w",
+                    "h",
+                  ],
+                  "type": "object",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+            },
+            "confidence": {
+              "description": "Probability that text is exactly what the document states for this field",
+              "type": "number",
+            },
+            "text": {
+              "anyOf": [
+                {
+                  "type": "string",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+              "description": "Exactly as printed, including separators, units and currency symbols. null if not on this page.",
+            },
+          },
+          "required": [
+            "text",
+            "confidence",
+            "bbox",
+          ],
+          "type": "object",
+        },
+        "totalPackages": {
+          "additionalProperties": false,
+          "properties": {
+            "bbox": {
+              "anyOf": [
+                {
+                  "additionalProperties": false,
+                  "description": "Value location as fractions of page width/height, origin top-left",
+                  "properties": {
+                    "h": {
+                      "type": "number",
+                    },
+                    "w": {
+                      "type": "number",
+                    },
+                    "x": {
+                      "type": "number",
+                    },
+                    "y": {
+                      "type": "number",
+                    },
+                  },
+                  "required": [
+                    "x",
+                    "y",
+                    "w",
+                    "h",
+                  ],
+                  "type": "object",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+            },
+            "confidence": {
+              "description": "Probability that text is exactly what the document states for this field",
+              "type": "number",
+            },
+            "text": {
+              "anyOf": [
+                {
+                  "type": "string",
+                },
+                {
+                  "type": "null",
+                },
+              ],
+              "description": "Exactly as printed, including separators, units and currency symbols. null if not on this page.",
+            },
+          },
+          "required": [
+            "text",
+            "confidence",
+            "bbox",
+          ],
+          "type": "object",
+        },
+      },
+      "required": [
+        "supplierName",
+        "consigneeName",
+        "invoiceNumber",
+        "totalPackages",
+        "grossWeight",
+        "netWeight",
+        "containerNumbers",
+      ],
+      "type": "object",
+    },
+    "lineItems": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "description": {
+            "additionalProperties": false,
+            "properties": {
+              "bbox": {
+                "anyOf": [
+                  {
+                    "additionalProperties": false,
+                    "description": "Value location as fractions of page width/height, origin top-left",
+                    "properties": {
+                      "h": {
+                        "type": "number",
+                      },
+                      "w": {
+                        "type": "number",
+                      },
+                      "x": {
+                        "type": "number",
+                      },
+                      "y": {
+                        "type": "number",
+                      },
+                    },
+                    "required": [
+                      "x",
+                      "y",
+                      "w",
+                      "h",
+                    ],
+                    "type": "object",
+                  },
+                  {
+                    "type": "null",
+                  },
+                ],
+              },
+              "confidence": {
+                "description": "Probability that text is exactly what the document states for this field",
+                "type": "number",
+              },
+              "text": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                  },
+                  {
+                    "type": "null",
+                  },
+                ],
+                "description": "Exactly as printed, including separators, units and currency symbols. null if not on this page.",
+              },
+            },
+            "required": [
+              "text",
+              "confidence",
+              "bbox",
+            ],
+            "type": "object",
+          },
+          "quantity": {
+            "additionalProperties": false,
+            "properties": {
+              "bbox": {
+                "anyOf": [
+                  {
+                    "additionalProperties": false,
+                    "description": "Value location as fractions of page width/height, origin top-left",
+                    "properties": {
+                      "h": {
+                        "type": "number",
+                      },
+                      "w": {
+                        "type": "number",
+                      },
+                      "x": {
+                        "type": "number",
+                      },
+                      "y": {
+                        "type": "number",
+                      },
+                    },
+                    "required": [
+                      "x",
+                      "y",
+                      "w",
+                      "h",
+                    ],
+                    "type": "object",
+                  },
+                  {
+                    "type": "null",
+                  },
+                ],
+              },
+              "confidence": {
+                "description": "Probability that text is exactly what the document states for this field",
+                "type": "number",
+              },
+              "text": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                  },
+                  {
+                    "type": "null",
+                  },
+                ],
+                "description": "Exactly as printed, including separators, units and currency symbols. null if not on this page.",
+              },
+            },
+            "required": [
+              "text",
+              "confidence",
+              "bbox",
+            ],
+            "type": "object",
+          },
+          "unit": {
+            "additionalProperties": false,
+            "properties": {
+              "bbox": {
+                "anyOf": [
+                  {
+                    "additionalProperties": false,
+                    "description": "Value location as fractions of page width/height, origin top-left",
+                    "properties": {
+                      "h": {
+                        "type": "number",
+                      },
+                      "w": {
+                        "type": "number",
+                      },
+                      "x": {
+                        "type": "number",
+                      },
+                      "y": {
+                        "type": "number",
+                      },
+                    },
+                    "required": [
+                      "x",
+                      "y",
+                      "w",
+                      "h",
+                    ],
+                    "type": "object",
+                  },
+                  {
+                    "type": "null",
+                  },
+                ],
+              },
+              "confidence": {
+                "description": "Probability that text is exactly what the document states for this field",
+                "type": "number",
+              },
+              "text": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                  },
+                  {
+                    "type": "null",
+                  },
+                ],
+                "description": "Exactly as printed, including separators, units and currency symbols. null if not on this page.",
+              },
+            },
+            "required": [
+              "text",
+              "confidence",
+              "bbox",
+            ],
+            "type": "object",
+          },
+        },
+        "required": [
+          "description",
+          "quantity",
+          "unit",
+        ],
+        "type": "object",
+      },
+      "type": "array",
+    },
+    "pageIssues": {
+      "items": {
+        "enum": [
+          "BLURRY",
+          "SKEWED",
+          "CUT_OFF",
+          "HANDWRITTEN",
+          "LOW_CONTRAST",
+          "NON_ENGLISH",
+          "BLANK",
+        ],
+        "type": "string",
+      },
+      "type": "array",
+    },
+    "pageReadable": {
+      "type": "boolean",
+    },
+  },
+  "required": [
+    "detectedDocumentType",
+    "pageReadable",
+    "pageIssues",
+    "fields",
+    "lineItems",
+  ],
+  "type": "object",
+}
+`;

@@ -103,17 +103,17 @@
           },
           "grossWeight": {
             "text": null,
-            "confidence": 0.9,
+            "confidence": 0,
             "bbox": null
           },
           "netWeight": {
             "text": null,
-            "confidence": 0.9,
+            "confidence": 0,
             "bbox": null
           },
           "containerNumbers": {
             "text": null,
-            "confidence": 0.9,
+            "confidence": 0,
             "bbox": null
           }
         },

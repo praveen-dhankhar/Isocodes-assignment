@@ -123,7 +123,7 @@
           },
           "containerNumbers": {
             "text": null,
-            "confidence": 0.9,
+            "confidence": 0,
             "bbox": null
           }
         },
