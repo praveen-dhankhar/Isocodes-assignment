@@ -9,7 +9,7 @@ import { liveModel, parseArgs, readSample, sampleFiles, type PageRun, type Sampl
 // `pnpm eval:extraction --model primary|fallback|recorded [--ref SHP-24811]` (PLAN M6.2, ARCHITECTURE §8.4): per-field
 // accuracy against the manifest truth (values compared after the same normalisation the app applies), JSON-validity
 // rate and p50/p95 page latency. Fields printed on a deliberately unreadable page are left out of accuracy.
-// `recorded` scores the stored fixtures without a network call (hand-authored ones should score 100%).
+// `recorded` scores the stored fixtures without a network call (hand-authored ones miss only their declared misreads).
 
 type AiValue = { text: string | null; confidence: number };
 const HEADER: Record<string, FieldDef> = HEADER_FIELDS;

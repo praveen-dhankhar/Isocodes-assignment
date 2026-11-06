@@ -2,7 +2,9 @@
 
 Extraction and cross-check tool for a customs broker at Nhava Sheva. Executives upload an invoice, packing list and bill of lading; a vision model (NVIDIA API) reads the fields; a deterministic engine cross-checks them; people resolve what doesn't match; a manager approves; the result exports as CSV for the filing software.
 
-**Status:** scaffold (milestone M1). The home page is a temporary style check for the design tokens. Build order: [docs/PLAN.md](docs/PLAN.md).
+**Live:** https://aidocextractor.vercel.app · **Design document:** [docs/TDD.md](docs/TDD.md) · **Deploy and demo guide:** [docs/deployment.md](docs/deployment.md)
+
+All milestones of [docs/PLAN.md](docs/PLAN.md) are built: upload, extraction with confidence, cross-checks CC-01…CC-08, review and resolution, four-eyes approval, a server-enforced export gate with CF-1 CSV, the accuracy report and per-shipment history.
 
 ## Docs
 
@@ -12,10 +14,12 @@ Extraction and cross-check tool for a customs broker at Nhava Sheva. Executives 
 | [ARCHITECTURE](docs/ARCHITECTURE.md) | Layers, directory tree, DB schema, check engine, extraction pipeline, security |
 | [API_SPECS](docs/API_SPECS.md) | Model schemas, routes, server actions, CSV layout, seed data, env vars |
 | [PLAN](docs/PLAN.md) | Milestones and steps, each with its verify command |
+| [TDD](docs/TDD.md) | Design document: architecture and why, AI behaviour, evaluation, UI decisions, tests, what's next |
+| [deployment](docs/deployment.md) | Demo logins and script, local run, env var names, deploy and seed steps |
 
 ## Stack
 
-Node 22 · pnpm 10 · Next.js 16 (App Router) · React 19 · TypeScript 5 strict · Tailwind v4 + shadcn/ui · Zod 4 · Postgres 16 · Vitest. Hosting: Vercel `bom1` (Mumbai) and Supabase `ap-south-1` (Mumbai).
+Node 22 · pnpm 10 · Next.js 16 (App Router) · React 19 · TypeScript 5 strict · Tailwind v4 + shadcn/ui · Zod 4 · Drizzle + Postgres 16 · Better Auth · Vitest · Playwright. AI: NVIDIA vision models (primary `nemotron-3.5-super-vl`, fallback `nemotron-nano-12b-v2-vl`), recorded samples when neither is available. Hosting: Vercel `bom1` (Mumbai) and Supabase `ap-south-1` (Mumbai).
 
 ## Run locally
 
@@ -59,6 +63,8 @@ Leave `NVIDIA_API_KEY` empty to run without the live model. Every variable is de
 | `pnpm db:seed` | Demo users, importers, suppliers and the sample shipments SHP-24811…24819 (uploaded and extracted from recorded samples); refuses a non-local database unless `--allow-remote` |
 | `pnpm db:reset` | Drop, migrate and seed; local databases only |
 | `pnpm verify` | typecheck + lint + unit tests + build; run before every commit |
+| `pnpm samples:generate` | Rebuild the synthetic sample PDFs/scans, the manifest and the hand-authored fixtures (byte-stable) |
+| `pnpm fixtures:record` / `pnpm eval:extraction --model primary\|fallback\|recorded` | Record live model output / measure per-field accuracy, JSON validity and latency |
 
 CI (`.github/workflows/ci.yml`) runs typecheck, lint, unit and integration tests against a Postgres 16 service, a build, and a gitleaks secret scan.
 

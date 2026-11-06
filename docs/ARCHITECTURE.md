@@ -538,7 +538,7 @@ type AiError = { code: 'AI_UNAVAILABLE' | 'AI_RATE_LIMITED' | 'AI_INVALID_OUTPUT
 `pnpm fixtures:record` runs the live provider over every bundled sample and writes `fixtures/extractions/<sha256>.json` with `source: "recorded"`, `modelId`, `recordedAt`. Until M6 the seed uses `source: "hand-authored"` files generated from `scripts/sample-data.ts`; the badge shows which. This keeps the demo working without a key while never pretending a hand-written value came from the model.
 
 ### 8.5 Model choice is measured, not assumed
-`pnpm eval:extraction --model primary|fallback` runs a model over the labelled samples and prints per-field accuracy (after the app's own normalisation; fields on a deliberately unreadable page excluded), JSON-validity rate and p50/p95 latency. `--model recorded` scores the stored fixtures offline (hand-authored ones score 100%, which checks the scorer). Both scripts share `scripts/model-run.ts`, which prepares pages exactly as the extraction service does. Results and the final primary/fallback choice are recorded in `docs/TDD.md`.
+`pnpm eval:extraction --model primary|fallback` runs a model over the labelled samples and prints per-field accuracy (after the app's own normalisation; fields on a deliberately unreadable page excluded), JSON-validity rate and p50/p95 latency. `--model recorded` scores the stored fixtures offline (hand-authored ones miss exactly their declared `misread`s, which checks the scorer). Both scripts share `scripts/model-run.ts`, which prepares pages exactly as the extraction service does. Results and the final primary/fallback choice are recorded in `docs/TDD.md`.
 
 ## 9. Security and privacy architecture
 
