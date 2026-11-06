@@ -24,7 +24,7 @@ Client's ask, in their words: drop in a shipment's documents, get the data out r
 |---|---|
 | Entry time per shipment 45 → under 15 minutes | **Review time** = `submittedAt − firstOpenedAt` per shipment; median shown on the accuracy report (S7). |
 | 95% field accuracy on 200 past shipments | **Field accuracy** = 1 − (AI values corrected by a human ÷ AI values) per field and per supplier (S7). `pnpm eval:extraction` measures it offline against labelled samples. |
-| Amended Bills of Entry halved in 3 months | Not measurable inside this slice (needs filing outcomes). Proxy shown on S7: cross-check failures caught before export. |
+| Amended Bills of Entry halved in 3 months | Not measurable inside this slice (needs filing outcomes). Proxy shown on S7: what review caught before export on approved/exported shipments — misreads corrected plus discrepancies declared (a FAIL check can only remain on such a shipment as an accepted discrepancy). |
 
 ## 3. Users
 
