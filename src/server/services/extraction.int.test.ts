@@ -123,6 +123,13 @@ describe("extractDocument (ARCHITECTURE §7.2)", () => {
     expect((await extract(shipmentId, docId)).document.status).toBe("EXTRACTED");
   });
 
+  it("extracts a shipment's three documents at once without deadlocking", async () => {
+    const { shipmentId, ids } = await sampleShipment("SHP-24811");
+    const results = await Promise.allSettled(Object.values(ids).map((id) => extract(shipmentId, id ?? "")));
+    expect(results.map((r) => r.status)).toEqual(["fulfilled", "fulfilled", "fulfilled"]);
+    expect((await db().select().from(shipments).where(eq(shipments.id, shipmentId)))[0]?.status).toBe("NEEDS_REVIEW");
+  });
+
   it("refuses an exported shipment", async () => {
     const { shipmentId, ids } = await sampleShipment("SHP-24819");
     await db().update(shipments).set({ status: "EXPORTED" }).where(eq(shipments.id, shipmentId));

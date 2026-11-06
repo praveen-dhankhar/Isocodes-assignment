@@ -16,6 +16,8 @@ const fromExcluded = (column: string) => sql.raw(`excluded."${column}"`);
 /**
  * Start of every mutation: lock the shipment row, refuse an exported shipment (read-only until reopened) and, when
  * the caller sent one, check optimistic concurrency (API_SPECS §1: stale → 409 VERSION_CONFLICT with the current state).
+ * Lock order matters: take this lock before writing rows that reference the shipment. Those inserts take a key-share
+ * lock on the shipment row, and two transactions that both hold one and then ask for FOR UPDATE deadlock.
  */
 export async function lockShipment(tx: Tx, shipmentId: string, expectedVersion?: number) {
   const [row] = await tx.select().from(shipments).where(eq(shipments.id, shipmentId)).for("update");

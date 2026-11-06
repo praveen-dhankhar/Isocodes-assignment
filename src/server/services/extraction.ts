@@ -16,7 +16,7 @@ import { documentPages, documents, extractedFields, lineItems, shipments, suppli
 import { shipmentStatus, toDocumentDTO, type DocumentDTO, type ShipmentStatusDTO } from "../queries/shipments";
 import { blobStore } from "../storage";
 import { audit } from "./audit";
-import { recomputeShipment } from "./recompute";
+import { lockShipment, recomputeShipment } from "./recompute";
 
 const BUDGET_MS = 240_000; // per document, below the route's 300 s limit (ARCHITECTURE §7.2)
 const MAX_CONCURRENT_CALLS = 2;
@@ -223,6 +223,7 @@ async function persist(
   const modelId = [...new Set(pages.map((p) => p.provider.modelId))].join(", ");
 
   return db().transaction(async (tx: Tx) => {
+    await lockShipment(tx, input.shipmentId); // lock order: shipment row first (see lockShipment)
     const [still] = await tx.select({ status: documents.status, supersededAt: documents.supersededAt }).from(documents).where(eq(documents.id, doc.id)).for("update");
     if (!still || still.supersededAt !== null) {
       // Replaced by a newer upload while the model was reading: drop this run.
@@ -265,6 +266,7 @@ async function persist(
 
 async function markFailed(input: ExtractInput, doc: typeof documents.$inferSelect, error: AiError, run: { calls: CallRecord[]; latencyMs: number }) {
   return db().transaction(async (tx) => {
+    await lockShipment(tx, input.shipmentId);
     const [updated] = await tx
       .update(documents)
       .set({ status: "FAILED", errorCode: error.code, errorMessage: error.message, aiUsage: run.calls, aiLatencyMs: run.latencyMs })
