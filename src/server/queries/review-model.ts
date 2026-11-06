@@ -96,6 +96,17 @@ const SLOT = Object.fromEntries(DocType.options.map((d, i) => [d, i])) as Record
 const order = (registry: Record<string, FieldDef>, key: string) => Object.keys(registry).indexOf(key);
 const scopeOrder = (scope: string) => (scope === "shipment" ? 0 : Number(scope.split(":")[1] ?? 0));
 
+/** One stored check result; user ids become display names. */
+export function toCheckDTO(c: typeof crossCheckResults.$inferSelect, names: ReadonlyMap<string, string>): CheckDTO {
+  const name = (id: string | null) => (id ? (names.get(id) ?? "Someone") : null);
+  return {
+    id: c.id, ruleId: c.ruleId as RuleId, ruleName: RULE_NAME[c.ruleId as RuleId], scope: c.scope, status: c.status, severity: c.severity,
+    message: c.message, notes: (c.notes ?? []) as string[], observed: (c.observed ?? []) as ObservedValue[], delta: c.delta,
+    resolution: c.resolution, declaredValue: c.declaredValue, resolutionNote: c.resolutionNote, resolvedBy: name(c.resolvedBy),
+    resolvedAt: c.resolvedAt?.toISOString() ?? null, acknowledgedBy: name(c.acknowledgedBy),
+  };
+}
+
 /** One stored field as the UI sees it; `needsReview` comes from the blocking-issue list. */
 export function toFieldDTO(f: typeof extractedFields.$inferSelect, docType: DocType, lineNo: number | null, needsReview: boolean): FieldDTO | null {
   const def = (f.lineItemId ? LINE : HEADER)[f.fieldKey];
@@ -159,13 +170,7 @@ export async function getReviewModel(shipmentId: string, viewer: SessionUser): P
     );
 
   const checks: CheckDTO[] = checkRows
-    .map((c) => ({
-      id: c.id, ruleId: c.ruleId as RuleId, ruleName: RULE_NAME[c.ruleId as RuleId], scope: c.scope, status: c.status, severity: c.severity,
-      message: c.message, notes: (c.notes ?? []) as string[], observed: (c.observed ?? []) as ObservedValue[], delta: c.delta,
-      resolution: c.resolution, declaredValue: c.declaredValue, resolutionNote: c.resolutionNote,
-      resolvedBy: c.resolvedBy ? (names.get(c.resolvedBy) ?? "Someone") : null, resolvedAt: c.resolvedAt?.toISOString() ?? null,
-      acknowledgedBy: c.acknowledgedBy ? (names.get(c.acknowledgedBy) ?? "Someone") : null,
-    }))
+    .map((c) => toCheckDTO(c, names))
     .sort((a, b) => a.ruleId.localeCompare(b.ruleId) || scopeOrder(a.scope) - scopeOrder(b.scope));
 
   const s = head.s;

@@ -34,12 +34,14 @@ export async function lockShipment(tx: Tx, shipmentId: string, expectedVersion?:
  * commit. Results, issue counts, status and version move together. An exported shipment is refused (read-only
  * until reopened), which rolls the caller's transaction back.
  */
-export async function recomputeShipment(tx: Tx, shipmentId: string, actorId: string | null) {
+export async function recomputeShipment(tx: Tx, shipmentId: string, actorId: string | null, opts: { rederive?: boolean } = {}) {
   const snap = await loadSnapshot(tx, shipmentId);
   const outcomes = runCrossChecks(snap, CHECK_CONFIG);
 
-  const issues = computeBlockingIssues(snap, outcomes);
-  const next = nextStatusAfterDataChange(snap.status, deriveReviewStatus(snap, issues.length));
+  // `rederive` (resume, send back, reopen): the human state is being left, so status comes from the data alone.
+  const issues = computeBlockingIssues(opts.rederive ? { ...snap, status: "NEEDS_REVIEW" } : snap, outcomes);
+  const derived = deriveReviewStatus(snap, issues.length);
+  const next = opts.rederive ? ({ ok: true, data: { status: derived, approvalInvalidated: false } } as const) : nextStatusAfterDataChange(snap.status, derived);
   if (!next.ok) throw new AppError(next.error.code, next.error.message);
 
   // Upsert every result; a stored resolution is left alone here and cleared below only if it did not carry over.

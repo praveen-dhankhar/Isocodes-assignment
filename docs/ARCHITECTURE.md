@@ -115,7 +115,8 @@ Exact versions are pinned (no `^`) in `package.json` at scaffold time.
     │   ├── ui/                   # shadcn primitives + num.tsx, mono.tsx, state-badge.tsx
     │   ├── auth/       login-form.tsx
     │   ├── shipments/  shipment-table.tsx shipment-filters.tsx status-badge.tsx format.ts new-shipment-form.tsx upload-slot.tsx upload.ts sample-picker.tsx
-    │   ├── review/     workstation.tsx document-viewer.tsx field-panel.tsx field-row.tsx issues-panel.tsx extraction-progress.tsx labels.ts
+    │   ├── review/     workstation.tsx document-viewer.tsx field-panel.tsx field-row.tsx issues-panel.tsx check-card.tsx extraction-progress.tsx
+    │   │               resolve-check-dialog.tsx query-importer-dialog.tsx use-review-action.ts labels.ts
     │   │               extraction-progress.tsx resolve-check-dialog.tsx query-importer-dialog.tsx
     │   │               submit-bar.tsx shortcut-help.tsx use-review-shortcuts.ts
     │   ├── approval/   approval-summary.tsx
@@ -132,7 +133,7 @@ Exact versions are pinned (no `^`) in `package.json` at scaffold time.
     │   ├── checks/rules/ amounts.ts (CC-01,02) quantities.ts (CC-03,04,05) items.ts (CC-06) references.ts (CC-07,08)
     │   ├── issues.ts             # computeBlockingIssues
     │   ├── status.ts             # deriveReviewStatus, transitions, export gate
-    │   └── export/ csv.ts (layout CF-1)  __fixtures__/SHP-24811.cf1.csv (golden file)
+    │   └── export/ precedence.ts (A-05, rule → field)  csv.ts (layout CF-1)  __fixtures__/SHP-24811.cf1.csv (golden file)
     ├── server/                   # every file starts with `import 'server-only'`
     │   ├── auth.ts  session.ts
     │   ├── db/ client.ts schema.ts seed.ts seed-scenarios.ts

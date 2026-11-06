@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import type { ReactNode } from "react";
 import { UserMenu } from "@/components/auth/user-menu";
+import { Toaster } from "@/components/ui/sonner";
 import { getUser } from "@/server/session";
 
 const navLink = "rounded-sm text-muted-foreground transition-colors hover:text-foreground";
@@ -35,6 +36,7 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
         </div>
       </header>
       <div className="flex flex-1 flex-col">{children}</div>
+      <Toaster position="bottom-right" />
     </div>
   );
 }
