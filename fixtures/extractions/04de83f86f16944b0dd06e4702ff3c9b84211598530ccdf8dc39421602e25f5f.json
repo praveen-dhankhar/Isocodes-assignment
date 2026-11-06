@@ -1,0 +1,187 @@
+{
+  "sha256": "04de83f86f16944b0dd06e4702ff3c9b84211598530ccdf8dc39421602e25f5f",
+  "source": "hand-authored",
+  "modelId": "hand-authored",
+  "recordedAt": "2026-11-01T00:00:00.000Z",
+  "pages": [
+    {
+      "pageNo": 1,
+      "output": {
+        "detectedDocumentType": "COMMERCIAL_INVOICE",
+        "pageReadable": true,
+        "pageIssues": [],
+        "fields": {
+          "supplierName": {
+            "text": "Company G",
+            "confidence": 0.98,
+            "bbox": {
+              "x": 0.0714,
+              "y": 0.0539,
+              "w": 0.1602,
+              "h": 0.0223
+            }
+          },
+          "importerName": {
+            "text": "Company R",
+            "confidence": 0.96,
+            "bbox": {
+              "x": 0.0828,
+              "y": 0.2347,
+              "w": 0.0931,
+              "h": 0.0143
+            }
+          },
+          "consigneeName": {
+            "text": "Company R",
+            "confidence": 0.97,
+            "bbox": {
+              "x": 0.5265,
+              "y": 0.2347,
+              "w": 0.0931,
+              "h": 0.0143
+            }
+          },
+          "invoiceNumber": {
+            "text": "US-2026-4471",
+            "confidence": 0.98,
+            "bbox": {
+              "x": 0.0714,
+              "y": 0.159,
+              "w": 0.1147,
+              "h": 0.0143
+            }
+          },
+          "invoiceDate": {
+            "text": "10/03/2026",
+            "confidence": 0.98,
+            "bbox": {
+              "x": 0.5151,
+              "y": 0.159,
+              "w": 0.0883,
+              "h": 0.0143
+            }
+          },
+          "currency": {
+            "text": "USD",
+            "confidence": 0.95,
+            "bbox": {
+              "x": 0.0714,
+              "y": 0.1911,
+              "w": 0.0372,
+              "h": 0.0143
+            }
+          },
+          "incoterm": {
+            "text": "FCA Chicago",
+            "confidence": 0.97,
+            "bbox": {
+              "x": 0.5151,
+              "y": 0.1911,
+              "w": 0.1039,
+              "h": 0.0143
+            }
+          },
+          "invoiceTotal": {
+            "text": "8,550.00",
+            "confidence": 0.98,
+            "bbox": {
+              "x": 0.8511,
+              "y": 0.3541,
+              "w": 0.0687,
+              "h": 0.0143
+            }
+          },
+          "totalPackages": {
+            "text": "50 CTNS",
+            "confidence": 0.96,
+            "bbox": {
+              "x": 0.8472,
+              "y": 0.3781,
+              "w": 0.0725,
+              "h": 0.0143
+            }
+          },
+          "grossWeight": {
+            "text": null,
+            "confidence": 0.9,
+            "bbox": null
+          },
+          "netWeight": {
+            "text": null,
+            "confidence": 0.9,
+            "bbox": null
+          },
+          "containerNumbers": {
+            "text": null,
+            "confidence": 0.9,
+            "bbox": null
+          }
+        },
+        "lineItems": [
+          {
+            "description": {
+              "text": "Stainless fastener assortment",
+              "confidence": 0.96,
+              "bbox": {
+                "x": 0.112,
+                "y": 0.3185,
+                "w": 0.2324,
+                "h": 0.0143
+              }
+            },
+            "hsCode": {
+              "text": "7318.15.00",
+              "confidence": 0.97,
+              "bbox": {
+                "x": 0.4131,
+                "y": 0.3185,
+                "w": 0.0883,
+                "h": 0.0143
+              }
+            },
+            "quantity": {
+              "text": "600",
+              "confidence": 0.95,
+              "bbox": {
+                "x": 0.6022,
+                "y": 0.3185,
+                "w": 0.0294,
+                "h": 0.0143
+              }
+            },
+            "unit": {
+              "text": "KITS",
+              "confidence": 0.95,
+              "bbox": {
+                "x": 0.648,
+                "y": 0.3185,
+                "w": 0.0392,
+                "h": 0.0143
+              }
+            },
+            "unitPrice": {
+              "text": "14.25",
+              "confidence": 0.97,
+              "bbox": {
+                "x": 0.7726,
+                "y": 0.3185,
+                "w": 0.0442,
+                "h": 0.0143
+              }
+            },
+            "lineTotal": {
+              "text": "8,550.00",
+              "confidence": 0.98,
+              "bbox": {
+                "x": 0.8511,
+                "y": 0.3185,
+                "w": 0.0687,
+                "h": 0.0143
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

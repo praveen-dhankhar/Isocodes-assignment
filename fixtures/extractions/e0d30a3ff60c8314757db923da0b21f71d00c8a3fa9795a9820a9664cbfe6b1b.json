@@ -1,0 +1,122 @@
+{
+  "sha256": "e0d30a3ff60c8314757db923da0b21f71d00c8a3fa9795a9820a9664cbfe6b1b",
+  "source": "hand-authored",
+  "modelId": "hand-authored",
+  "recordedAt": "2026-11-01T00:00:00.000Z",
+  "pages": [
+    {
+      "pageNo": 1,
+      "output": {
+        "detectedDocumentType": "PACKING_LIST",
+        "pageReadable": true,
+        "pageIssues": [],
+        "fields": {
+          "supplierName": {
+            "text": "Company B",
+            "confidence": 0.97,
+            "bbox": {
+              "x": 0.0714,
+              "y": 0.0539,
+              "w": 0.1586,
+              "h": 0.0223
+            }
+          },
+          "consigneeName": {
+            "text": "Company P",
+            "confidence": 0.96,
+            "bbox": {
+              "x": 0.0828,
+              "y": 0.2026,
+              "w": 0.0922,
+              "h": 0.0143
+            }
+          },
+          "invoiceNumber": {
+            "text": "CB-2026-1187",
+            "confidence": 0.98,
+            "bbox": {
+              "x": 0.0714,
+              "y": 0.159,
+              "w": 0.1134,
+              "h": 0.0143
+            }
+          },
+          "totalPackages": {
+            "text": "240 CTNS",
+            "confidence": 0.97,
+            "bbox": {
+              "x": 0.8374,
+              "y": 0.322,
+              "w": 0.0823,
+              "h": 0.0143
+            }
+          },
+          "grossWeight": {
+            "text": "3,165.00 KGS",
+            "confidence": 0.97,
+            "bbox": {
+              "x": 0.8089,
+              "y": 0.3461,
+              "w": 0.1108,
+              "h": 0.0143
+            }
+          },
+          "netWeight": {
+            "text": "2,880.00 KGS",
+            "confidence": 0.81,
+            "bbox": {
+              "x": 0.8089,
+              "y": 0.3701,
+              "w": 0.1108,
+              "h": 0.0143
+            }
+          },
+          "containerNumbers": {
+            "text": "XZQU4821171",
+            "confidence": 0.98,
+            "bbox": {
+              "x": 0.8034,
+              "y": 0.3942,
+              "w": 0.1164,
+              "h": 0.0143
+            }
+          }
+        },
+        "lineItems": [
+          {
+            "description": {
+              "text": "LED panel light 40W",
+              "confidence": 0.97,
+              "bbox": {
+                "x": 0.142,
+                "y": 0.2864,
+                "w": 0.1608,
+                "h": 0.0143
+              }
+            },
+            "quantity": {
+              "text": "2,400",
+              "confidence": 0.98,
+              "bbox": {
+                "x": 0.7514,
+                "y": 0.2864,
+                "w": 0.0442,
+                "h": 0.0143
+              }
+            },
+            "unit": {
+              "text": "PCS",
+              "confidence": 0.95,
+              "bbox": {
+                "x": 0.8119,
+                "y": 0.2864,
+                "w": 0.0363,
+                "h": 0.0143
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,122 @@
+{
+  "sha256": "1ce36c7bcf0b1874906fe6f52f3594115b96d4a5ba5cc63c3f8dd9ae99233425",
+  "source": "hand-authored",
+  "modelId": "hand-authored",
+  "recordedAt": "2026-11-01T00:00:00.000Z",
+  "pages": [
+    {
+      "pageNo": 1,
+      "output": {
+        "detectedDocumentType": "PACKING_LIST",
+        "pageReadable": true,
+        "pageIssues": [],
+        "fields": {
+          "supplierName": {
+            "text": "Company F",
+            "confidence": 0.95,
+            "bbox": {
+              "x": 0.0714,
+              "y": 0.0539,
+              "w": 0.1555,
+              "h": 0.0223
+            }
+          },
+          "consigneeName": {
+            "text": "Company Q",
+            "confidence": 0.96,
+            "bbox": {
+              "x": 0.0828,
+              "y": 0.2026,
+              "w": 0.0941,
+              "h": 0.0143
+            }
+          },
+          "invoiceNumber": {
+            "text": "TH-2026-1290",
+            "confidence": 0.95,
+            "bbox": {
+              "x": 0.0714,
+              "y": 0.159,
+              "w": 0.1137,
+              "h": 0.0143
+            }
+          },
+          "totalPackages": {
+            "text": "60 CTNS",
+            "confidence": 0.97,
+            "bbox": {
+              "x": 0.8472,
+              "y": 0.322,
+              "w": 0.0725,
+              "h": 0.0143
+            }
+          },
+          "grossWeight": {
+            "text": "1,830.00 KGS",
+            "confidence": 0.98,
+            "bbox": {
+              "x": 0.8089,
+              "y": 0.3461,
+              "w": 0.1108,
+              "h": 0.0143
+            }
+          },
+          "netWeight": {
+            "text": "1,710.00 KGS",
+            "confidence": 0.99,
+            "bbox": {
+              "x": 0.8089,
+              "y": 0.3701,
+              "w": 0.1108,
+              "h": 0.0143
+            }
+          },
+          "containerNumbers": {
+            "text": "XZQU4821253",
+            "confidence": 0.99,
+            "bbox": {
+              "x": 0.8021,
+              "y": 0.3942,
+              "w": 0.1177,
+              "h": 0.0143
+            }
+          }
+        },
+        "lineItems": [
+          {
+            "description": {
+              "text": "Rubber timing belt",
+              "confidence": 0.95,
+              "bbox": {
+                "x": 0.142,
+                "y": 0.2864,
+                "w": 0.1432,
+                "h": 0.0143
+              }
+            },
+            "quantity": {
+              "text": "3,000",
+              "confidence": 0.98,
+              "bbox": {
+                "x": 0.7514,
+                "y": 0.2864,
+                "w": 0.0442,
+                "h": 0.0143
+              }
+            },
+            "unit": {
+              "text": "PCS",
+              "confidence": 0.96,
+              "bbox": {
+                "x": 0.8119,
+                "y": 0.2864,
+                "w": 0.0363,
+                "h": 0.0143
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

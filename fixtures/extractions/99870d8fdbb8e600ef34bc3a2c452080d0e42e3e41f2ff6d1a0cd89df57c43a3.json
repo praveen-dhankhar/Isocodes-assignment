@@ -1,0 +1,122 @@
+{
+  "sha256": "99870d8fdbb8e600ef34bc3a2c452080d0e42e3e41f2ff6d1a0cd89df57c43a3",
+  "source": "hand-authored",
+  "modelId": "hand-authored",
+  "recordedAt": "2026-11-01T00:00:00.000Z",
+  "pages": [
+    {
+      "pageNo": 1,
+      "output": {
+        "detectedDocumentType": "PACKING_LIST",
+        "pageReadable": true,
+        "pageIssues": [],
+        "fields": {
+          "supplierName": {
+            "text": "Company C",
+            "confidence": 0.99,
+            "bbox": {
+              "x": 0.0714,
+              "y": 0.0539,
+              "w": 0.1586,
+              "h": 0.0223
+            }
+          },
+          "consigneeName": {
+            "text": "Company Q",
+            "confidence": 0.99,
+            "bbox": {
+              "x": 0.0828,
+              "y": 0.2026,
+              "w": 0.0941,
+              "h": 0.0143
+            }
+          },
+          "invoiceNumber": {
+            "text": "CC-2026-0412",
+            "confidence": 0.95,
+            "bbox": {
+              "x": 0.0714,
+              "y": 0.159,
+              "w": 0.1157,
+              "h": 0.0143
+            }
+          },
+          "totalPackages": {
+            "text": "6 PALLETS",
+            "confidence": 0.98,
+            "bbox": {
+              "x": 0.8289,
+              "y": 0.322,
+              "w": 0.0909,
+              "h": 0.0143
+            }
+          },
+          "grossWeight": {
+            "text": "1,460.00 KG",
+            "confidence": 0.98,
+            "bbox": {
+              "x": 0.8207,
+              "y": 0.3461,
+              "w": 0.0991,
+              "h": 0.0143
+            }
+          },
+          "netWeight": {
+            "text": "1,340.00 KG",
+            "confidence": 0.99,
+            "bbox": {
+              "x": 0.8207,
+              "y": 0.3701,
+              "w": 0.0991,
+              "h": 0.0143
+            }
+          },
+          "containerNumbers": {
+            "text": "KQZU2073199",
+            "confidence": 0.99,
+            "bbox": {
+              "x": 0.8021,
+              "y": 0.3942,
+              "w": 0.1177,
+              "h": 0.0143
+            }
+          }
+        },
+        "lineItems": [
+          {
+            "description": {
+              "text": "Steel ball valve DN50",
+              "confidence": 0.96,
+              "bbox": {
+                "x": 0.142,
+                "y": 0.2864,
+                "w": 0.1687,
+                "h": 0.0143
+              }
+            },
+            "quantity": {
+              "text": "180",
+              "confidence": 0.98,
+              "bbox": {
+                "x": 0.7661,
+                "y": 0.2864,
+                "w": 0.0294,
+                "h": 0.0143
+              }
+            },
+            "unit": {
+              "text": "PCS",
+              "confidence": 0.97,
+              "bbox": {
+                "x": 0.8119,
+                "y": 0.2864,
+                "w": 0.0363,
+                "h": 0.0143
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

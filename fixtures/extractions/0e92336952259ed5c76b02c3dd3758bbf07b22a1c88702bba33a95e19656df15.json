@@ -1,0 +1,122 @@
+{
+  "sha256": "0e92336952259ed5c76b02c3dd3758bbf07b22a1c88702bba33a95e19656df15",
+  "source": "hand-authored",
+  "modelId": "hand-authored",
+  "recordedAt": "2026-11-01T00:00:00.000Z",
+  "pages": [
+    {
+      "pageNo": 1,
+      "output": {
+        "detectedDocumentType": "PACKING_LIST",
+        "pageReadable": true,
+        "pageIssues": [],
+        "fields": {
+          "supplierName": {
+            "text": "Company B",
+            "confidence": 0.96,
+            "bbox": {
+              "x": 0.0714,
+              "y": 0.0539,
+              "w": 0.1586,
+              "h": 0.0223
+            }
+          },
+          "consigneeName": {
+            "text": "Company P",
+            "confidence": 0.96,
+            "bbox": {
+              "x": 0.0828,
+              "y": 0.2026,
+              "w": 0.0922,
+              "h": 0.0143
+            }
+          },
+          "invoiceNumber": {
+            "text": "CB-2026-1302",
+            "confidence": 0.97,
+            "bbox": {
+              "x": 0.0714,
+              "y": 0.159,
+              "w": 0.1147,
+              "h": 0.0143
+            }
+          },
+          "totalPackages": {
+            "text": "40 CTNS",
+            "confidence": 0.96,
+            "bbox": {
+              "x": 0.8472,
+              "y": 0.322,
+              "w": 0.0725,
+              "h": 0.0143
+            }
+          },
+          "grossWeight": {
+            "text": "1,280.00 KGS",
+            "confidence": 0.98,
+            "bbox": {
+              "x": 0.8089,
+              "y": 0.3461,
+              "w": 0.1108,
+              "h": 0.0143
+            }
+          },
+          "netWeight": {
+            "text": "1,120.00 KGS",
+            "confidence": 0.97,
+            "bbox": {
+              "x": 0.8089,
+              "y": 0.3701,
+              "w": 0.1108,
+              "h": 0.0143
+            }
+          },
+          "containerNumbers": {
+            "text": "ZXKU7311220",
+            "confidence": 0.96,
+            "bbox": {
+              "x": 0.8053,
+              "y": 0.3942,
+              "w": 0.1144,
+              "h": 0.0143
+            }
+          }
+        },
+        "lineItems": [
+          {
+            "description": {
+              "text": "Solar charge controller 40A",
+              "confidence": 0.95,
+              "bbox": {
+                "x": 0.1365,
+                "y": 0.2864,
+                "w": 0.2138,
+                "h": 0.0143
+              }
+            },
+            "quantity": {
+              "text": "800",
+              "confidence": 0.98,
+              "bbox": {
+                "x": 0.7771,
+                "y": 0.2864,
+                "w": 0.0294,
+                "h": 0.0143
+              }
+            },
+            "unit": {
+              "text": "PCS",
+              "confidence": 0.96,
+              "bbox": {
+                "x": 0.8229,
+                "y": 0.2864,
+                "w": 0.0363,
+                "h": 0.0143
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

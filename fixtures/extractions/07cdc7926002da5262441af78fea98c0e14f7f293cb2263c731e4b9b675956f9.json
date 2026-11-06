@@ -1,0 +1,103 @@
+{
+  "sha256": "07cdc7926002da5262441af78fea98c0e14f7f293cb2263c731e4b9b675956f9",
+  "source": "hand-authored",
+  "modelId": "hand-authored",
+  "recordedAt": "2026-11-01T00:00:00.000Z",
+  "pages": [
+    {
+      "pageNo": 1,
+      "output": {
+        "detectedDocumentType": "BILL_OF_LADING",
+        "pageReadable": true,
+        "pageIssues": [],
+        "fields": {
+          "supplierName": {
+            "text": "Company H",
+            "confidence": 0.98,
+            "bbox": {
+              "x": 0.0828,
+              "y": 0.1528,
+              "w": 0.0931,
+              "h": 0.0143
+            }
+          },
+          "consigneeName": {
+            "text": "Company Q",
+            "confidence": 0.99,
+            "bbox": {
+              "x": 0.5265,
+              "y": 0.1528,
+              "w": 0.0941,
+              "h": 0.0143
+            }
+          },
+          "totalPackages": {
+            "text": "25 CARTONS",
+            "confidence": 0.98,
+            "bbox": {
+              "x": 0.2441,
+              "y": 0.2686,
+              "w": 0.1101,
+              "h": 0.0143
+            }
+          },
+          "grossWeight": {
+            "text": "720.00 KGS",
+            "confidence": 0.98,
+            "bbox": {
+              "x": 0.8236,
+              "y": 0.2686,
+              "w": 0.0961,
+              "h": 0.0143
+            }
+          },
+          "netWeight": {
+            "text": null,
+            "confidence": 0.9,
+            "bbox": null
+          },
+          "containerNumbers": {
+            "text": "QZXU5610072",
+            "confidence": 0.96,
+            "bbox": {
+              "x": 0.0802,
+              "y": 0.2686,
+              "w": 0.1177,
+              "h": 0.0143
+            }
+          },
+          "blNumber": {
+            "text": "BLYOK2610208",
+            "confidence": 0.98,
+            "bbox": {
+              "x": 0.3731,
+              "y": 0.1046,
+              "w": 0.1886,
+              "h": 0.0187
+            }
+          },
+          "portOfLoading": {
+            "text": "Yokohama",
+            "confidence": 0.95,
+            "bbox": {
+              "x": 0.0714,
+              "y": 0.216,
+              "w": 0.0827,
+              "h": 0.0143
+            }
+          },
+          "portOfDischarge": {
+            "text": "Nhava Sheva",
+            "confidence": 0.98,
+            "bbox": {
+              "x": 0.5151,
+              "y": 0.216,
+              "w": 0.1059,
+              "h": 0.0143
+            }
+          }
+        }
+      }
+    }
+  ]
+}

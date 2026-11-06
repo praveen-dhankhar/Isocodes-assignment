@@ -520,7 +520,7 @@ Seeded history makes S7 and S8 non-empty: corrections on SHP-24813/24816/24817 (
                                         "pageIssues": [], "fields": { "...": "PageExtraction" }, "lineItems": [] } }]
 }
 ```
-`source` ∈ `recorded | hand-authored`. The loader validates `output` with `PAGE_SCHEMAS[docType]`.
+`source` ∈ `recorded | hand-authored`. The loader validates `output` with `PAGE_SCHEMAS[docType]`. Hand-authored files (from `pnpm samples:generate`) use `modelId: "hand-authored"`, take `text` from what `scripts/sample-data.ts` prints and `bbox` from the rendered layout, and give a fixed `recordedAt`. The generator stamps PDF metadata dates, so regenerating produces byte-identical samples: sha256 keys — and recorded fixtures keyed by them — stay valid. It also refuses to write when the ground truth for SHP-24811…24816 disagrees with `src/domain/checks/__fixtures__/snapshots.ts`.
 
 ---
 

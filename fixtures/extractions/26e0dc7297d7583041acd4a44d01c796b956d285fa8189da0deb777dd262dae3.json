@@ -1,0 +1,264 @@
+{
+  "sha256": "26e0dc7297d7583041acd4a44d01c796b956d285fa8189da0deb777dd262dae3",
+  "source": "hand-authored",
+  "modelId": "hand-authored",
+  "recordedAt": "2026-11-01T00:00:00.000Z",
+  "pages": [
+    {
+      "pageNo": 1,
+      "output": {
+        "detectedDocumentType": "COMMERCIAL_INVOICE",
+        "pageReadable": true,
+        "pageIssues": [],
+        "fields": {
+          "supplierName": {
+            "text": "Company E",
+            "confidence": 0.98,
+            "bbox": {
+              "x": 0.0714,
+              "y": 0.0539,
+              "w": 0.1571,
+              "h": 0.0223
+            }
+          },
+          "importerName": {
+            "text": "Company P",
+            "confidence": 0.96,
+            "bbox": {
+              "x": 0.0828,
+              "y": 0.2668,
+              "w": 0.0922,
+              "h": 0.0143
+            }
+          },
+          "consigneeName": {
+            "text": "Company P",
+            "confidence": 0.98,
+            "bbox": {
+              "x": 0.5265,
+              "y": 0.2668,
+              "w": 0.0922,
+              "h": 0.0143
+            }
+          },
+          "invoiceNumber": {
+            "text": "TW-2026-0881",
+            "confidence": 0.97,
+            "bbox": {
+              "x": 0.0714,
+              "y": 0.159,
+              "w": 0.1174,
+              "h": 0.0143
+            }
+          },
+          "invoiceDate": {
+            "text": "2026/10/11",
+            "confidence": 0.96,
+            "bbox": {
+              "x": 0.5151,
+              "y": 0.159,
+              "w": 0.087,
+              "h": 0.0143
+            }
+          },
+          "currency": {
+            "text": "USD",
+            "confidence": 0.97,
+            "bbox": {
+              "x": 0.0714,
+              "y": 0.1911,
+              "w": 0.0372,
+              "h": 0.0143
+            }
+          },
+          "incoterm": {
+            "text": "FOB Kaohsiung",
+            "confidence": 0.95,
+            "bbox": {
+              "x": 0.5151,
+              "y": 0.1911,
+              "w": 0.1245,
+              "h": 0.0143
+            }
+          },
+          "invoiceTotal": {
+            "text": "10,620.00",
+            "confidence": 0.97,
+            "bbox": {
+              "x": 0.8413,
+              "y": 0.4102,
+              "w": 0.0785,
+              "h": 0.0143
+            }
+          },
+          "totalPackages": {
+            "text": "35 CTNS",
+            "confidence": 0.98,
+            "bbox": {
+              "x": 0.8472,
+              "y": 0.4343,
+              "w": 0.0725,
+              "h": 0.0143
+            }
+          },
+          "grossWeight": {
+            "text": "512.00 KGS",
+            "confidence": 0.99,
+            "bbox": {
+              "x": 0.8236,
+              "y": 0.4583,
+              "w": 0.0961,
+              "h": 0.0143
+            }
+          },
+          "netWeight": {
+            "text": "468.00 KGS",
+            "confidence": 0.95,
+            "bbox": {
+              "x": 0.8236,
+              "y": 0.4824,
+              "w": 0.0961,
+              "h": 0.0143
+            }
+          },
+          "containerNumbers": {
+            "text": "QZXU5609317",
+            "confidence": 0.97,
+            "bbox": {
+              "x": 0.0714,
+              "y": 0.2231,
+              "w": 0.1177,
+              "h": 0.0143
+            }
+          }
+        },
+        "lineItems": [
+          {
+            "description": {
+              "text": "BLE 5.3 module",
+              "confidence": 0.96,
+              "bbox": {
+                "x": 0.1147,
+                "y": 0.3505,
+                "w": 0.1255,
+                "h": 0.0143
+              }
+            },
+            "hsCode": {
+              "text": "8517.62.90",
+              "confidence": 0.98,
+              "bbox": {
+                "x": 0.3712,
+                "y": 0.3505,
+                "w": 0.0883,
+                "h": 0.0143
+              }
+            },
+            "quantity": {
+              "text": "5,000",
+              "confidence": 0.97,
+              "bbox": {
+                "x": 0.5661,
+                "y": 0.3505,
+                "w": 0.0442,
+                "h": 0.0143
+              }
+            },
+            "unit": {
+              "text": "PCS",
+              "confidence": 0.96,
+              "bbox": {
+                "x": 0.6267,
+                "y": 0.3505,
+                "w": 0.0363,
+                "h": 0.0143
+              }
+            },
+            "unitPrice": {
+              "text": "1.92",
+              "confidence": 0.97,
+              "bbox": {
+                "x": 0.7734,
+                "y": 0.3505,
+                "w": 0.0343,
+                "h": 0.0143
+              }
+            },
+            "lineTotal": {
+              "text": "9,600.00",
+              "confidence": 0.98,
+              "bbox": {
+                "x": 0.8511,
+                "y": 0.3505,
+                "w": 0.0687,
+                "h": 0.0143
+              }
+            }
+          },
+          {
+            "description": {
+              "text": "USB-C receptacle 16P",
+              "confidence": 0.96,
+              "bbox": {
+                "x": 0.1147,
+                "y": 0.3746,
+                "w": 0.1775,
+                "h": 0.0143
+              }
+            },
+            "hsCode": {
+              "text": "8536.90.90",
+              "confidence": 0.97,
+              "bbox": {
+                "x": 0.3712,
+                "y": 0.3746,
+                "w": 0.0883,
+                "h": 0.0143
+              }
+            },
+            "quantity": {
+              "text": "12,000",
+              "confidence": 0.97,
+              "bbox": {
+                "x": 0.5563,
+                "y": 0.3746,
+                "w": 0.054,
+                "h": 0.0143
+              }
+            },
+            "unit": {
+              "text": "PCS",
+              "confidence": 0.98,
+              "bbox": {
+                "x": 0.6267,
+                "y": 0.3746,
+                "w": 0.0363,
+                "h": 0.0143
+              }
+            },
+            "unitPrice": {
+              "text": "0.085",
+              "confidence": 0.79,
+              "bbox": {
+                "x": 0.7635,
+                "y": 0.3746,
+                "w": 0.0442,
+                "h": 0.0143
+              }
+            },
+            "lineTotal": {
+              "text": "1,020.00",
+              "confidence": 0.95,
+              "bbox": {
+                "x": 0.8511,
+                "y": 0.3746,
+                "w": 0.0687,
+                "h": 0.0143
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

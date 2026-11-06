@@ -1,0 +1,757 @@
+{
+  "version": 1,
+  "samples": [
+    {
+      "ref": "SHP-24811",
+      "title": "Weight mismatch (from brief)",
+      "documents": [
+        {
+          "docType": "INVOICE",
+          "file": "SHP-24811/invoice.pdf",
+          "sha256": "10c770c0f584c15be0ccbe57841f0745167127ce2be7b1a6c8afe598b4a471b3",
+          "variant": "digital",
+          "truth": {
+            "header": {
+              "supplierName": "Company B",
+              "importerName": "Company P",
+              "consigneeName": "Company P",
+              "invoiceNumber": "CB-2026-1187",
+              "invoiceDate": "2026-10-14",
+              "currency": "USD",
+              "incoterm": "FOB",
+              "invoiceTotal": "16320.00",
+              "totalPackages": "240",
+              "grossWeight": "3120.000",
+              "netWeight": "2880.000",
+              "containerNumbers": "XZQU4821171"
+            },
+            "lines": [
+              {
+                "description": "LED panel light 40W",
+                "hsCode": "94054290",
+                "quantity": "2400",
+                "unit": "PCS",
+                "unitPrice": "6.80",
+                "lineTotal": "16320.00"
+              }
+            ]
+          }
+        },
+        {
+          "docType": "PACKING_LIST",
+          "file": "SHP-24811/packing-list.pdf",
+          "sha256": "e0d30a3ff60c8314757db923da0b21f71d00c8a3fa9795a9820a9664cbfe6b1b",
+          "variant": "digital",
+          "truth": {
+            "header": {
+              "supplierName": "Company B",
+              "consigneeName": "Company P",
+              "invoiceNumber": "CB-2026-1187",
+              "totalPackages": "240",
+              "grossWeight": "3165.000",
+              "netWeight": "2880.000",
+              "containerNumbers": "XZQU4821171"
+            },
+            "lines": [
+              {
+                "description": "LED panel light 40W",
+                "quantity": "2400",
+                "unit": "PCS"
+              }
+            ]
+          }
+        },
+        {
+          "docType": "BILL_OF_LADING",
+          "file": "SHP-24811/bill-of-lading.pdf",
+          "sha256": "02eaebfc4ffe0442bbe0ef4a427bda7e93b624e7794549f0dece0bcb54b2cdd6",
+          "variant": "digital",
+          "truth": {
+            "header": {
+              "blNumber": "BLNGB2610447",
+              "supplierName": "Company B",
+              "consigneeName": "Company P",
+              "portOfLoading": "Ningbo",
+              "portOfDischarge": "Nhava Sheva",
+              "totalPackages": "240",
+              "grossWeight": "3165.000",
+              "containerNumbers": "XZQU4821171"
+            },
+            "lines": []
+          }
+        }
+      ]
+    },
+    {
+      "ref": "SHP-24812",
+      "title": "European number format (from brief)",
+      "documents": [
+        {
+          "docType": "INVOICE",
+          "file": "SHP-24812/invoice.pdf",
+          "sha256": "cdabe8a9a0373403ea7d199185b6e44fe9a06716cbbcd0b59126b435df8c5961",
+          "variant": "digital",
+          "truth": {
+            "header": {
+              "supplierName": "Company C",
+              "importerName": "Company Q",
+              "consigneeName": "Company Q",
+              "invoiceNumber": "CC-2026-0412",
+              "invoiceDate": "2026-10-09",
+              "currency": "EUR",
+              "incoterm": "FCA",
+              "invoiceTotal": "7650.00",
+              "totalPackages": "6",
+              "grossWeight": "1460.000",
+              "netWeight": "1340.000",
+              "containerNumbers": "KQZU2073199"
+            },
+            "lines": [
+              {
+                "description": "Steel ball valve DN50",
+                "hsCode": "84818030",
+                "quantity": "180",
+                "unit": "PCS",
+                "unitPrice": "42.50",
+                "lineTotal": "7650.00"
+              }
+            ]
+          }
+        },
+        {
+          "docType": "PACKING_LIST",
+          "file": "SHP-24812/packing-list.pdf",
+          "sha256": "99870d8fdbb8e600ef34bc3a2c452080d0e42e3e41f2ff6d1a0cd89df57c43a3",
+          "variant": "digital",
+          "truth": {
+            "header": {
+              "supplierName": "Company C",
+              "consigneeName": "Company Q",
+              "invoiceNumber": "CC-2026-0412",
+              "totalPackages": "6",
+              "grossWeight": "1460.000",
+              "netWeight": "1340.000",
+              "containerNumbers": "KQZU2073199"
+            },
+            "lines": [
+              {
+                "description": "Steel ball valve DN50",
+                "quantity": "180",
+                "unit": "PCS"
+              }
+            ]
+          }
+        },
+        {
+          "docType": "BILL_OF_LADING",
+          "file": "SHP-24812/bill-of-lading.pdf",
+          "sha256": "29c20dc18d51afbb41b366c95a71bd82712715dfc76747a8d4e4191da2d54c1a",
+          "variant": "digital",
+          "truth": {
+            "header": {
+              "blNumber": "BLGOT2610118",
+              "supplierName": "Company C",
+              "consigneeName": "Company Q",
+              "portOfLoading": "Gothenburg",
+              "portOfDischarge": "Nhava Sheva",
+              "totalPackages": "6",
+              "grossWeight": "1460.000",
+              "netWeight": "1340.000",
+              "containerNumbers": "KQZU2073199"
+            },
+            "lines": []
+          }
+        }
+      ]
+    },
+    {
+      "ref": "SHP-24813",
+      "title": "Two lines, clean",
+      "documents": [
+        {
+          "docType": "INVOICE",
+          "file": "SHP-24813/invoice.pdf",
+          "sha256": "a6fd6d13beb9ac842d4fe7f9ffc4ab8d02634a9e3d9e8797cef261701afea640",
+          "variant": "digital",
+          "truth": {
+            "header": {
+              "supplierName": "Company D",
+              "importerName": "Company R",
+              "consigneeName": "Company R",
+              "invoiceNumber": "DE-2026-3307",
+              "invoiceDate": "2026-10-02",
+              "currency": "EUR",
+              "incoterm": "FOB",
+              "invoiceTotal": "5100.00",
+              "totalPackages": "8",
+              "grossWeight": "620.000",
+              "netWeight": "560.000",
+              "containerNumbers": "ZXKU7310049"
+            },
+            "lines": [
+              {
+                "description": "Hydraulic gear pump 16cc",
+                "hsCode": "84136010",
+                "quantity": "40",
+                "unit": "PCS",
+                "unitPrice": "118.00",
+                "lineTotal": "4720.00"
+              },
+              {
+                "description": "Pump seal kit",
+                "hsCode": "84849000",
+                "quantity": "40",
+                "unit": "SET",
+                "unitPrice": "9.50",
+                "lineTotal": "380.00"
+              }
+            ]
+          }
+        },
+        {
+          "docType": "PACKING_LIST",
+          "file": "SHP-24813/packing-list.pdf",
+          "sha256": "d925875fedf35ecf4aa149dc2f2c1c4f0c3e559d46da56cbc2567f7a093f3f50",
+          "variant": "digital",
+          "truth": {
+            "header": {
+              "supplierName": "Company D",
+              "consigneeName": "Company R",
+              "invoiceNumber": "DE-2026-3307",
+              "totalPackages": "8",
+              "grossWeight": "620.000",
+              "netWeight": "560.000",
+              "containerNumbers": "ZXKU7310049"
+            },
+            "lines": [
+              {
+                "description": "Hydraulic gear pump 16cc",
+                "quantity": "40",
+                "unit": "PCS"
+              },
+              {
+                "description": "Pump seal kit",
+                "quantity": "40",
+                "unit": "SET"
+              }
+            ]
+          }
+        },
+        {
+          "docType": "BILL_OF_LADING",
+          "file": "SHP-24813/bill-of-lading.png",
+          "sha256": "ade3f20b86ef4fc0f8e08bda620615254cf0ae54939b5eb4e05e71225af4579a",
+          "variant": "scan",
+          "truth": {
+            "header": {
+              "blNumber": "BLHAM2610231",
+              "supplierName": "Company D",
+              "consigneeName": "Company R",
+              "portOfLoading": "Hamburg",
+              "portOfDischarge": "Nhava Sheva",
+              "totalPackages": "8",
+              "grossWeight": "620.000",
+              "containerNumbers": "ZXKU7310049"
+            },
+            "lines": []
+          }
+        }
+      ]
+    },
+    {
+      "ref": "SHP-24814",
+      "title": "Line quantity mismatch",
+      "documents": [
+        {
+          "docType": "INVOICE",
+          "file": "SHP-24814/invoice.pdf",
+          "sha256": "26e0dc7297d7583041acd4a44d01c796b956d285fa8189da0deb777dd262dae3",
+          "variant": "digital",
+          "truth": {
+            "header": {
+              "supplierName": "Company E",
+              "importerName": "Company P",
+              "consigneeName": "Company P",
+              "invoiceNumber": "TW-2026-0881",
+              "invoiceDate": "2026-10-11",
+              "currency": "USD",
+              "incoterm": "FOB",
+              "invoiceTotal": "10620.00",
+              "totalPackages": "35",
+              "grossWeight": "512.000",
+              "netWeight": "468.000",
+              "containerNumbers": "QZXU5609317"
+            },
+            "lines": [
+              {
+                "description": "BLE 5.3 module",
+                "hsCode": "85176290",
+                "quantity": "5000",
+                "unit": "PCS",
+                "unitPrice": "1.92",
+                "lineTotal": "9600.00"
+              },
+              {
+                "description": "USB-C receptacle 16P",
+                "hsCode": "85369090",
+                "quantity": "12000",
+                "unit": "PCS",
+                "unitPrice": "0.085",
+                "lineTotal": "1020.00"
+              }
+            ]
+          }
+        },
+        {
+          "docType": "PACKING_LIST",
+          "file": "SHP-24814/packing-list.pdf",
+          "sha256": "4f8ff916488a81c4ba4e04f12fea8ff98128804a4c090a0c7e2e35d68b96b5cf",
+          "variant": "digital",
+          "truth": {
+            "header": {
+              "supplierName": "Company E",
+              "consigneeName": "Company P",
+              "invoiceNumber": "TW-2026-0881",
+              "totalPackages": "35",
+              "grossWeight": "512.000",
+              "netWeight": "468.000",
+              "containerNumbers": "QZXU5609317"
+            },
+            "lines": [
+              {
+                "description": "BLE 5.3 module",
+                "quantity": "5000",
+                "unit": "PCS"
+              },
+              {
+                "description": "USB-C receptacle 16P",
+                "quantity": "10000",
+                "unit": "PCS"
+              }
+            ]
+          }
+        },
+        {
+          "docType": "BILL_OF_LADING",
+          "file": "SHP-24814/bill-of-lading.pdf",
+          "sha256": "e6776c4e48555326fb5a18bdb63a6de0d35b0297fedae41696772789dfd366d9",
+          "variant": "digital",
+          "truth": {
+            "header": {
+              "blNumber": "BLKHH2610552",
+              "supplierName": "Company E",
+              "consigneeName": "Company P",
+              "portOfLoading": "Kaohsiung",
+              "portOfDischarge": "Nhava Sheva",
+              "totalPackages": "35",
+              "grossWeight": "512.000",
+              "containerNumbers": "QZXU5609317"
+            },
+            "lines": []
+          }
+        }
+      ]
+    },
+    {
+      "ref": "SHP-24815",
+      "title": "Phone-scanned B/L, bad container check digit",
+      "documents": [
+        {
+          "docType": "INVOICE",
+          "file": "SHP-24815/invoice.pdf",
+          "sha256": "c78f9c9cc89a8d14bd33567b07e9181a74d1967939f766f5c08fd92b3c75bc31",
+          "variant": "digital",
+          "truth": {
+            "header": {
+              "supplierName": "Company F",
+              "importerName": "Company Q",
+              "consigneeName": "Company Q",
+              "invoiceNumber": "TH-2026-1290",
+              "invoiceDate": "2026-10-07",
+              "currency": "USD",
+              "incoterm": "FOB",
+              "invoiceTotal": "7200.00",
+              "totalPackages": "60",
+              "grossWeight": "1830.000",
+              "netWeight": "1710.000"
+            },
+            "lines": [
+              {
+                "description": "Rubber timing belt",
+                "hsCode": "40103900",
+                "quantity": "3000",
+                "unit": "PCS",
+                "unitPrice": "2.40",
+                "lineTotal": "7200.00"
+              }
+            ]
+          }
+        },
+        {
+          "docType": "PACKING_LIST",
+          "file": "SHP-24815/packing-list.pdf",
+          "sha256": "1ce36c7bcf0b1874906fe6f52f3594115b96d4a5ba5cc63c3f8dd9ae99233425",
+          "variant": "digital",
+          "truth": {
+            "header": {
+              "supplierName": "Company F",
+              "consigneeName": "Company Q",
+              "invoiceNumber": "TH-2026-1290",
+              "totalPackages": "60",
+              "grossWeight": "1830.000",
+              "netWeight": "1710.000",
+              "containerNumbers": "XZQU4821253"
+            },
+            "lines": [
+              {
+                "description": "Rubber timing belt",
+                "quantity": "3000",
+                "unit": "PCS"
+              }
+            ]
+          }
+        },
+        {
+          "docType": "BILL_OF_LADING",
+          "file": "SHP-24815/bill-of-lading.jpg",
+          "sha256": "d42a1abb611d161c8cfd95581f6060dbace30861e062058a34da167f8c44d62e",
+          "variant": "scan-skewed",
+          "truth": {
+            "header": {
+              "blNumber": "BLLCH2610090",
+              "supplierName": "Company F",
+              "consigneeName": "Company Q",
+              "portOfLoading": "Laem Chabang",
+              "portOfDischarge": "Nhava Sheva",
+              "totalPackages": "60",
+              "grossWeight": "1830.000",
+              "containerNumbers": "XZQU4821254"
+            },
+            "lines": []
+          }
+        }
+      ]
+    },
+    {
+      "ref": "SHP-24816",
+      "title": "Weights in pounds, US dates",
+      "documents": [
+        {
+          "docType": "INVOICE",
+          "file": "SHP-24816/invoice.pdf",
+          "sha256": "04de83f86f16944b0dd06e4702ff3c9b84211598530ccdf8dc39421602e25f5f",
+          "variant": "digital",
+          "truth": {
+            "header": {
+              "supplierName": "Company G",
+              "importerName": "Company R",
+              "consigneeName": "Company R",
+              "invoiceNumber": "US-2026-4471",
+              "invoiceDate": "2026-10-03",
+              "currency": "USD",
+              "incoterm": "FCA",
+              "invoiceTotal": "8550.00",
+              "totalPackages": "50"
+            },
+            "lines": [
+              {
+                "description": "Stainless fastener assortment",
+                "hsCode": "73181500",
+                "quantity": "600",
+                "unit": "KITS",
+                "unitPrice": "14.25",
+                "lineTotal": "8550.00"
+              }
+            ]
+          }
+        },
+        {
+          "docType": "PACKING_LIST",
+          "file": "SHP-24816/packing-list.pdf",
+          "sha256": "2612daad67f00061fa6704ad5e32e9988d9aca38b119c44b6b0e24a3e5005ecf",
+          "variant": "digital",
+          "truth": {
+            "header": {
+              "supplierName": "Company G",
+              "consigneeName": "Company R",
+              "invoiceNumber": "US-2026-4471",
+              "totalPackages": "50",
+              "grossWeight": "999.999",
+              "netWeight": "900.000",
+              "containerNumbers": "KQZU2074003"
+            },
+            "lines": [
+              {
+                "description": "Stainless fastener assortment",
+                "quantity": "600",
+                "unit": "KITS"
+              }
+            ]
+          }
+        },
+        {
+          "docType": "BILL_OF_LADING",
+          "file": "SHP-24816/bill-of-lading.pdf",
+          "sha256": "b1d4465a57e343e41004132eb94b252dcb5136aa378be1faf6a004bc1308bf31",
+          "variant": "digital",
+          "truth": {
+            "header": {
+              "blNumber": "BLHOU2610377",
+              "supplierName": "Company G",
+              "consigneeName": "Company R",
+              "portOfLoading": "Houston",
+              "portOfDischarge": "Nhava Sheva",
+              "totalPackages": "50",
+              "grossWeight": "1000.000",
+              "containerNumbers": "KQZU2074003"
+            },
+            "lines": []
+          }
+        }
+      ]
+    },
+    {
+      "ref": "SHP-24817",
+      "title": "Bilingual Chinese/English invoice",
+      "documents": [
+        {
+          "docType": "INVOICE",
+          "file": "SHP-24817/invoice.pdf",
+          "sha256": "17e6e2d1ef5078b452c1ed00af2cdaac14fd6da684d383f146599d541e990aa6",
+          "variant": "bilingual",
+          "truth": {
+            "header": {
+              "supplierName": "Company B",
+              "importerName": "Company P",
+              "consigneeName": "Company P",
+              "invoiceNumber": "CB-2026-1302",
+              "invoiceDate": "2026-10-20",
+              "currency": "USD",
+              "incoterm": "FOB",
+              "invoiceTotal": "9040.00",
+              "totalPackages": "40",
+              "grossWeight": "1280.000",
+              "netWeight": "1120.000",
+              "containerNumbers": "ZXKU7311220"
+            },
+            "lines": [
+              {
+                "description": "Solar charge controller 40A / 太阳能控制器",
+                "hsCode": "85044090",
+                "quantity": "800",
+                "unit": "PCS",
+                "unitPrice": "11.30",
+                "lineTotal": "9040.00"
+              }
+            ]
+          }
+        },
+        {
+          "docType": "PACKING_LIST",
+          "file": "SHP-24817/packing-list.pdf",
+          "sha256": "0e92336952259ed5c76b02c3dd3758bbf07b22a1c88702bba33a95e19656df15",
+          "variant": "digital",
+          "truth": {
+            "header": {
+              "supplierName": "Company B",
+              "consigneeName": "Company P",
+              "invoiceNumber": "CB-2026-1302",
+              "totalPackages": "40",
+              "grossWeight": "1280.000",
+              "netWeight": "1120.000",
+              "containerNumbers": "ZXKU7311220"
+            },
+            "lines": [
+              {
+                "description": "Solar charge controller 40A",
+                "quantity": "800",
+                "unit": "PCS"
+              }
+            ]
+          }
+        },
+        {
+          "docType": "BILL_OF_LADING",
+          "file": "SHP-24817/bill-of-lading.pdf",
+          "sha256": "21e3ddcc7bc408794b9c1cab5c3d9e6834251e3e5e39eed72d35f81d56fe61b6",
+          "variant": "digital",
+          "truth": {
+            "header": {
+              "blNumber": "BLNGB2610733",
+              "supplierName": "Company B",
+              "consigneeName": "Company P",
+              "portOfLoading": "Ningbo",
+              "portOfDischarge": "Nhava Sheva",
+              "totalPackages": "40",
+              "grossWeight": "1280.000",
+              "containerNumbers": "ZXKU7311220"
+            },
+            "lines": []
+          }
+        }
+      ]
+    },
+    {
+      "ref": "SHP-24818",
+      "title": "Yen invoice, unreadable packing-list page",
+      "documents": [
+        {
+          "docType": "INVOICE",
+          "file": "SHP-24818/invoice.pdf",
+          "sha256": "bb1d1cbbf04a98653bf8dfa37b1b804bff7ea24f6ea5930dd7a25e6a1f337b0d",
+          "variant": "digital",
+          "truth": {
+            "header": {
+              "supplierName": "Company H",
+              "importerName": "Company Q",
+              "consigneeName": "Company Q",
+              "invoiceNumber": "H-2026-0577",
+              "invoiceDate": "2026-10-05",
+              "currency": "JPY",
+              "incoterm": "FOB",
+              "invoiceTotal": "1050000",
+              "totalPackages": "25",
+              "grossWeight": "720.000",
+              "netWeight": "650.000",
+              "containerNumbers": "QZXU5610072"
+            },
+            "lines": [
+              {
+                "description": "Bearing 6205-2RS",
+                "hsCode": "84821011",
+                "quantity": "5000",
+                "unit": "PCS",
+                "unitPrice": "210",
+                "lineTotal": "1050000"
+              }
+            ]
+          }
+        },
+        {
+          "docType": "PACKING_LIST",
+          "file": "SHP-24818/packing-list.pdf",
+          "sha256": "c193b7c69a21dc27487c715f8d32502cb1d910b391ce59617a45e38c4e6bd545",
+          "variant": "scan-unreadable-page",
+          "truth": {
+            "header": {
+              "supplierName": "Company H",
+              "consigneeName": "Company Q",
+              "invoiceNumber": "H-2026-0577",
+              "totalPackages": "25",
+              "grossWeight": "720.000",
+              "netWeight": "650.000",
+              "containerNumbers": "QZXU5610072"
+            },
+            "lines": [
+              {
+                "description": "Bearing 6205-2RS",
+                "quantity": "5000",
+                "unit": "PCS"
+              }
+            ]
+          }
+        },
+        {
+          "docType": "BILL_OF_LADING",
+          "file": "SHP-24818/bill-of-lading.pdf",
+          "sha256": "07cdc7926002da5262441af78fea98c0e14f7f293cb2263c731e4b9b675956f9",
+          "variant": "digital",
+          "truth": {
+            "header": {
+              "blNumber": "BLYOK2610208",
+              "supplierName": "Company H",
+              "consigneeName": "Company Q",
+              "portOfLoading": "Yokohama",
+              "portOfDischarge": "Nhava Sheva",
+              "totalPackages": "25",
+              "grossWeight": "720.000",
+              "containerNumbers": "QZXU5610072"
+            },
+            "lines": []
+          }
+        }
+      ]
+    },
+    {
+      "ref": "SHP-24819",
+      "title": "Invoice only (draft)",
+      "documents": [
+        {
+          "docType": "INVOICE",
+          "file": "SHP-24819/invoice.pdf",
+          "sha256": "a9463ab0cca31b3d2b98283fdc857a917d618fe1e68693b6f747a130971a8c1a",
+          "variant": "digital",
+          "truth": {
+            "header": {
+              "supplierName": "Company C",
+              "importerName": "Company R",
+              "consigneeName": "Company R",
+              "invoiceNumber": "CC-2026-0455",
+              "invoiceDate": "2026-10-22",
+              "currency": "EUR",
+              "incoterm": "FCA",
+              "invoiceTotal": "4260.00",
+              "totalPackages": "3",
+              "grossWeight": "640.000",
+              "netWeight": "590.000",
+              "containerNumbers": "XZQU9002130"
+            },
+            "lines": [
+              {
+                "description": "Steel ball valve DN80",
+                "hsCode": "84818030",
+                "quantity": "60",
+                "unit": "PCS",
+                "unitPrice": "71.00",
+                "lineTotal": "4260.00"
+              }
+            ]
+          }
+        },
+        {
+          "docType": "PACKING_LIST",
+          "file": "SHP-24819/packing-list.pdf",
+          "sha256": "6fe33ba0915da4297c4abf3bce53a254f89656d6263befce4ea4f75642b4cb8d",
+          "variant": "digital",
+          "truth": {
+            "header": {
+              "supplierName": "Company C",
+              "consigneeName": "Company R",
+              "invoiceNumber": "CC-2026-0455",
+              "totalPackages": "3",
+              "grossWeight": "640.000",
+              "netWeight": "590.000",
+              "containerNumbers": "XZQU9002130"
+            },
+            "lines": [
+              {
+                "description": "Steel ball valve DN80",
+                "quantity": "60",
+                "unit": "PCS"
+              }
+            ]
+          }
+        },
+        {
+          "docType": "BILL_OF_LADING",
+          "file": "SHP-24819/bill-of-lading.pdf",
+          "sha256": "be0b30367394bde5705cc977d327ee1a87f65e8d4e22e1ebef8b8611ab655522",
+          "variant": "digital",
+          "truth": {
+            "header": {
+              "blNumber": "BLGOT2610140",
+              "supplierName": "Company C",
+              "consigneeName": "Company R",
+              "portOfLoading": "Gothenburg",
+              "portOfDischarge": "Nhava Sheva",
+              "totalPackages": "3",
+              "grossWeight": "640.000",
+              "containerNumbers": "XZQU9002130"
+            },
+            "lines": []
+          }
+        }
+      ]
+    }
+  ]
+}
