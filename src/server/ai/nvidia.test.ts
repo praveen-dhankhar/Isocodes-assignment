@@ -37,7 +37,7 @@ function harness(steps: Step[], variant: "primary" | "fallback" = "primary", key
   return { provider, requests, sleeps };
 }
 
-const userText = (body: Record<string, unknown> | null) => {
+const userText = (body: Record<string, unknown> | null | undefined) => {
   const messages = body?.messages as Array<{ role: string; content: unknown }>;
   const user = messages.find((m) => m.role === "user")?.content;
   return typeof user === "string" ? user : (user as Array<{ type: string; text?: string }>).filter((p) => p.type === "text").map((p) => p.text).join("");
