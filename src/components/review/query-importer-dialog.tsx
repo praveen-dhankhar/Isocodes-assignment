@@ -9,6 +9,7 @@ import { ReasonButton } from "@/components/ui/reason-button";
 import { Textarea } from "@/components/ui/textarea";
 import { raiseImporterQuery, resumeFromHold } from "@/server/actions/review";
 import type { ReviewModel } from "@/server/queries/review-model";
+import { ImporterContact } from "./importer-contact";
 import { useReviewAction } from "./use-review-action";
 
 const scopeLabel = (scope: string) => (scope === "shipment" ? "" : ` · ${scope.replace("pl-line:", "PL line ").replace("line:", "line ")}`);
@@ -35,10 +36,11 @@ export function QueryImporterDialog({ model, initialCheckId, open, onOpenChange 
         <DialogHeader>
           <DialogTitle>Query importer · {model.shipment.importer.name}</DialogTitle>
           <DialogDescription className="text-pretty">
-            Sent to the importer&apos;s contact on file (<span className="font-mono">{model.shipment.importer.contactMasked}</span>). The shipment goes on hold
-            until you resume it with their answer. In this demo the message is recorded, not emailed.
+            Sent to the importer&apos;s contact on file. The shipment goes on hold until you resume it with their answer. In this demo the message is
+            recorded, not emailed.
           </DialogDescription>
         </DialogHeader>
+        <ImporterContact importerId={model.shipment.importer.id} shipmentId={model.shipment.id} masked={model.shipment.importer.contactMasked} />
         <form
           id="query-importer"
           className="flex flex-col gap-4"

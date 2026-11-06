@@ -118,7 +118,7 @@ Exact versions are pinned (no `^`) in `package.json` at scaffold time.
     │   ├── shipments/  shipment-table.tsx shipment-filters.tsx status-badge.tsx format.ts new-shipment-form.tsx upload-slot.tsx upload.ts sample-picker.tsx shipment-nav.tsx
     │   ├── review/     workstation.tsx document-viewer.tsx field-panel.tsx field-row.tsx issues-panel.tsx check-card.tsx extraction-progress.tsx
     │   │               resolve-check-dialog.tsx query-importer-dialog.tsx submit-bar.tsx shortcut-help.tsx
-    │   │               use-review-shortcuts.ts use-review-action.ts field-actions.ts labels.ts
+    │   │               use-review-shortcuts.ts use-review-action.ts field-actions.ts importer-contact.tsx labels.ts
     │   │               extraction-progress.tsx resolve-check-dialog.tsx query-importer-dialog.tsx
     │   │               submit-bar.tsx shortcut-help.tsx use-review-shortcuts.ts
     │   ├── approval/   approval-summary.tsx approval-actions.tsx
