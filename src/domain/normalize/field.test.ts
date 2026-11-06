@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { FieldKind } from "../fields";
-import { normalizeField, type NormalizeContext } from "./field";
+import { normalizeField, normalizeTyped, type NormalizeContext } from "./field";
 
 const dot: NormalizeContext = { separator: ".", supplierCountry: "CN" };
 const comma: NormalizeContext = { separator: ",", supplierCountry: "SE" };
@@ -40,5 +40,33 @@ describe("normalizeField (PRD §7, by kind)", () => {
 
   it("treats blank text as no value", () => {
     expect(normalizeField("TEXT", "   ", dot)).toEqual({ value: null, formatValid: false, ambiguous: false, unitAssumed: false });
+  });
+});
+
+describe("normalizeTyped (a value a person types: every character must belong to it)", () => {
+  const ctx: NormalizeContext = { separator: ".", supplierCountry: "CN" };
+  it.each<[FieldKind, string, string | null]>([
+    ["WEIGHT", "3,165.00 KGS", "3165.000"],
+    ["WEIGHT", "3165", "3165.000"],
+    ["WEIGHT", "2,204.62 lbs", "999.999"],
+    ["WEIGHT", "3.120,0O", null], // letter O for zero
+    ["WEIGHT", "12O", null],
+    ["WEIGHT", "3120 kg 45", null], // two numbers
+    ["WEIGHT", "about 3120", null],
+    ["MONEY", "USD 16,320.00", "16320.00"],
+    ["MONEY", "$16,320.00", "16320.00"],
+    ["MONEY", "16,32O.00", null],
+    ["DECIMAL", "2,400 PCS", "2400"],
+    ["DECIMAL", "2,4OO", null],
+    ["INTEGER", "240 CTNS", "240"],
+    ["INTEGER", "24O", null],
+    ["TEXT", "Company B", "Company B"],
+    ["CONTAINER_LIST", "XZQU4821171", "XZQU4821171"],
+  ])("%s %s → %s", (kind, text, expected) => {
+    expect(normalizeTyped(kind, text, ctx).value).toBe(expected);
+  });
+
+  it("a rejected value is marked invalid", () => {
+    expect(normalizeTyped("WEIGHT", "3.120,0O", ctx)).toMatchObject({ value: null, formatValid: false });
   });
 });

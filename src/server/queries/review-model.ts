@@ -96,6 +96,18 @@ const SLOT = Object.fromEntries(DocType.options.map((d, i) => [d, i])) as Record
 const order = (registry: Record<string, FieldDef>, key: string) => Object.keys(registry).indexOf(key);
 const scopeOrder = (scope: string) => (scope === "shipment" ? 0 : Number(scope.split(":")[1] ?? 0));
 
+/** One stored field as the UI sees it; `needsReview` comes from the blocking-issue list. */
+export function toFieldDTO(f: typeof extractedFields.$inferSelect, docType: DocType, lineNo: number | null, needsReview: boolean): FieldDTO | null {
+  const def = (f.lineItemId ? LINE : HEADER)[f.fieldKey];
+  if (!def) return null;
+  return {
+    id: f.id, documentId: f.documentId, docType, lineNo: f.lineItemId ? lineNo : null, fieldKey: f.fieldKey, label: def.label,
+    kind: def.kind, rawText: f.rawText, value: f.value, display: formatFieldValue(def.kind, f.value), originalAiValue: f.originalAiValue,
+    isConfirmedByHuman: f.status !== "UNREVIEWED", status: f.status, confidence: f.confidence === null ? null : Number(f.confidence),
+    signals: (f.confidenceSignals ?? null) as ConfidenceSignals | null, needsReview, pageNo: f.pageNo, bbox: (f.bbox ?? null) as Box | null, version: f.version,
+  };
+}
+
 export async function getReviewModel(shipmentId: string, viewer: SessionUser): Promise<ReviewModel> {
   const [head] = await db()
     .select({ s: shipments, importer: importers, supplier: suppliers })
@@ -138,15 +150,8 @@ export async function getReviewModel(shipmentId: string, viewer: SessionUser): P
   const fields: FieldDTO[] = fieldRows
     .flatMap(({ f, lineNo }) => {
       const d = docType.get(f.documentId);
-      const def = (f.lineItemId ? LINE : HEADER)[f.fieldKey];
-      if (!d || !def) return [];
-      return [{
-        id: f.id, documentId: f.documentId, docType: d, lineNo: f.lineItemId ? lineNo : null, fieldKey: f.fieldKey, label: def.label,
-        kind: def.kind, rawText: f.rawText, value: f.value, display: formatFieldValue(def.kind, f.value), originalAiValue: f.originalAiValue,
-        isConfirmedByHuman: f.status !== "UNREVIEWED", status: f.status, confidence: f.confidence === null ? null : Number(f.confidence),
-        signals: (f.confidenceSignals ?? null) as ConfidenceSignals | null, needsReview: blockedFields.has(f.id), pageNo: f.pageNo,
-        bbox: (f.bbox ?? null) as Box | null, version: f.version,
-      }];
+      const dto = d ? toFieldDTO(f, d, lineNo, blockedFields.has(f.id)) : null;
+      return dto ? [dto] : [];
     })
     .sort((a, b) =>
       SLOT[a.docType] - SLOT[b.docType] || (a.lineNo ?? 0) - (b.lineNo ?? 0) ||

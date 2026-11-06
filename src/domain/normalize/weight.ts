@@ -10,14 +10,14 @@ export interface ParsedWeight {
 }
 
 // PRD §7 units plus their plurals and long forms. Whole words only, so "CARTONS" is not "TONS".
-const UNIT = /(?<![A-Z])(K\.?G\.?S?|KGM|KILOS?|KILOGRAMS?|LBS?|POUNDS?|MTS?|TONNES?|TONS?)(?![A-Z])/i;
+export const WEIGHT_UNIT = /(?<![A-Z])(K\.?G\.?S?|KGM|KILOS?|KILOGRAMS?|LBS?|POUNDS?|MTS?|TONNES?|TONS?)(?![A-Z])/i;
 
 const kgPer = (unit: string) => (/^[LP]/i.test(unit) ? "0.45359237" : /^[MT]/i.test(unit) ? "1000" : "1");
 
 export function parseWeightKg(text: string, sep: DecimalSeparator | null): ParsedWeight | null {
   const n = parseDecimal(text, sep);
   if (!n) return null;
-  const unit = UNIT.exec(text)?.[1];
+  const unit = WEIGHT_UNIT.exec(text)?.[1];
   return {
     kg: new D(n.value).times(unit ? kgPer(unit) : "1").toFixed(3),
     unitAssumed: unit === undefined,

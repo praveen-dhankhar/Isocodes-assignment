@@ -5,7 +5,7 @@ import { parseDate } from "./date";
 import { parseIncoterm } from "./incoterm";
 import { parseDecimal, parseInteger, type DecimalSeparator } from "./number";
 import { normalizeText, normalizeUnit } from "./text";
-import { parseWeightKg } from "./weight";
+import { parseWeightKg, WEIGHT_UNIT } from "./weight";
 
 export interface NormalizeContext {
   /** The document's decimal separator (detectDecimalSeparator over all its printed numbers). */
@@ -67,4 +67,30 @@ export function normalizeField(kind: FieldKind, text: string, ctx: NormalizeCont
     case "UNIT":
       return read(normalizeUnit(text));
   }
+}
+
+// A typed value is checked token by token: one number, plus only the words its kind allows. Printed text is read
+// leniently (a stray mark next to a number is still the number); a person's input is not, so "3.120,0O" is refused.
+const TOKENS = /[A-Za-z]+|\d[\d.,'’]*|[$€£¥₹]|[^\s]/g;
+const NUMERIC: Partial<Record<FieldKind, (word: string) => boolean>> = {
+  WEIGHT: (w) => WEIGHT_UNIT.exec(w)?.[1]?.length === w.length,
+  MONEY: (w) => /^[A-Z]{3}$/i.test(w),
+  DECIMAL: (w) => /^[A-Z]{1,6}$/i.test(w),
+  INTEGER: (w) => /^[A-Z]{1,6}$/i.test(w),
+};
+
+/** A value a person typed into a field (Correct / Enter): stricter than `normalizeField`, then read the same way. */
+export function normalizeTyped(kind: FieldKind, text: string, ctx: NormalizeContext): NormalizedValue {
+  const wordAllowed = NUMERIC[kind];
+  if (wordAllowed) {
+    const tokens = text.match(TOKENS) ?? [];
+    const numbers = tokens.filter((t) => /^\d/.test(t));
+    const words = tokens.filter((t) => /^[A-Za-z]/.test(t));
+    const symbols = tokens.filter((t) => !/^[\dA-Za-z]/.test(t));
+    const symbolsOk = symbols.every((t) => kind === "MONEY" && /^[$€£¥₹]$/.test(t));
+    // Letters glued to digits ("24O", "2,4OO") are a typo for zero unless they spell a weight unit ("3120kg").
+    const glued = /\d[A-Za-z]|[A-Za-z]\d/.test(text) && kind !== "WEIGHT";
+    if (numbers.length !== 1 || words.length > 1 || !words.every(wordAllowed) || !symbolsOk || glued) return read(null);
+  }
+  return normalizeField(kind, text, ctx);
 }
