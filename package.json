@@ -21,6 +21,8 @@
     "db:seed": "tsx --conditions=react-server --env-file-if-exists=.env.local src/server/db/seed.ts",
     "db:reset": "tsx --conditions=react-server --env-file-if-exists=.env.local scripts/db-reset.ts",
     "samples:generate": "tsx scripts/generate-samples.ts",
+    "fixtures:record": "tsx --conditions=react-server --env-file-if-exists=.env.local scripts/record-fixtures.ts",
+    "eval:extraction": "tsx --conditions=react-server --env-file-if-exists=.env.local scripts/eval-extraction.ts",
     "verify": "pnpm typecheck && pnpm lint && pnpm test && pnpm build"
   },
   "dependencies": {

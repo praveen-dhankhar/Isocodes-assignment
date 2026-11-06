@@ -86,6 +86,7 @@ Exact versions are pinned (no `^`) in `package.json` at scaffold time.
 │   ├── generate-samples.ts       # templates → PDF (Playwright) → scan variants (sharp)
 │   ├── record-fixtures.ts        # live model → fixtures/extractions
 │   ├── eval-extraction.ts        # accuracy/latency of a model against manifest ground truth
+│   ├── model-run.ts              # shared: samples → pages → model, as the extraction service does
 │   └── db-reset.ts               # drop, migrate, seed — refuses non-localhost URLs
 └── src/
     ├── proxy.ts
@@ -534,7 +535,7 @@ type AiError = { code: 'AI_UNAVAILABLE' | 'AI_RATE_LIMITED' | 'AI_INVALID_OUTPUT
 `pnpm fixtures:record` runs the live provider over every bundled sample and writes `fixtures/extractions/<sha256>.json` with `source: "recorded"`, `modelId`, `recordedAt`. Until M6 the seed uses `source: "hand-authored"` files generated from `scripts/sample-data.ts`; the badge shows which. This keeps the demo working without a key while never pretending a hand-written value came from the model.
 
 ### 8.5 Model choice is measured, not assumed
-`pnpm eval:extraction` runs a model over the labelled samples and prints per-field accuracy, JSON-validity rate and p50/p95 latency. Results and the final primary/fallback choice are recorded in `docs/TDD.md`.
+`pnpm eval:extraction --model primary|fallback` runs a model over the labelled samples and prints per-field accuracy (after the app's own normalisation; fields on a deliberately unreadable page excluded), JSON-validity rate and p50/p95 latency. `--model recorded` scores the stored fixtures offline (hand-authored ones score 100%, which checks the scorer). Both scripts share `scripts/model-run.ts`, which prepares pages exactly as the extraction service does. Results and the final primary/fallback choice are recorded in `docs/TDD.md`.
 
 ## 9. Security and privacy architecture
 
