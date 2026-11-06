@@ -1,6 +1,11 @@
+// Chinese and Japanese are written without spaces between words, so a space between two of their characters is noise
+// (a model may insert one). Korean is not: it spaces words, so Hangul is left alone.
+const CJ = "\\p{Script=Han}\\p{Script=Hiragana}\\p{Script=Katakana}";
+const CJK_GAP = new RegExp(`([${CJ}])\\s+(?=[${CJ}])`, "gu");
+
 /** TEXT and IDENTIFIER (PRD §7): trimmed, whitespace collapsed; null when nothing is left. */
 export function normalizeText(text: string): string | null {
-  const value = text.replace(/\s+/g, " ").trim();
+  const value = text.replace(/\s+/g, " ").trim().replace(CJK_GAP, "$1"); // a space inside CJK text means nothing
   return value === "" ? null : value;
 }
 

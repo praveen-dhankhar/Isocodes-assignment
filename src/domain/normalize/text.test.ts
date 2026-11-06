@@ -7,6 +7,12 @@ describe("normalizeText (TEXT, IDENTIFIER)", () => {
     ["CB-2026-1187", "CB-2026-1187"],
     ["   ", null],
     ["", null],
+    // Spaces between CJK characters carry no meaning (bilingual invoices; a model may insert them).
+    ["Solar charge controller 40A / 太阳能 控制器", "Solar charge controller 40A / 太阳能控制器"],
+    ["太阳 能  控制器", "太阳能控制器"],
+    ["40A 太阳能", "40A 太阳能"], // Latin and CJK stay separated
+    ["ベアリング 6205", "ベアリング 6205"],
+    ["태양광 컨트롤러", "태양광 컨트롤러"], // Korean spaces its words
   ])("%j → %j", (text, value) => {
     expect(normalizeText(text)).toBe(value);
   });

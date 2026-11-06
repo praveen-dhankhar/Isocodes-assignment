@@ -154,7 +154,7 @@ The model returns text **exactly as printed**. All conversion happens in pure, u
 | HS_CODE | digits only | Strip dots/spaces; valid if 6–10 digits. No classification (non-goal). |
 | CONTAINER_LIST | `"XZQU4821171\|KQZU2073199"` sorted, uppercase | Each must match `^[A-Z]{3}[UJZ]\d{7}$` **and** pass the ISO 6346 check digit. Spaces/dashes inside a number are removed; duplicates dropped. Invalid numbers stay in the list, flagged, so CC-07 can show them. |
 | IDENTIFIER | trimmed, inner spaces collapsed, uppercase for comparison | |
-| TEXT | trimmed, whitespace collapsed | |
+| TEXT | trimmed, whitespace collapsed; spaces between two Chinese or Japanese characters removed (those scripts don't space words; Korean does and is left alone) | A model reading a bilingual invoice may insert such a space |
 | UNIT | uppercase; mapped to UQC where known (PCS, NOS, SET, KGS, MTR, PRS) | Unknown kept as printed (A-21). |
 
 ## 8. Confidence policy
