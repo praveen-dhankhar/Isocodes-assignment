@@ -63,6 +63,6 @@ CI (`.github/workflows/ci.yml`) runs typecheck, lint, unit and integration tests
 
 ## Deploy
 
-1. **Supabase:** create a project in region **South Asia (Mumbai) `ap-south-1`**. Its transaction-pooler connection string becomes `DATABASE_URL`.
+1. **Supabase:** create a project in region **South Asia (Mumbai) `ap-south-1`**. Its transaction-pooler connection string becomes `DATABASE_URL`. Run `pnpm db:migrate` against it and create a **private** Storage bucket `documents`.
 2. **Vercel:** import this GitHub repository. `vercel.json` pins functions to **`bom1`** (Mumbai).
 3. **Environment variables** go in Vercel → Project → Settings → Environment Variables, never in the repo. The names are in [API_SPECS §8](docs/API_SPECS.md#8-environment-variables-names-only--values-never-in-the-repo); `SUPABASE_SERVICE_ROLE_KEY` and `NVIDIA_API_KEY` are server-only and must never get a `NEXT_PUBLIC_` prefix.

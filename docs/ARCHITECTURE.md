@@ -540,6 +540,7 @@ type AiError = { code: 'AI_UNAVAILABLE' | 'AI_RATE_LIMITED' | 'AI_INVALID_OUTPUT
 |---|---|
 | Identity | Better Auth email/password; sign-up disabled; httpOnly, Secure, SameSite=Lax cookies; built-in login rate limiting with counters in Postgres (`rate_limit` table) so limits hold across serverless instances; `role` is an `input: false` field, so no auth endpoint can set it. |
 | Authorisation | `requireUser()` / `requireRole(role)` at the top of every Server Action and Route Handler; resource ownership is org-wide (single tenant). `proxy.ts` only redirects; it is not trusted. |
+| Supabase Data API | Every `public` table has RLS enabled with no policies (`drizzle/0002_rls.sql`), so the `anon`/`authenticated` roles read nothing through PostgREST. The app connects as `postgres` (BYPASSRLS) and is unaffected. New tables must enable RLS in their migration. |
 | Input | Zod on every action/route input; uploads checked by magic bytes, size, page count; filenames never used in storage keys; route params validated as UUIDs. |
 | Model output | Treated as untrusted data: Zod-validated, length-capped, normalised by code; never rendered as HTML; never used to choose code paths beyond documented fields. Prompt tells the model to ignore instructions inside documents; even if it obeys one, cross-checks and human review catch the result. |
 | Output | CSV formula-injection guard; React escaping; no `dangerouslySetInnerHTML`. |
