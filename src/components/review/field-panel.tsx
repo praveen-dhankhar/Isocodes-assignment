@@ -4,6 +4,7 @@ import { Bot, FileText, PencilLine } from "lucide-react";
 import { DOC_LABEL, type DocType } from "@/domain/fields";
 import type { FieldDTO, ReviewModel } from "@/server/queries/review-model";
 import type { DocumentDTO } from "@/server/queries/shipments";
+import { AddLineButton, RemoveLineButton } from "./document-actions";
 import type { FieldActions } from "./field-actions";
 import { FieldRow } from "./field-row";
 import { MODE_LABEL } from "./labels";
@@ -61,12 +62,23 @@ export function FieldPanel({ model, ...rowProps }: RowProps & { model: ReviewMod
             ) : (
               <>
                 <Rows fields={header} {...rowProps} />
-                {lines.map((n) => (
-                  <div key={n} className="mt-3">
-                    <h3 className="px-2 pb-1 text-xs font-medium text-muted-foreground">Line {n}</h3>
-                    <Rows fields={fields.filter((f) => f.lineNo === n)} {...rowProps} />
+                {lines.map((n) => {
+                  const cells = fields.filter((f) => f.lineNo === n);
+                  return (
+                    <div key={n} className="mt-3">
+                      <h3 className="flex items-center justify-between px-2 pb-1 text-xs font-medium text-muted-foreground">
+                        Line {n}
+                        {rowProps.editable && cells.every((f) => f.originalAiValue === null) && <RemoveLineButton documentId={doc.id} lineNo={n} version={model.shipment.version} />}
+                      </h3>
+                      <Rows fields={cells} {...rowProps} />
+                    </div>
+                  );
+                })}
+                {rowProps.editable && doc.docType !== "BILL_OF_LADING" && (
+                  <div className="mt-2">
+                    <AddLineButton documentId={doc.id} version={model.shipment.version} />
                   </div>
-                ))}
+                )}
               </>
             )}
           </section>

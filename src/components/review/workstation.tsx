@@ -102,7 +102,7 @@ export function Workstation({ model }: { model: ReviewModel }) {
       </div>
       <div className="grid min-h-0 flex-1 lg:grid-cols-[55fr_45fr]">
         <div className={cn("min-h-[70vh] border-r lg:min-h-0", tab !== "document" && "max-lg:hidden")}>
-          <DocumentViewer view={view} onView={onView} documents={model.shipment.documents} pages={model.pages} highlight={highlight} highlightLabel={source?.label} />
+          <DocumentViewer view={view} onView={onView} documents={model.shipment.documents} pages={model.pages} highlight={highlight} highlightLabel={source?.label} shipmentId={model.shipment.id} version={model.shipment.version} readOnly={!editable} />
         </div>
         <div className={cn("flex min-h-0 flex-col", tab === "document" && "max-lg:hidden")}>
           <div className="min-h-0 flex-1 overflow-y-auto">

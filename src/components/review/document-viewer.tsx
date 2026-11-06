@@ -8,6 +8,7 @@ import { DOC_LABEL, type DocType } from "@/domain/fields";
 import { cn } from "@/lib/cn";
 import type { DocumentDTO } from "@/server/queries/shipments";
 import type { PageDTO } from "@/server/queries/review-model";
+import { MarkUnreadableButton, ReplaceFileButton, SlotUpload } from "./document-actions";
 import { SHORT } from "./labels";
 
 export const SLOTS: DocType[] = ["INVOICE", "PACKING_LIST", "BILL_OF_LADING"];
@@ -29,6 +30,9 @@ interface Props {
   pages: Record<DocType, PageDTO[]>;
   highlight: { x: number; y: number; w: number; h: number } | null;
   highlightLabel?: string;
+  shipmentId: string;
+  version: number;
+  readOnly: boolean;
 }
 
 const IconButton = ({ label, keys, onClick, disabled, children }: { label: string; keys: string; onClick: () => void; disabled?: boolean; children: React.ReactNode }) => (
@@ -45,7 +49,7 @@ const IconButton = ({ label, keys, onClick, disabled, children }: { label: strin
 );
 
 /** S4 left pane (ARCHITECTURE §11): document tabs, pages, zoom, rotation and the source box of the focused value. */
-export function DocumentViewer({ view, onView, documents, pages, highlight, highlightLabel }: Props) {
+export function DocumentViewer({ view, onView, documents, pages, highlight, highlightLabel, shipmentId, version, readOnly }: Props) {
   const doc = documents.find((d) => d.docType === view.docType);
   const docPages = pages[view.docType];
   const page = docPages.find((p) => p.pageNo === view.pageNo) ?? docPages[0];
@@ -112,9 +116,28 @@ export function DocumentViewer({ view, onView, documents, pages, highlight, high
         </div>
       </div>
 
+      {doc && (
+        <div className="flex flex-wrap items-center gap-1 border-b px-3 py-1 text-xs text-muted-foreground">
+          <span className="min-w-0 flex-1 truncate" title={doc.originalFilename}>
+            {doc.originalFilename}
+            {page?.readable === false && " · this page is marked unreadable"}
+          </span>
+          {page && (
+            <MarkUnreadableButton
+              documentId={doc.id}
+              pageNo={page.pageNo}
+              version={version}
+              reason={readOnly ? "Exported shipments are read-only until reopened" : page.readable === false ? "Already marked unreadable" : doc.status !== "EXTRACTED" && doc.status !== "MANUAL" ? "The document has not been read yet" : null}
+            />
+          )}
+          <ReplaceFileButton shipmentId={shipmentId} docType={view.docType} readOnly={readOnly} />
+        </div>
+      )}
       <div className="min-h-0 flex-1 overflow-auto bg-muted/40 p-4">
         {!doc ? (
-          <Empty title={`No ${DOC_LABEL[view.docType].toLowerCase()} uploaded`} body="Its fields and the checks that need it stay open until it is added." />
+          <Empty title={`No ${DOC_LABEL[view.docType].toLowerCase()} uploaded`} body="Its fields and the checks that need it stay open until it is added.">
+            {!readOnly && <SlotUpload shipmentId={shipmentId} docType={view.docType} />}
+          </Empty>
         ) : !page ? (
           <Empty title="Pages are not ready" body={doc.status === "FAILED" ? "The file was stored but could not be rendered." : "Pages appear here once the file has been processed."} />
         ) : (
@@ -138,12 +161,13 @@ export function DocumentViewer({ view, onView, documents, pages, highlight, high
   );
 }
 
-function Empty({ title, body }: { title: string; body: string }) {
+function Empty({ title, body, children }: { title: string; body: string; children?: React.ReactNode }) {
   return (
     <div className="mx-auto flex max-w-sm flex-col items-center gap-2 py-16 text-center">
       <FileX2 aria-hidden className="size-8 text-muted-foreground" />
       <p className="font-medium">{title}</p>
       <p className="text-sm text-muted-foreground text-pretty">{body}</p>
+      {children}
     </div>
   );
 }

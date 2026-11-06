@@ -8,6 +8,7 @@ import { StateBadge } from "@/components/ui/state-badge";
 import { cn } from "@/lib/cn";
 import type { IssueDTO, ReviewModel } from "@/server/queries/review-model";
 import { CheckList, CheckSummary } from "./check-card";
+import { KeepTypeButton } from "./document-actions";
 import { SHORT } from "./labels";
 import { QueryImporterDialog, ResumeDialog } from "./query-importer-dialog";
 import { ResolveCheckDialog } from "./resolve-check-dialog";
@@ -72,6 +73,11 @@ export function IssuesPanel({ model, focus, select }: { model: ReviewModel; focu
                   <ReasonButton size="sm" variant="outline" reason={queryReason} onClick={() => setDialog({ kind: "query", checkId: check.id })}>
                     Query importer
                   </ReasonButton>
+                </div>
+              )}
+              {issue.type === "WRONG_DOCUMENT_TYPE" && issue.documentId && !exported && (
+                <div className="px-3 pb-3">
+                  <KeepTypeButton documentId={issue.documentId} docType={model.shipment.documents.find((d) => d.id === issue.documentId)?.docType ?? "INVOICE"} version={model.shipment.version} />
                 </div>
               )}
               {issue.type === "IMPORTER_QUERY_OPEN" && (

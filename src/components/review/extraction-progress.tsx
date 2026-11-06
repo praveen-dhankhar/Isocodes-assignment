@@ -6,14 +6,15 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { DOC_LABEL } from "@/domain/fields";
 import type { ShipmentStatusDTO } from "@/server/queries/shipments";
+import { EnterManuallyButton } from "./document-actions";
 
 const POLL_MS = 2000;
 const signature = (s: Pick<ShipmentStatusDTO, "version" | "documents">) => `${s.version}:${s.documents.map((d) => `${d.id}=${d.status}`).join(",")}`;
 
 /**
  * PRD F1.5/F2: extraction starts for every uploaded document when the review screen opens, and the screen polls
- * GET /status every 2 s while anything is extracting (ARCHITECTURE §11). A failed document offers Retry here;
- * "Enter manually" sits with the review actions.
+ * GET /status every 2 s while anything is extracting (ARCHITECTURE §11). A failed document offers Retry and
+ * Enter manually (PRD F2.3).
  */
 export function ExtractionProgress({ shipment }: { shipment: ShipmentStatusDTO }) {
   const router = useRouter();
@@ -74,9 +75,12 @@ export function ExtractionProgress({ shipment }: { shipment: ShipmentStatusDTO }
             </span>
             {errors[d.id] && <span>{errors[d.id]}</span>}
             {!inFlight && (d.status === "FAILED" || errors[d.id]) && (
-              <Button size="xs" variant="outline" className="ml-auto" onClick={() => void start(d.id)}>
-                Retry
-              </Button>
+              <span className="ml-auto flex gap-2">
+                <Button size="xs" variant="outline" onClick={() => void start(d.id)}>
+                  Retry
+                </Button>
+                {d.status === "FAILED" && <EnterManuallyButton documentId={d.id} version={shipment.version} />}
+              </span>
             )}
           </div>
         );

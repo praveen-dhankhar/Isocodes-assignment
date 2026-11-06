@@ -14,12 +14,12 @@ test("S2, S5, S6 and S7 at 390 px", async ({ page }) => {
   await noSidewaysScroll(page);
 
   await openShipment(page, "SHP-24817");
-  await page.getByRole("link", { name: "Approval" }).click();
+  await page.getByRole("navigation", { name: "Shipment" }).getByRole("link", { name: "Approval" }).click();
   await expect(page.getByText("Submitted by Vikram Shah")).toBeVisible();
   await expect(page.getByRole("button", { name: "Approve" })).toBeVisible();
   await noSidewaysScroll(page);
 
-  await page.getByRole("link", { name: "Export" }).click();
+  await page.getByRole("navigation", { name: "Shipment" }).getByRole("link", { name: "Export" }).click();
   await expect(page.getByRole("heading", { name: "Export is blocked" })).toBeVisible();
   await noSidewaysScroll(page); // the CF-1 table scrolls inside its own box
 
