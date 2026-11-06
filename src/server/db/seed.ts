@@ -7,8 +7,9 @@ import { env } from "@/lib/env";
 import { auth } from "../auth";
 import { closeDb, db } from "./client";
 import { importers, suppliers, user } from "./schema";
+import { seedScenarios } from "./seed-scenarios";
 
-// API_SPECS §7.2: users and masters only; shipments are seeded through the real pipeline later (M6).
+// API_SPECS §7.2: users and masters here; the sample shipments go through the real pipeline in seed-scenarios.ts.
 // Everything here is invented (A-13): @example.test / @demo.test addresses, +91 90000 0000x numbers.
 
 const USERS: Array<{ email: string; name: string; role: Role }> = [
@@ -77,10 +78,11 @@ async function main() {
     throw new Error("Refusing to seed a non-local database; pass --allow-remote if you mean it");
   }
   const created = await seed();
-  const [counts] = await db().execute<{ users: number; importers: number; suppliers: number }>(
-    sql`select (select count(*) from "user")::int as users, (select count(*) from importers)::int as importers, (select count(*) from suppliers)::int as suppliers`,
+  const scenarios = await seedScenarios();
+  const [counts] = await db().execute<{ users: number; importers: number; suppliers: number; shipments: number }>(
+    sql`select (select count(*) from "user")::int as users, (select count(*) from importers)::int as importers, (select count(*) from suppliers)::int as suppliers, (select count(*) from shipments)::int as shipments`,
   );
-  console.log(`seed: added ${created.users} users, ${created.importers} importers, ${created.suppliers} suppliers; now ${JSON.stringify(counts)}`);
+  console.log(`seed: added ${created.users} users, ${created.importers} importers, ${created.suppliers} suppliers, ${scenarios.shipments} sample shipments; now ${JSON.stringify(counts)}`);
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {

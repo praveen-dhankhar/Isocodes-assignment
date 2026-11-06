@@ -26,7 +26,7 @@ corepack enable                  # uses the pnpm version pinned in package.json
 pnpm install
 docker compose up -d db          # Postgres 16 on localhost:5433: databases customs and customs_test
 cp .env.example .env.local       # then fill it in (below)
-pnpm db:reset                    # migrate and seed demo users + master data (local databases only)
+pnpm db:reset                    # migrate and seed demo users, masters and the 9 sample shipments (local only)
 pnpm dev                         # http://localhost:3000
 ```
 
@@ -55,7 +55,7 @@ Leave `NVIDIA_API_KEY` empty to run without the live model. Every variable is de
 | `pnpm test` / `pnpm test:watch` | Unit tests (`*.test.ts`) |
 | `pnpm test:int` | Integration tests (`*.int.test.ts`) against `DATABASE_URL_TEST` |
 | `pnpm db:generate` / `pnpm db:migrate` | New migration from `src/server/db/schema.ts` / apply migrations |
-| `pnpm db:seed` | Demo users, importers, suppliers; refuses a non-local database unless `--allow-remote` |
+| `pnpm db:seed` | Demo users, importers, suppliers and the sample shipments SHP-24811…24819 (uploaded and extracted from recorded samples); refuses a non-local database unless `--allow-remote` |
 | `pnpm db:reset` | Drop, migrate and seed; local databases only |
 | `pnpm verify` | typecheck + lint + unit tests + build; run before every commit |
 

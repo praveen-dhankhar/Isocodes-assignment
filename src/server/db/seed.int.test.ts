@@ -1,11 +1,20 @@
-import { inArray } from "drizzle-orm";
+import { and, eq, inArray } from "drizzle-orm";
 import { describe, expect, it } from "vitest";
 import { AppError } from "@/lib/errors";
+import { SAMPLE_REFS } from "../../../scripts/sample-data";
 import { auth } from "../auth";
 import { requireRole } from "../session";
 import { db } from "./client";
-import { importers, suppliers, user } from "./schema";
+import { crossCheckResults, documents, importers, shipments, suppliers, user } from "./schema";
 import { isLocalDatabase, seed, supplierKey } from "./seed";
+import { seedScenarios } from "./seed-scenarios";
+
+// Derived states only at M6; the human steps (M8.4, M9.4) move them on. SHP-24816 blocks on an ambiguous US date and
+// "1,000 KGS"; SHP-24817 on the bilingual description read at 0.78.
+const SEEDED_STATUS: Record<string, string> = {
+  "SHP-24811": "NEEDS_REVIEW", "SHP-24812": "EXTRACTED", "SHP-24813": "EXTRACTED", "SHP-24814": "NEEDS_REVIEW", "SHP-24815": "NEEDS_REVIEW",
+  "SHP-24816": "NEEDS_REVIEW", "SHP-24817": "NEEDS_REVIEW", "SHP-24818": "NEEDS_REVIEW", "SHP-24819": "DRAFT",
+};
 
 process.env.SEED_DEMO_PASSWORD ??= "integration-seed-password"; // read lazily by env(); test database only
 const password = () => process.env.SEED_DEMO_PASSWORD ?? "";
@@ -55,4 +64,22 @@ describe("seed (API_SPECS §7.2)", () => {
   ])("isLocalDatabase(%s) → %s", (url, expected) => {
     expect(isLocalDatabase(url)).toBe(expected);
   });
+});
+
+describe("seedScenarios (PLAN M6.1)", () => {
+  it("creates the nine sample shipments through the pipeline, once, in their derived states", async () => {
+    await seed();
+    await seedScenarios();
+    expect(await seedScenarios()).toEqual({ shipments: 0 });
+
+    const rows = await db().select().from(shipments).where(inArray(shipments.ref, SAMPLE_REFS));
+    const byRef = Object.fromEntries(rows.map((r) => [r.ref, r]));
+    expect(Object.fromEntries(rows.map((r) => [r.ref, r.status]))).toEqual(SEEDED_STATUS);
+    const check = async (ref: string, ruleId: string) =>
+      db().select({ status: crossCheckResults.status, scope: crossCheckResults.scope }).from(crossCheckResults).where(and(eq(crossCheckResults.shipmentId, byRef[ref]?.id ?? ""), eq(crossCheckResults.ruleId, ruleId)));
+    expect(await check("SHP-24811", "CC-03")).toEqual([{ status: "FAIL", scope: "shipment" }]);
+    expect((await check("SHP-24814", "CC-06")).filter((c) => c.status === "FAIL")).toEqual([{ status: "FAIL", scope: "line:2" }]);
+    expect(await db().select().from(documents).where(eq(documents.shipmentId, byRef["SHP-24819"]?.id ?? ""))).toHaveLength(1);
+    expect((await db().select().from(documents).where(inArray(documents.shipmentId, rows.map((r) => r.id)))).every((d) => d.mode === "SAMPLE")).toBe(true);
+  }, 120_000); // 26 page renders on the first run
 });

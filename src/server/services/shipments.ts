@@ -13,15 +13,17 @@ import { audit } from "./audit";
 import { uploadDocument } from "./documents";
 import { recomputeShipment } from "./recompute";
 
-/** API_SPECS §5.1: a DRAFT shipment with the next ref from shipment_ref_seq (SHP-24820 onwards). */
-export async function createShipment(input: { importerId: string; supplierId: string; actorId: string }): Promise<{ shipmentId: string; ref: string }> {
+/**
+ * API_SPECS §5.1: a DRAFT shipment with the next ref from shipment_ref_seq (SHP-24820 onwards). Only the seed passes
+ * an explicit `ref` (its sample refs are ≤ SHP-24819, ARCHITECTURE §4.2).
+ */
+export async function createShipment(input: { importerId: string; supplierId: string; actorId: string; ref?: string }): Promise<{ shipmentId: string; ref: string }> {
   return db().transaction(async (tx) => {
     const [importer] = await tx.select({ id: importers.id }).from(importers).where(eq(importers.id, input.importerId));
     const [supplier] = await tx.select({ id: suppliers.id }).from(suppliers).where(eq(suppliers.id, input.supplierId));
     if (!importer || !supplier) throw new AppError("NOT_FOUND", !importer ? "Importer not found" : "Supplier not found");
 
-    const [next] = await tx.execute<{ n: string }>(sql`select nextval('shipment_ref_seq')::text as n`);
-    const ref = `SHP-${next?.n ?? ""}`;
+    const ref = input.ref ?? `SHP-${(await tx.execute<{ n: string }>(sql`select nextval('shipment_ref_seq')::text as n`))[0]?.n ?? ""}`;
     const [shipment] = await tx
       .insert(shipments)
       .values({ ref, importerId: importer.id, supplierId: supplier.id, createdBy: input.actorId })
@@ -44,7 +46,7 @@ const MIME_BY_EXT: Record<string, string> = { pdf: "application/pdf", png: "imag
  * API_SPECS §5.1 "Load sample set": a new shipment for the sample's importer and supplier, with the bundled files
  * sent through the normal upload path. The client then starts extraction for each document.
  */
-export async function createSampleShipment(input: { sampleRef: string; actorId: string }) {
+export async function createSampleShipment(input: { sampleRef: string; actorId: string; ref?: string }) {
   const sample = SAMPLES.find((s) => s.ref === input.sampleRef);
   if (!sample) throw new AppError("NOT_FOUND", "Unknown sample set");
   const root = path.join(process.cwd(), "fixtures/samples");
@@ -56,7 +58,7 @@ export async function createSampleShipment(input: { sampleRef: string; actorId: 
   const [supplier] = await db().select({ id: suppliers.id }).from(suppliers).where(eq(suppliers.normalizedName, supplierKey));
   if (!importer || !supplier) throw new AppError("NOT_FOUND", "The sample's importer and supplier are not set up; run pnpm db:seed");
 
-  const { shipmentId, ref } = await createShipment({ importerId: importer.id, supplierId: supplier.id, actorId: input.actorId });
+  const { shipmentId, ref } = await createShipment({ importerId: importer.id, supplierId: supplier.id, actorId: input.actorId, ref: input.ref });
   const documentIds: Partial<Record<DocType, string>> = {};
   for (const docType of sample.uploaded) {
     const file = files.find((f) => f.docType === docType);

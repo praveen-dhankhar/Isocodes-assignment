@@ -3,6 +3,7 @@ import { migrate } from "drizzle-orm/postgres-js/migrator";
 import postgres from "postgres";
 import { closeDb } from "@/server/db/client";
 import { isLocalDatabase, seed } from "@/server/db/seed";
+import { seedScenarios } from "@/server/db/seed-scenarios";
 import { env } from "@/lib/env";
 
 // `pnpm db:reset`: drop everything, migrate, seed. Local databases only — no flag overrides this one.
@@ -21,7 +22,8 @@ async function main() {
   }
 
   const created = await seed();
-  console.log(`db:reset: migrated and seeded ${created.users} users, ${created.importers} importers, ${created.suppliers} suppliers`);
+  const scenarios = await seedScenarios();
+  console.log(`db:reset: migrated and seeded ${created.users} users, ${created.importers} importers, ${created.suppliers} suppliers, ${scenarios.shipments} sample shipments`);
 }
 
 main()
