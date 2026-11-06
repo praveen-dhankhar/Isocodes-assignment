@@ -1,4 +1,6 @@
 import { existsSync } from "node:fs";
+import { tmpdir } from "node:os";
+import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { defineConfig } from "vitest/config";
 
@@ -38,7 +40,11 @@ export default defineConfig({
           name: "integration",
           include: ["src/**/*.int.test.ts"],
           // The app's env() reads DATABASE_URL; point it at the test database, never the dev one.
-          env: { DATABASE_URL: process.env.DATABASE_URL_TEST ?? "" },
+          env: {
+            DATABASE_URL: process.env.DATABASE_URL_TEST ?? "",
+            STORAGE_DRIVER: "local",
+            LOCAL_STORAGE_DIR: path.join(tmpdir(), "customs-int-blobs"),
+          },
           globalSetup: ["./vitest.integration-setup.ts"],
           fileParallelism: false, // one database; files share it
         },

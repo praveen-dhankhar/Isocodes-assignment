@@ -10,7 +10,7 @@
 - **IDs** are UUID v4 strings. Route params are validated with `z.uuid()`.
 - **Auth.** Every route and action calls `requireUser()`; role-restricted ones call `requireRole('DOCUMENTATION_MANAGER')`. Unauthenticated → 401; wrong role → 403.
 - **Optimistic concurrency.** Mutations take `expectedVersion` (shipment) or `expectedFieldVersion` (field). Every successful mutation returns the new shipment `version`; the client keeps it.
-- **Validation.** Every input has a Zod schema in the same file as the action/route, exported for tests.
+- **Validation.** Every input has a Zod schema in the same file as the action/route. Next.js lets a `"use server"` module export only async functions and a `route.ts` only its handlers and segment config, so these schemas stay module-private; tests exercise the services they call.
 
 ### 1.1 Result type (Server Actions)
 ```ts
@@ -316,15 +316,17 @@ export interface ReviewModel {                                  // built server-
 | `GET /api/documents/:docId/original` | user | original file download |
 | `POST /api/shipments/:id/export` | user | gate + generate CSV |
 | `GET /api/shipments/:id/exports/:exportId` | user | re-download an earlier export |
+| `GET /api/health` | public | deploy smoke check: renders a blank in-memory PDF page (PDF.js, @napi-rs/canvas, sharp); no data |
 
 ### 4.1 `POST /api/shipments/:id/documents` — `runtime = 'nodejs'`, `maxDuration = 60`
 Request: `multipart/form-data` with `docType` ∈ `INVOICE | PACKING_LIST | BILL_OF_LADING` and `file`.
 ```ts
 export const UploadForm = z.object({
   docType: z.enum(['INVOICE', 'PACKING_LIST', 'BILL_OF_LADING']),
-  file: z.instanceof(File).refine((f) => f.size > 0, 'Empty file').refine((f) => f.size <= 4 * 1024 * 1024, 'FILE_TOO_LARGE'),
+  file: z.instanceof(File).refine((f) => f.size > 0, 'Empty file'),
 });
 ```
+Size, type (magic bytes) and page count are checked by the upload service, so an oversize file is `413 FILE_TOO_LARGE` rather than a 422.
 - 201 `{ document: DocumentDTO, shipment: ShipmentStatusDTO }`
 - 409 `INVALID_STATE` if shipment is `EXPORTED`; 413; 415; 422.
 - Side effects: supersedes the current document in that slot (A-23); audit `DOCUMENT_UPLOADED`; status re-derived (approval invalidated if needed).

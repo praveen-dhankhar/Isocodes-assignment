@@ -108,6 +108,7 @@ Exact versions are pinned (no `^`) in `package.json` at scaffold time.
     │       ├── shipments/[id]/export/route.ts                    # POST export (gate)
     │       ├── shipments/[id]/exports/[exportId]/route.ts        # GET re-download
     │       ├── documents/[docId]/original/route.ts               # GET original file
+    │       ├── health/route.ts                                   # GET deploy smoke check (no auth, no data)
     │       └── documents/[docId]/pages/[page]/route.ts           # GET page image
     ├── components/
     │   ├── ui/                   # shadcn primitives + num.tsx, mono.tsx, state-badge.tsx
@@ -138,7 +139,7 @@ Exact versions are pinned (no `^`) in `package.json` at scaffold time.
     │   ├── pdf/ render.ts text-layer.ts
     │   ├── uploads/validate.ts
     │   ├── ai/ provider.ts schemas.ts prompts.ts images.ts nvidia.ts sample.ts
-    │   ├── services/ snapshot.ts recompute.ts documents.ts extraction.ts manual-entry.ts
+    │   ├── services/ snapshot.ts recompute.ts shipments.ts documents.ts extraction.ts manual-entry.ts
     │   │             review.ts resolutions.ts approval.ts export.ts audit.ts
     │   ├── queries/ shipments.ts review-model.ts accuracy.ts history.ts
     │   └── actions/ shipments.ts review.ts approval.ts importers.ts
