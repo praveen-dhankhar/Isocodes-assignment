@@ -13,6 +13,9 @@
 # testing
 /coverage
 
+# local file storage (STORAGE_DRIVER=local)
+/.data
+
 # next.js
 /.next/
 /out/
