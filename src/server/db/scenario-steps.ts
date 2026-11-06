@@ -1,6 +1,8 @@
 import "server-only";
 import { and, eq, isNull, sql } from "drizzle-orm";
 import type { DocType, FieldKey } from "@/domain/fields";
+import { approveShipment } from "../services/approval";
+import { exportShipment } from "../services/export";
 import { raiseImporterQuery } from "../services/resolutions";
 import { confirmField, setFieldValue, submitForApproval } from "../services/review";
 import { db } from "./client";
@@ -43,6 +45,9 @@ export function steps(shipmentId: string) {
       await confirmField({ fieldId: f.id, expectedFieldVersion: f.version, actorId: who.id });
     },
     submit: async (who: Person) => submitForApproval({ shipmentId, expectedVersion: await version(shipmentId), actor: who }),
+    /** Approve, acknowledging every accepted discrepancy (none on the seeded shipments that get this far). */
+    approve: async (who: Person) => approveShipment({ shipmentId, expectedVersion: await version(shipmentId), acknowledgedCheckIds: [], actor: who }),
+    export: async (who: Person) => exportShipment({ shipmentId, expectedVersion: await version(shipmentId), actor: who }),
     query: async (who: Person, ruleIds: string[], message: string) => {
       const checks = await db().select({ id: crossCheckResults.id, ruleId: crossCheckResults.ruleId }).from(crossCheckResults).where(eq(crossCheckResults.shipmentId, shipmentId));
       const checkIds = checks.filter((c) => ruleIds.includes(c.ruleId)).map((c) => c.id);
@@ -57,16 +62,24 @@ export async function touchedByPeople(shipmentId: string): Promise<boolean> {
   return (row?.n ?? 0) > 0;
 }
 
-/** PLAN M8.4 targets: SHP-24812 stays EXTRACTED; SHP-24817 → READY_FOR_APPROVAL; SHP-24818 → ON_HOLD. */
-export const HUMAN_SCENARIOS: Record<string, (s: ReturnType<typeof steps>, people: { asha: Person; vikram: Person }) => Promise<unknown>> = {
-  "SHP-24813": async (s, { asha }) => {
+/**
+ * PLAN M8.4 and M9.4 targets: SHP-24812 stays EXTRACTED; SHP-24813 → APPROVED; SHP-24816 → EXPORTED;
+ * SHP-24817 → READY_FOR_APPROVAL; SHP-24818 → ON_HOLD. Meera approves what Asha or Vikram submitted (A-14).
+ */
+export const HUMAN_SCENARIOS: Record<string, (s: ReturnType<typeof steps>, people: { asha: Person; vikram: Person; meera: Person }) => Promise<unknown>> = {
+  "SHP-24813": async (s, { asha, meera }) => {
     await s.correct(asha, "PACKING_LIST", "netWeight", "560.00 KG"); // read 580
     await s.correct(asha, "INVOICE", "hsCode", "8413.60.10", 1); // a digit dropped
+    await s.submit(asha);
+    await s.approve(meera);
   },
-  "SHP-24816": async (s, { asha }) => {
+  "SHP-24816": async (s, { asha, vikram, meera }) => {
     await s.correct(asha, "INVOICE", "invoiceNumber", "US-2026-4471"); // 1 read as 7
     await s.confirm(asha, "INVOICE", "invoiceDate"); // US supplier: 10/03 is 3 October
-    await s.confirm(asha, "BILL_OF_LADING", "grossWeight"); // "1,000 KGS" is one thousand
+    await s.confirm(vikram, "BILL_OF_LADING", "grossWeight"); // "1,000 KGS" is one thousand
+    await s.submit(vikram);
+    await s.approve(meera);
+    await s.export(meera);
   },
   "SHP-24817": async (s, { vikram }) => {
     await s.correct(vikram, "INVOICE", "unitPrice", "11.30", 1); // 3 read as 8

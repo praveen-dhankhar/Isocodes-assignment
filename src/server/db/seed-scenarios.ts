@@ -18,10 +18,11 @@ const recordedOnly = (sha256: string) =>
  * extracted. Then the human steps (scenario-steps.ts) run once per shipment. Run after `seed()` (it needs the users).
  */
 export async function seedScenarios(): Promise<{ shipments: number }> {
-  const people = await db().select({ id: user.id, email: user.email, role: user.role }).from(user).where(inArray(user.email, ["asha@demo.test", "vikram@demo.test"]));
+  const people = await db().select({ id: user.id, email: user.email, role: user.role }).from(user).where(inArray(user.email, ["asha@demo.test", "vikram@demo.test", "meera@demo.test"]));
   const asha = people.find((p) => p.email === "asha@demo.test");
   const vikram = people.find((p) => p.email === "vikram@demo.test");
-  if (!asha || !vikram) throw new Error("The demo users are missing; seed them first");
+  const meera = people.find((p) => p.email === "meera@demo.test");
+  if (!asha || !vikram || !meera) throw new Error("The demo users are missing; seed them first");
   const existing = new Map(
     (await db().select({ id: shipments.id, ref: shipments.ref }).from(shipments).where(inArray(shipments.ref, SAMPLES.map((s) => s.ref)))).map((r) => [r.ref, r.id]),
   );
@@ -42,7 +43,7 @@ export async function seedScenarios(): Promise<{ shipments: number }> {
       if (document.status !== "EXTRACTED") throw new Error(`${sample.ref} ${document.docType}: extraction ${document.status} ${document.errorCode ?? ""}`);
     }
     const human = HUMAN_SCENARIOS[sample.ref];
-    if (human && !(await touchedByPeople(shipmentId))) await human(steps(shipmentId), { asha, vikram });
+    if (human && !(await touchedByPeople(shipmentId))) await human(steps(shipmentId), { asha, vikram, meera });
   }
   return { shipments: created };
 }
