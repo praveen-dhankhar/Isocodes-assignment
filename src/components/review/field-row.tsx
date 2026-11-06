@@ -47,7 +47,7 @@ export function FieldRow({ field, selected, onSelect, editing, onEdit, actions, 
   const score = field.confidence === null ? "—" : field.confidence.toFixed(2);
 
   return (
-    <div ref={ref} tabIndex={-1} aria-label={`${field.label}: ${field.value === null ? "not found" : field.display}`} data-field-id={field.id} className={cn("outline-none grid grid-cols-[minmax(7rem,2fr)_minmax(0,3fr)_auto] items-center gap-x-3 gap-y-1 rounded-md px-2 py-1.5 text-sm", selected && "bg-muted")}>
+    <div ref={ref} tabIndex={-1} aria-label={`${field.label}: ${field.value === null ? "not found" : field.display}`} data-field-id={field.id} className={cn("outline-none grid grid-cols-[minmax(7rem,2fr)_minmax(0,3fr)_auto] items-center gap-x-3 gap-y-1 rounded-md px-2 py-1.5 text-sm", field.needsReview && "bg-state-low-bg/60", selected && "bg-muted")}>
       <button type="button" onClick={onSelect} className="rounded-sm text-left text-muted-foreground outline-none hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50">
         {field.label}
         {field.lineNo !== null && <span className="sr-only"> (line {field.lineNo}, {SHORT[field.docType]})</span>}
@@ -91,7 +91,7 @@ export function FieldRow({ field, selected, onSelect, editing, onEdit, actions, 
         <FieldEditor field={field} actions={actions} onDone={() => onEdit(false)} />
       ) : (
         editable &&
-        selected && (
+        (selected || field.needsReview) && ( // uncertain values keep their actions one click away
           <div className="col-span-3 flex flex-wrap items-center gap-2 pt-1">
             {field.value !== null && field.status === "UNREVIEWED" && (
               <Button size="xs" disabled={actions.pending} onClick={() => void actions.confirm(field)} aria-keyshortcuts="Enter">

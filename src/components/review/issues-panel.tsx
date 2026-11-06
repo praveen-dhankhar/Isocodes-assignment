@@ -1,6 +1,6 @@
 "use client";
 
-import { CircleAlert, FileWarning, MessageSquareMore } from "lucide-react";
+import { Check, CircleAlert, FileWarning, MessageSquareMore, PencilLine } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ReasonButton } from "@/components/ui/reason-button";
@@ -9,6 +9,7 @@ import { cn } from "@/lib/cn";
 import type { IssueDTO, ReviewModel } from "@/server/queries/review-model";
 import { CheckList, CheckSummary } from "./check-card";
 import { KeepTypeButton } from "./document-actions";
+import type { FieldActions } from "./field-actions";
 import { SHORT } from "./labels";
 import { QueryImporterDialog, ResumeDialog } from "./query-importer-dialog";
 import { ResolveCheckDialog } from "./resolve-check-dialog";
@@ -24,7 +25,7 @@ const RANK: Record<IssueDTO["type"], number> = {
 export const sortIssues = (issues: IssueDTO[]) => [...issues].sort((a, b) => RANK[a.type] - RANK[b.type]);
 
 /** S4 issues panel (PRD F3.1): every blocking item, most serious first; selecting one shows its source. */
-export function IssuesPanel({ model, focus, select }: { model: ReviewModel; focus: Focus; select: Select }) {
+export function IssuesPanel({ model, focus, select, actions, edit }: { model: ReviewModel; focus: Focus; select: Select; actions: FieldActions; edit: (fieldId: string) => void }) {
   const [dialog, setDialog] = useState<DialogState>(null);
   const issues = sortIssues(model.issues);
   const checks = new Map(model.checks.map((c) => [c.id, c]));
@@ -73,6 +74,18 @@ export function IssuesPanel({ model, focus, select }: { model: ReviewModel; focu
                   <ReasonButton size="sm" variant="outline" reason={queryReason} onClick={() => setDialog({ kind: "query", checkId: check.id })}>
                     Query importer
                   </ReasonButton>
+                </div>
+              )}
+              {issue.type === "FIELD_NEEDS_REVIEW" && field && !exported && (
+                <div className="flex flex-wrap gap-2 px-3 pb-3">
+                  {field.value !== null && (
+                    <Button size="sm" disabled={actions.pending} onClick={() => void actions.confirm(field)}>
+                      <Check aria-hidden /> Confirm
+                    </Button>
+                  )}
+                  <Button size="sm" variant="outline" onClick={() => edit(field.id)}>
+                    <PencilLine aria-hidden /> {field.value === null ? "Enter value" : "Correct"}
+                  </Button>
                 </div>
               )}
               {issue.type === "WRONG_DOCUMENT_TYPE" && issue.documentId && !exported && (

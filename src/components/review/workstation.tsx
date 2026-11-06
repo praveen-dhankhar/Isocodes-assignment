@@ -49,6 +49,12 @@ export function Workstation({ model }: { model: ReviewModel }) {
     setFocus({ kind: "check", checkId: next.checkId, sourceFieldId: source?.id ?? null });
     if (source?.pageNo) onView({ docType: source.docType, pageNo: source.pageNo });
   };
+  /** Open the editor for a field from anywhere (issue card, E key); on a phone the Fields tab shows it. */
+  const edit = (fieldId: string) => {
+    select({ fieldId });
+    setEditing(fieldId);
+    if (window.matchMedia("(max-width: 1023px)").matches) setTab("fields");
+  };
   const source = fieldById(focus?.kind === "field" ? focus.fieldId : focus?.sourceFieldId);
   const highlight = source?.bbox && source.docType === view.docType && source.pageNo === view.pageNo ? source.bbox : null;
 
@@ -68,7 +74,7 @@ export function Workstation({ model }: { model: ReviewModel }) {
     next: () => step(1),
     previous: () => step(-1),
     confirm: () => focused && editable && focused.value !== null && focused.status === "UNREVIEWED" && void actions.confirm(focused),
-    edit: () => focused && editable && setEditing(focused.id),
+    edit: () => focused && editable && edit(focused.id),
     cancel: () => (editing ? setEditing(null) : setFocus(null)),
     tab: (n) => onView({ docType: SLOTS[n - 1] ?? "INVOICE", pageNo: 1 }),
     zoom: zoomStep,
@@ -108,7 +114,7 @@ export function Workstation({ model }: { model: ReviewModel }) {
           <div className="min-h-0 flex-1 overflow-y-auto">
             <ExtractionProgress shipment={model.shipment} />
             <div className={cn(tab !== "issues" && "max-lg:hidden")}>
-              <IssuesPanel model={model} focus={focus} select={select} />
+              <IssuesPanel model={model} focus={focus} select={select} actions={actions} edit={edit} />
             </div>
             <div className={cn("border-t", tab !== "fields" && "max-lg:hidden")}>
               <FieldPanel model={model} focus={focus} select={select} editing={editing} setEditing={setEditing} actions={actions} editable={editable} />
