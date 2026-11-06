@@ -1,7 +1,7 @@
 import "server-only";
 import type { z } from "zod";
 import type { DocType } from "@/domain/fields";
-import { FALLBACK_SYSTEM_PROMPT, repairPrompt, SYSTEM_PROMPT, userPrompt } from "./prompts";
+import { repairPrompt, SYSTEM_PROMPT, userPrompt } from "./prompts";
 import { ChatCompletion, PAGE_SCHEMAS, toModelJsonSchema, type PageExtraction } from "./schemas";
 
 // ARCHITECTURE §8.1–8.3, API_SPECS §2.1/§2.4. Plain fetch (injected for tests); no SDK.
@@ -96,12 +96,12 @@ export class NvidiaVisionProvider {
   }
 
   private body(input: PageInput, messages: Message[], maxTokens: number): Record<string, unknown> {
-    const common = { model: this.opts.model, messages, temperature: 0, seed: 7, max_tokens: maxTokens, stream: false };
-    if (this.opts.variant === "fallback") return common; // no response_format / reasoning_effort on this endpoint
+    // Both models document one thinking switch: the chat-template flag. Reading printed text needs no reasoning.
+    const common = { model: this.opts.model, messages, temperature: 0, seed: 7, max_tokens: maxTokens, stream: false, chat_template_kwargs: { enable_thinking: false } };
+    if (this.opts.variant === "fallback") return common; // the schema travels in the prompt instead of response_format
     return {
       ...common,
       response_format: { type: "json_schema", json_schema: { name: SCHEMA_NAME[input.slot], schema: toModelJsonSchema(PAGE_SCHEMAS[input.slot]) } },
-      reasoning_effort: "none",
     };
   }
 
@@ -109,7 +109,7 @@ export class NvidiaVisionProvider {
     const fallback = this.opts.variant === "fallback";
     const text = userPrompt(input.slot, input.pageNo, input.pageCount, fallback ? toModelJsonSchema(PAGE_SCHEMAS[input.slot]) : undefined);
     return [
-      { role: "system", content: fallback ? FALLBACK_SYSTEM_PROMPT : SYSTEM_PROMPT },
+      { role: "system", content: SYSTEM_PROMPT },
       { role: "user", content: [{ type: "text", text }, { type: "image_url", image_url: { url: `data:image/jpeg;base64,${input.jpegBase64}` } }] },
     ];
   }
@@ -192,7 +192,7 @@ export class NvidiaVisionProvider {
 
     // One repair attempt: text only, same model, listing what was wrong.
     const repairMessages: Message[] = [
-      { role: "system", content: this.opts.variant === "fallback" ? FALLBACK_SYSTEM_PROMPT : SYSTEM_PROMPT },
+      { role: "system", content: SYSTEM_PROMPT },
       { role: "user", content: repairPrompt(first.issues, content) },
     ];
     const repaired = await this.request(input.pageNo, this.body(input, repairMessages, maxTokens));

@@ -50,7 +50,7 @@ describe("NvidiaVisionProvider (ARCHITECTURE §8.3)", () => {
     const req = h.requests[0];
     expect(req?.url).toBe("https://integrate.example/v1/chat/completions");
     expect(req?.headers.Authorization).toBe("Bearer nvapi-test");
-    expect(req?.body).toMatchObject({ model: "primary-model", reasoning_effort: "none", temperature: 0, seed: 7, max_tokens: 4096, stream: false, response_format: { type: "json_schema", json_schema: { name: "commercial_invoice_page" } } });
+    expect(req?.body).toMatchObject({ model: "primary-model", chat_template_kwargs: { enable_thinking: false }, temperature: 0, seed: 7, max_tokens: 4096, stream: false, response_format: { type: "json_schema", json_schema: { name: "commercial_invoice_page" } } });
     expect(JSON.stringify(req?.body)).toContain("data:image/jpeg;base64,AAAA");
     expect(h.provider.calls).toEqual([{ model: "primary-model", pageNo: 1, attempt: 1, latencyMs: 250, promptTokens: 1200, completionTokens: 300, outcome: "OK" }]);
   });
@@ -128,16 +128,14 @@ describe("NvidiaVisionProvider (ARCHITECTURE §8.3)", () => {
     expect(h.provider.calls.map((c) => c.outcome)).toEqual(["AI_TIMEOUT"]);
   });
 
-  it("fallback request: /no_think, schema in the prompt, no response_format or reasoning_effort", async () => {
+  it("fallback request: thinking off, schema in the prompt, no response_format", async () => {
     const h = harness([completion(JSON.stringify(PAGE))], "fallback");
     expect((await h.provider.extractPage(INPUT)).ok).toBe(true);
     const body = h.requests[0]?.body ?? {};
-    const system = (body.messages as Array<{ role: string; content: string }>)[0];
-    expect(system?.content.startsWith("/no_think\n")).toBe(true);
+    expect(body.chat_template_kwargs).toEqual({ enable_thinking: false });
     expect(userText(body)).toContain("Return only one JSON object, no prose, matching this JSON Schema:");
     expect(userText(body)).toContain('"additionalProperties":false');
     expect(body).not.toHaveProperty("response_format");
-    expect(body).not.toHaveProperty("reasoning_effort");
     expect(body).toMatchObject({ model: "fallback-model", max_tokens: 4096, stream: false });
   });
 

@@ -16,7 +16,7 @@ const EnvSchema = z
     NVIDIA_API_KEY: z.string().optional(),
     NVIDIA_BASE_URL: z.url().default("https://integrate.api.nvidia.com/v1"),
     NVIDIA_VLM_MODEL: z.string().default("nvidia/nemotron-3.5-super-vl-120b-a12b"),
-    NVIDIA_VLM_FALLBACK_MODEL: z.string().default("nvidia/nemotron-nano-12b-v2-vl"),
+    NVIDIA_VLM_FALLBACK_MODEL: z.string().default("nvidia/nemotron-3-nano-omni-30b-a3b-reasoning"),
     EXTRACTION_MODE: z.enum(["auto", "live", "sample"]).default("auto"),
     SEED_DEMO_PASSWORD: z.string().optional(),
   })

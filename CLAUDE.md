@@ -38,7 +38,7 @@ pnpm eval:extraction --model primary    # per-field accuracy + latency vs ground
 
 ## Stack (exact versions pinned in package.json — no `^`)
 Node 22 · pnpm 10 · Next.js 16 App Router · React 19 · TypeScript 5 strict · Tailwind v4 + shadcn/ui · Zod 4 · Drizzle ORM + drizzle-kit + postgres.js · Postgres 16 (Supabase `ap-south-1`) · Better Auth · decimal.js · unpdf + @napi-rs/canvas · sharp · Vitest · Playwright · Vercel (region `bom1`).
-AI: NVIDIA API (OpenAI-compatible, plain `fetch`) — primary `nvidia/nemotron-3.5-super-vl-120b-a12b`, fallback `nvidia/nemotron-nano-12b-v2-vl`, recorded samples when neither is available.
+AI: NVIDIA API (OpenAI-compatible, plain `fetch`) — primary `nvidia/nemotron-3.5-super-vl-120b-a12b`, fallback `nvidia/nemotron-3-nano-omni-30b-a3b-reasoning`, recorded samples when neither is available.
 
 ## Code rules
 - No `any`, no `@ts-ignore`, no non-null `!` outside tests. Use `unknown` + Zod.

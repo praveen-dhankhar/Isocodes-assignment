@@ -63,7 +63,7 @@ Headers: `Authorization: Bearer ${NVIDIA_API_KEY}`, `Content-Type: application/j
   ],
   "response_format": { "type": "json_schema",
                        "json_schema": { "name": "commercial_invoice_page", "schema": { "...": "toModelJsonSchema(InvoicePageSchema)" } } },
-  "reasoning_effort": "none",
+  "chat_template_kwargs": { "enable_thinking": false },
   "temperature": 0,
   "seed": 7,
   "max_tokens": 4096,
@@ -72,7 +72,7 @@ Headers: `Authorization: Bearer ${NVIDIA_API_KEY}`, `Content-Type: application/j
 ```
 `stream` must be sent explicitly — the Super model's hosted API defaults it to `true`.
 
-**Fallback** (`NVIDIA_VLM_FALLBACK_MODEL`, default `nvidia/nemotron-nano-12b-v2-vl`): same messages, but the system prompt starts with `/no_think`, the user prompt appends the JSON Schema (§2.3), no `response_format`, no `reasoning_effort`, `max_tokens` ≤ 8192.
+**Fallback** (`NVIDIA_VLM_FALLBACK_MODEL`, default `nvidia/nemotron-3-nano-omni-30b-a3b-reasoning`): same messages and the same thinking switch, but the user prompt appends the JSON Schema (§2.3) and there is no `response_format`; `max_tokens` ≤ 8192. Both model ids were checked against the hosted `GET /v1/models` list; thinking is turned off with `chat_template_kwargs`, the switch both model cards document.
 
 **Image rules** (`src/server/ai/images.ts`): JPEG, RGB (no alpha), long edge ≤ 1536 px, base64 payload ≤ 180 KB — step quality 80 → 70 → 60 → 50, then scale 1536 → 1280 → 1024; grayscale for scans. Older NVIDIA endpoints require an asset upload above ~180 KB; we never use assets.
 
@@ -543,7 +543,7 @@ Seeded history makes S7 and S8 non-empty: corrections on SHP-24813/24816/24817 (
 | `NVIDIA_API_KEY` | live AI | from build.nvidia.com |
 | `NVIDIA_BASE_URL` | no | default `https://integrate.api.nvidia.com/v1`; point at a self-hosted NIM in production |
 | `NVIDIA_VLM_MODEL` | no | default `nvidia/nemotron-3.5-super-vl-120b-a12b` |
-| `NVIDIA_VLM_FALLBACK_MODEL` | no | default `nvidia/nemotron-nano-12b-v2-vl` |
+| `NVIDIA_VLM_FALLBACK_MODEL` | no | default `nvidia/nemotron-3-nano-omni-30b-a3b-reasoning` |
 | `EXTRACTION_MODE` | no | `auto` (default) · `live` · `sample` |
 | `SEED_DEMO_PASSWORD` | seed | demo users' password |
 

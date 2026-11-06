@@ -16,7 +16,7 @@ describe("parseEnv", () => {
       SUPABASE_STORAGE_BUCKET: "documents",
       NVIDIA_BASE_URL: "https://integrate.api.nvidia.com/v1",
       NVIDIA_VLM_MODEL: "nvidia/nemotron-3.5-super-vl-120b-a12b",
-      NVIDIA_VLM_FALLBACK_MODEL: "nvidia/nemotron-nano-12b-v2-vl",
+      NVIDIA_VLM_FALLBACK_MODEL: "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning",
       EXTRACTION_MODE: "auto",
     });
   });

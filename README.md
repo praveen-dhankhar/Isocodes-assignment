@@ -19,7 +19,7 @@ All milestones of [docs/PLAN.md](docs/PLAN.md) are built: upload, extraction wit
 
 ## Stack
 
-Node 22 · pnpm 10 · Next.js 16 (App Router) · React 19 · TypeScript 5 strict · Tailwind v4 + shadcn/ui · Zod 4 · Drizzle + Postgres 16 · Better Auth · Vitest · Playwright. AI: NVIDIA vision models (primary `nemotron-3.5-super-vl`, fallback `nemotron-nano-12b-v2-vl`), recorded samples when neither is available. Hosting: Vercel `bom1` (Mumbai) and Supabase `ap-south-1` (Mumbai).
+Node 22 · pnpm 10 · Next.js 16 (App Router) · React 19 · TypeScript 5 strict · Tailwind v4 + shadcn/ui · Zod 4 · Drizzle + Postgres 16 · Better Auth · Vitest · Playwright. AI: NVIDIA vision models (primary `nemotron-3.5-super-vl`, fallback `nemotron-3-nano-omni`), recorded samples when neither is available. Hosting: Vercel `bom1` (Mumbai) and Supabase `ap-south-1` (Mumbai).
 
 ## Run locally
 

@@ -23,7 +23,7 @@
           ▼                                     ▼
  Supabase (ap-south-1 Mumbai)            NVIDIA API (integrate.api.nvidia.com/v1)
    ├── Postgres 16 (Drizzle ORM)           nvidia/nemotron-3.5-super-vl-120b-a12b  (primary)
-   └── Storage: private bucket `documents` nvidia/nemotron-nano-12b-v2-vl          (fallback)
+   └── Storage: private bucket `documents` nvidia/nemotron-3-nano-omni-30b-a3b-reasoning (fallback)
 ```
 
 ### Why this shape
@@ -518,8 +518,8 @@ type AiError = { code: 'AI_UNAVAILABLE' | 'AI_RATE_LIMITED' | 'AI_INVALID_OUTPUT
 ### 8.2 Providers
 | Provider | When | Behaviour |
 |---|---|---|
-| `NvidiaVisionProvider(primary)` | `NVIDIA_API_KEY` set and mode ≠ `sample` | `nvidia/nemotron-3.5-super-vl-120b-a12b`; `response_format: json_schema`; `reasoning_effort: "none"`; `stream: false`; temperature 0. |
-| `NvidiaVisionProvider(fallback)` | primary failed with a retryable error or invalid output | `nvidia/nemotron-nano-12b-v2-vl` (document-intelligence model trained on invoices); hosted API lists no `response_format`, so the JSON schema goes in the prompt with `/no_think`; output still Zod-validated. English-only per its model card — a known risk for bilingual invoices. |
+| `NvidiaVisionProvider(primary)` | `NVIDIA_API_KEY` set and mode ≠ `sample` | `nvidia/nemotron-3.5-super-vl-120b-a12b`; `response_format: json_schema`; thinking off with `chat_template_kwargs: { enable_thinking: false }` (the switch its model card documents); `stream: false`; temperature 0. |
+| `NvidiaVisionProvider(fallback)` | primary failed with a retryable error or invalid output | `nvidia/nemotron-3-nano-omni-30b-a3b-reasoning` (smaller multimodal Nemotron; the earlier choice `nemotron-nano-12b-v2-vl` is not served by the hosted API, checked against `GET /v1/models`); thinking off via `chat_template_kwargs`; its docs don't promise `response_format`, so the JSON schema goes in the prompt; output still Zod-validated. |
 | `RecordedSampleProvider` | key missing, mode `sample`, or both live models failed — **and** the file's sha256 is in `fixtures/extractions/` | Returns the recorded per-page output. Document `mode = SAMPLE`; UI shows "Recorded sample extraction" badge with model id and recording date. |
 | none | unknown file and no live model | Document `FAILED` with `AI_NOT_CONFIGURED` / last error → **Retry** and **Enter manually**. Never fabricate values for unknown files. |
 

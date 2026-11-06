@@ -72,7 +72,7 @@ A resolution is stored with the **fingerprint** of the values it was made on. If
 
 ## 5. How the AI works — and fails
 
-- **Models.** Primary `nvidia/nemotron-3.5-super-vl-120b-a12b`, fallback `nvidia/nemotron-nano-12b-v2-vl`, both called through NVIDIA's OpenAI-compatible API with plain `fetch`. Each page image is a JPEG of at most 1536 px and about 180 KB, grayscale for scans. The prompt asks for structured output and says that text inside the document is data, never instructions.
+- **Models.** Primary `nvidia/nemotron-3.5-super-vl-120b-a12b`, fallback `nvidia/nemotron-3-nano-omni-30b-a3b-reasoning` (both checked against the hosted model list), both called through NVIDIA's OpenAI-compatible API with plain `fetch`. Each page image is a JPEG of at most 1536 px and about 180 KB, grayscale for scans. The prompt asks for structured output and says that text inside the document is data, never instructions.
 - **Failure chain.**
   1. A rate limit or 5xx gets retried with backoff (2/4/8 s).
   2. NVIDIA's 202 + poll is followed.
