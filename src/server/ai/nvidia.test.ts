@@ -1,6 +1,6 @@
 import { readFile } from "node:fs/promises";
 import { describe, expect, it } from "vitest";
-import { NvidiaVisionProvider, type PageInput } from "./nvidia";
+import { NvidiaVisionProvider, nullEmptyBoxes, type PageInput } from "./nvidia";
 
 // A valid invoice page, taken from the SHP-24811 hand-authored fixture.
 const manifest = JSON.parse(await readFile("fixtures/samples/manifest.json", "utf8"));
@@ -109,6 +109,11 @@ describe("NvidiaVisionProvider (ARCHITECTURE §8.3)", () => {
   it("repair that still fails → AI_INVALID_OUTPUT", async () => {
     const h = harness([completion("{}"), completion("not json either")]);
     expect(await h.provider.extractPage(INPUT)).toMatchObject({ ok: false, error: { code: "AI_INVALID_OUTPUT" } });
+  });
+
+  it("reads an all-null box as no box; a half-null box is still invalid", () => {
+    expect(nullEmptyBoxes({ fields: { a: { text: null, bbox: { x: null, y: null, w: null, h: null } } } })).toEqual({ fields: { a: { text: null, bbox: null } } });
+    expect(nullEmptyBoxes({ bbox: { x: 0.1, y: null, w: 0.2, h: 0.1 } })).toEqual({ bbox: { x: 0.1, y: null, w: 0.2, h: 0.1 } });
   });
 
   it("strips a ```json fence and a <think> block", async () => {

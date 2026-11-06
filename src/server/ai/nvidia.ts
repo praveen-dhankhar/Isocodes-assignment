@@ -69,7 +69,22 @@ function retryAfterMs(header: string | null, now: number): number | null {
 /** Content → JSON: drop a <think> block and a ```json fence, then parse. */
 function parseContent(content: string): unknown {
   const body = content.replace(/<think>[\s\S]*?<\/think>/g, "").trim().replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, "");
-  return JSON.parse(body);
+  return nullEmptyBoxes(JSON.parse(body));
+}
+
+/**
+ * Some models describe a missing box as {"x": null, "y": null, ...} instead of null. That shape means "no box"; any
+ * other malformed box still fails the schema.
+ */
+export function nullEmptyBoxes(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map(nullEmptyBoxes);
+  if (value === null || typeof value !== "object") return value;
+  return Object.fromEntries(
+    Object.entries(value).map(([k, v]) => {
+      const empty = k === "bbox" && v !== null && typeof v === "object" && !Array.isArray(v) && Object.values(v).every((c) => c === null);
+      return [k, empty ? null : nullEmptyBoxes(v)];
+    }),
+  );
 }
 
 type Message = { role: "system" | "user" | "assistant"; content: string | Array<Record<string, unknown>> };
