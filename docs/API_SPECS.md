@@ -441,15 +441,15 @@ All live in `src/server/actions/*.ts`, start with `'use server'`, validate input
 | 21 | UNIT_PRICE | INV line `unitPrice` | decimal as printed precision |
 | 22 | ITEM_VALUE | INV line `lineTotal` | decimal, currency minor units |
 
-`buildExportRows(snapshot, masters, resolutions) → string[][]` is pure and unit-tested; `toCsv(rows) → string` handles quoting, guard, BOM and CRLF.
+`buildExportRows(snapshot, masters, outcomes) → string[][]` (header row first) is pure and unit-tested; it takes declared values from the check outcomes, which carry a resolution only while its fingerprint still matches. A declared value overrides its rule's column: CC-03 gross, CC-04 net, CC-05 packages, CC-07 containers, CC-02 invoice value, CC-08 invoice no., and per line CC-01 item value and CC-06 quantity. The injection guard applies to the free-text columns (ref, names, IEC, invoice no., B/L no., containers, description, UQC). `toCsv(rows) → string` handles quoting, BOM and CRLF.
 
 ### 6.3 Golden example — SHP-24811 after review
 Scenario (invented): the supplier confirms the invoice weight was a typo; the executive accepts the CC-03 discrepancy and declares 3,165.000 kg.
 ```
 SHIPMENT_REF,IMPORTER_NAME,IMPORTER_IEC,SUPPLIER_NAME,SUPPLIER_COUNTRY,INVOICE_NO,INVOICE_DATE,CURRENCY,INCOTERM,INVOICE_VALUE,BL_NO,CONTAINER_NOS,TOTAL_PACKAGES,GROSS_WT_KG,NET_WT_KG,ITEM_SR_NO,ITEM_DESCRIPTION,HSN_CODE,QUANTITY,UQC,UNIT_PRICE,ITEM_VALUE
-SHP-24811,Company P (Pune),TESTIEC001,Company B (China),CN,CB-2026-1187,14/10/2026,USD,FOB,16320.00,BLNGB2610447,XZQU4821171,240,3165.000,2880.000,1,LED panel light 40W,94054290,2400,PCS,6.80,16320.00
+SHP-24811,Company P,TESTIEC001,Company B,CN,CB-2026-1187,14/10/2026,USD,FOB,16320.00,BLNGB2610447,XZQU4821171,240,3165.000,2880.000,1,LED panel light 40W,94054290,2400,PCS,6.80,16320.00
 ```
-This exact text (with BOM and CRLF) is the golden file `src/domain/export/__fixtures__/SHP-24811.cf1.csv`.
+This exact text (with BOM, and CRLF after every record including the last) is the golden file `src/domain/export/__fixtures__/SHP-24811.cf1.csv`. Importer and supplier names are the master records' names exactly ("Company P", "Company B"; the city is not part of the name).
 
 ### 6.4 File name
 `{SHIPMENT_REF}_{INVOICE_NO}_CF1_{yyyyMMdd-HHmm IST}.csv`, characters outside `[A-Za-z0-9._-]` replaced with `_`. Example: `SHP-24811_CB-2026-1187_CF1_20261108-1432.csv`.
