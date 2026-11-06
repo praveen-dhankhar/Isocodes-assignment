@@ -19,6 +19,38 @@ This slice does the following:
 
 Everything a person changes is recorded. The manager's accuracy report shows where the AI can be trusted.
 
+### 1.1 How the build answers the brief
+
+| Brief item | Where it is | Status |
+|---|---|---|
+| Shipment record with upload of invoice, packing list and bill of lading | S2 list, S3 upload (three slots, drag and drop, sample sets) | Built |
+| AI extraction: parties, invoice no. and date, currency, Incoterm, line items with HSN, packages, weights, containers | Field registry (PRD §6), vision model per page, confidence per field | Built |
+| Review screen, document beside the fields, low-confidence fields highlighted | S4: document 55% / fields 45%, amber for uncertain values, the source box drawn on the page | Built |
+| Cross-checks: invoice total vs line sum; packages and weights across all three documents | CC-02 (total), CC-01 (each line), CC-03 gross, CC-04 net, CC-05 packages; plus CC-06 lines, CC-07 containers, CC-08 invoice reference | Built |
+| Export in the filing software's import layout | CF-1 CSV, one row per invoice line (A-06: the real layout was not provided; the core build asks for CSV; XLSX is next) | CSV built |
+| Shipment status list | S2 with status, supplier and search filters | Built |
+| Edit history and accuracy report per field and supplier | S8 history, S7 accuracy, calibration and edit log | Built |
+| When the AI is wrong: low-confidence fields and failed cross-checks must be confirmed by a person; nothing exports until cleared | Confidence < 0.85 and every failed check are blocking issues; the export gate re-checks on the server | Built |
+| Corrections logged to show accuracy per field and supplier | `field_edits`; only corrections of AI-read values count as errors (PRD §8.3) | Built |
+| Unreadable pages go to manual entry | Model-reported or user-marked unreadable pages clear their values; typed values are recorded as manual entries | Built |
+| Roles: documentation executive and manager | Better Auth roles; approve, send back, reopen and the report are manager-only; approver ≠ submitter (A-14) | Built |
+| Importers send documents and answer queries | Executives upload on their behalf (A-18); "Query importer" is a stored mock notification | Mocked, as the brief allows |
+| Host in India; role-based access | Vercel `bom1` and Supabase `ap-south-1` (Mumbai); checks in every action and route | Built |
+| An AI provider that does not train on client data | See §5: production runs the model self-hosted; the hosted demo API only ever sees synthetic documents (A-16) | Design + demo constraint |
+| Importer contacts are personal data (DPDP Act 2023) | Not extracted (A-07); masked in the UI; revealing one is logged | Built |
+| Scans are often skewed or bilingual | Samples include a skewed phone scan and a Chinese/English invoice; viewer rotates 90° and ±0.5° | Built |
+| Minimal design; uncertain fields obvious; every action one click away | Restrained palette with three state colours; Confirm and Correct sit on every uncertain value and issue card | Built |
+
+### 1.2 The client's numbers and how the product measures them
+
+The brief puts the cost at ₹70.29 lakh a year: ₹34.65 lakh of data entry (1,100 shipments a month × 45 min × ₹350/hour) and ₹35.64 lakh of amendments and delays (396 cases × ₹9,000). Taking entry from 45 to 15 minutes, as the brief targets, would save two thirds of the entry cost, about ₹23.1 lakh a year, by the brief's own figures. Halving amendments would save about ₹17.8 lakh more.
+
+| Success measure | How the product shows it |
+|---|---|
+| Entry time 45 → under 15 minutes | Median review time on S7: first open of the review screen to submit (A-22) |
+| 95% field accuracy on 200 past shipments | Field accuracy on S7 by field and supplier; `pnpm eval:extraction` measures it offline against labelled documents |
+| Amended Bills of Entry halved in 3 months | Not measurable inside the product (it needs filing outcomes); S7 shows a proxy: misreads corrected plus discrepancies declared before export |
+
 ## 2. Architecture and why
 
 ```
@@ -83,6 +115,8 @@ A resolution is stored with the **fingerprint** of the values it was made on. If
   7. Otherwise the document is marked `FAILED` with the error code, and the screen offers **Retry** and **Enter manually**.
 
   Values are never invented for an unknown file. Each extraction has a 240 s budget and at most 2 model calls at a time per instance.
+- **No training on client data.** Both models are NVIDIA open models that can run as a NIM (NVIDIA's inference container). In production the same model runs self-hosted in an India region, so documents stay on infrastructure the client controls and no third party sees them; `NVIDIA_BASE_URL` points at that NIM and nothing else changes. The hosted API used by this demo has only ever been sent the synthetic sample documents (A-16).
+- **Model ids are checked.** Both ids were checked against the hosted `GET /v1/models` list. The fallback first planned (`nemotron-nano-12b-v2-vl`) is not served, so it was replaced by `nemotron-3-nano-omni-30b-a3b-reasoning`. Thinking is switched off with `chat_template_kwargs`, the switch both model cards document.
 - **Confidence.** The final confidence starts from the model's own score and is capped by code:
 
   | Reason | Cap |
@@ -147,19 +181,35 @@ CI runs typecheck, lint, unit, integration and build on every push, plus gitleak
 
 ## 10. Assumptions
 
-The full register is in [PRD §14](PRD.md#14-assumptions-register); code labels each assumption where it is applied (`// A-xx`). The ones that shape behaviour most:
+The brief leaves these open; each is labelled in code where it is applied (`// A-xx`) and kept in [PRD §14](https://github.com/praveen-dhankhar/Isocodes-assignment/blob/main/docs/PRD.md#14-assumptions-register).
 
 | Id | Assumption |
 |---|---|
-| A-02 | Upload limits |
-| A-03 | Review threshold 0.85 |
-| A-04 | Tolerances: money 0.01, weight 0.5 kg |
-| A-05 | Export precedence: B/L > PL > INV for gross weight, packages and containers; PL first for net weight |
-| A-06 | CF-1 is an invented layout |
-| A-14 | Four-eyes approval |
-| A-15 | en-IN display, IST |
-| A-16 | Hosted NVIDIA API in the demo, synthetic data only |
-| A-22 | Review time = first open of S4 → submit |
+| A-01 | A shipment has exactly one commercial invoice, one packing list and one bill of lading. |
+| A-02 | Uploads: PDF, JPEG, PNG; ≤ 4 MB per file (under Vercel's 4.5 MB body limit); ≤ 5 pages per document. |
+| A-03 | Review threshold 0.85 on final confidence. |
+| A-04 | Tolerances: money 0.01 in invoice currency; weight 0.5 kg absolute; packages and quantities exact. |
+| A-05 | Export precedence: gross weight and packages B/L > PL > INV; net weight PL > INV > B/L; containers B/L > PL > INV; invoice-level fields from INV. A declared value from an accepted discrepancy overrides. |
+| A-06 | The filing software's import layout was not provided; CF-1 (CSV) is invented and must be swapped for the client's template. The brief's must-have says Excel; the core build says CSV, which this slice delivers. |
+| A-07 | Only party names are extracted; addresses, contact persons, phones and emails are not (data minimisation). |
+| A-08 | Importer contact details are entered by staff in the importer master (seeded with fake data) and masked by default. |
+| A-09 | Number format is detected per document; anything ambiguous goes to review. |
+| A-10 | Dates default to DD/MM; MM/DD only for US suppliers; ambiguous dates go to review. |
+| A-11 | HS code is optional on supplier invoices and only format-validated (6–10 digits). |
+| A-12 | Line items match when description token similarity ≥ 0.5 (an HS code match adds 0.2 when both sides carry one). |
+| A-13 | Sample data: only SHP-24811 (invoice line, invoice gross 3,120 kg, packing-list gross 3,165 kg) and SHP-24812 (invoice line, invoice gross 1,460 kg) come from the brief. Everything else is invented: B/L weight 3,165 kg, SHP-24812's PL/BL values, packages, net weights, containers, invoice numbers, dates, importers and shipments SHP-24813…24819. |
+| A-14 | Four-eyes: the manager who approves cannot be the user who submitted. |
+| A-15 | Display: en-IN number grouping; times in Asia/Kolkata; storage in UTC. Values typed on screen use "." as the decimal mark. |
+| A-16 | The demo uses NVIDIA's hosted API (trial terms: prototyping only) with synthetic documents only. Production self-hosts the same model as a NIM in an India region, so client data never reaches a provider that could train on it. |
+| A-17 | Retention: documents purged 180 days after export (policy documented; purge job not built in this slice). |
+| A-18 | Executives upload on behalf of importers (no email intake, no importer portal). |
+| A-19 | Supplier is chosen at shipment creation from a master list; the extracted supplier name is shown, not matched. |
+| A-20 | One currency per invoice. |
+| A-21 | Unit → UQC mapping covers common units only; unknown units are exported as printed. |
+| A-22 | Review time = first open of the review screen → submit. |
+| A-23 | Re-uploading a slot supersedes the previous document (kept for audit, hidden from review). |
+| A-24 | Demo users are seeded; no self sign-up; password reset out of scope. |
+| A-25 | ≤ 100 line items per invoice. |
 
 ## 11. What was cut or simplified
 

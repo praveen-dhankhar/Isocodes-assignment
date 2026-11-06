@@ -12,7 +12,9 @@
 | `vikram@demo.test` | Documentation executive | the second executive (seeded submissions) |
 | `meera@demo.test` | Documentation manager | approve, send back, reopen, export, accuracy report |
 
-The password is the `SEED_DEMO_PASSWORD` the database was seeded with. It is not in the repository; it is shared alongside the submission. All companies, people, numbers and documents are synthetic.
+The password is the `SEED_DEMO_PASSWORD` the database was seeded with. It is deliberately not in the repository; the copy of this file in the submission ZIP states it. All companies, people, numbers and documents are synthetic.
+
+Tip: the seeded shipments are shared by everyone who tries the demo. For a fresh copy, use **New shipment → Load a sample set**.
 
 ## Demo script (about 10 minutes)
 

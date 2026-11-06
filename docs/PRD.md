@@ -299,7 +299,7 @@ Each is labelled in code comments as `// A-xx` where it is applied.
 | A-03 | Review threshold 0.85 on final confidence. |
 | A-04 | Tolerances: money 0.01 in invoice currency; weight 0.5 kg absolute; packages and quantities exact. |
 | A-05 | Export precedence: gross weight & packages BL > PL > INV; net weight PL > INV > BL; containers BL > PL > INV; invoice-level fields from INV. A declared value from an accepted discrepancy overrides. |
-| A-06 | The filing software's import layout was not provided; CF-1 is invented and must be swapped for the client's template. |
+| A-06 | The filing software's import layout was not provided; CF-1 (CSV) is invented and must be swapped for the client's template. The brief's must-have says Excel; the core build says CSV, which this slice delivers. |
 | A-07 | Only party names are extracted; addresses, contact persons, phones and emails are not (data minimisation). |
 | A-08 | Importer contact details are entered by staff in the importer master (seeded with fake data) and masked by default. |
 | A-09 | Number format is detected per document; anything ambiguous goes to review. |
@@ -308,8 +308,8 @@ Each is labelled in code comments as `// A-xx` where it is applied.
 | A-12 | Line items match when description token similarity ≥ 0.5 (HS code match adds 0.2 when both sides carry one; packing lists currently don't). |
 | A-13 | Seed data: from the brief come only SHP-24811 (invoice line, invoice gross 3,120 kg, packing-list gross 3,165 kg) and SHP-24812 (invoice line, invoice gross 1,460 kg). Everything else — BL weight 3,165 kg, SHP-24812's PL/BL values, packages, net weights, container numbers, invoice numbers, dates, importers and shipments SHP-24813…SHP-24819 — is invented. |
 | A-14 | Four-eyes: the manager who approves cannot be the user who submitted. |
-| A-15 | Display: en-IN number grouping; times in Asia/Kolkata; storage in UTC. |
-| A-16 | The demo uses NVIDIA's hosted API (trial terms: prototyping only, not production). Only synthetic documents are processed. Production would self-host the same model as an NVIDIA NIM in an India region. |
+| A-15 | Display: en-IN number grouping; times in Asia/Kolkata; storage in UTC. Values typed on screen use "." as the decimal mark. |
+| A-16 | The demo uses NVIDIA's hosted API (trial terms: prototyping only, not production). Only synthetic documents are processed. Production self-hosts the same model as an NVIDIA NIM in an India region, so client data never reaches a provider that could train on it. |
 | A-17 | Retention: documents purged 180 days after export (policy documented; purge job not built in this slice). |
 | A-18 | Executives upload on behalf of importers (no email intake, no importer portal). |
 | A-19 | Supplier is chosen at shipment creation from a master list; the extracted supplier name is shown, not matched. |
