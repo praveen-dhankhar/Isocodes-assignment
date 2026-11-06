@@ -1,17 +1,19 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useRef, useState } from "react";
 import { cn } from "@/lib/cn";
 import type { ReviewModel } from "@/server/queries/review-model";
 import { DocumentViewer, SLOTS, ZOOMS, type ViewState } from "./document-viewer";
 import { ExtractionProgress } from "./extraction-progress";
 import { FieldPanel } from "./field-panel";
+import { useFieldActions } from "./field-actions";
 import { IssuesPanel, sortIssues } from "./issues-panel";
+import { ShortcutHelp } from "./shortcut-help";
+import { SubmitBar } from "./submit-bar";
+import { useReviewShortcuts } from "./use-review-shortcuts";
 
 export type Focus = { kind: "field"; fieldId: string } | { kind: "check"; checkId: string; sourceFieldId: string | null } | null;
 type MobileTab = "document" | "fields" | "issues";
-
-const typing = (t: EventTarget | null) => t instanceof HTMLElement && (t.isContentEditable || ["INPUT", "TEXTAREA", "SELECT"].includes(t.tagName));
 
 /**
  * S4 (ARCHITECTURE §11): owns the selection. ≥ 1024 px two panes (document 55% / panel 45%); below that, tabs
@@ -22,6 +24,10 @@ export function Workstation({ model }: { model: ReviewModel }) {
   const [view, setView] = useState<ViewState>({ docType: firstDoc, pageNo: 1, zoom: 1, rotation: 0, fine: 0 });
   const [focus, setFocus] = useState<Focus>(null);
   const [tab, setTab] = useState<MobileTab>("issues");
+  const [editing, setEditing] = useState<string | null>(null);
+  const [help, setHelp] = useState(false);
+  const submitRef = useRef<(() => void) | null>(null);
+  const actions = useFieldActions();
   const onView = (next: Partial<ViewState>) => setView((v) => ({ ...v, ...next }));
   const fieldById = (id: string | null | undefined) => (id ? model.fields.find((f) => f.id === id) : undefined);
 
@@ -46,44 +52,30 @@ export function Workstation({ model }: { model: ReviewModel }) {
   const source = fieldById(focus?.kind === "field" ? focus.fieldId : focus?.sourceFieldId);
   const highlight = source?.bbox && source.docType === view.docType && source.pageNo === view.pageNo ? source.bbox : null;
 
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (typing(e.target) || e.metaKey || e.ctrlKey || e.altKey) return;
-      const zoomStep = (dir: 1 | -1) => {
-        const i = ZOOMS.indexOf(view.zoom as (typeof ZOOMS)[number]);
-        onView({ zoom: ZOOMS[Math.min(ZOOMS.length - 1, Math.max(0, i + dir))] });
-      };
-      // J/K: next/previous item needing review, in the issues panel's order.
-      const step = (dir: 1 | -1) => {
-        type Target = { fieldId: string } | { checkId: string };
-        const targets = sortIssues(model.issues).flatMap((i): Target[] => (i.fieldId ? [{ fieldId: i.fieldId }] : i.checkId ? [{ checkId: i.checkId }] : []));
-        if (targets.length === 0) return;
-        const at = targets.findIndex((t) => ("fieldId" in t ? focus?.kind === "field" && focus.fieldId === t.fieldId : focus?.kind === "check" && focus.checkId === t.checkId));
-        const next = targets[(at + dir + targets.length) % targets.length] ?? targets[0];
-        if (next) select(next);
-      };
-      const actions: Record<string, () => void> = {
-        "1": () => onView({ docType: "INVOICE", pageNo: 1 }),
-        "2": () => onView({ docType: "PACKING_LIST", pageNo: 1 }),
-        "3": () => onView({ docType: "BILL_OF_LADING", pageNo: 1 }),
-        "+": () => zoomStep(1),
-        "=": () => zoomStep(1),
-        "-": () => zoomStep(-1),
-        r: () => onView({ rotation: view.rotation + 90 }),
-        "[": () => onView({ fine: Math.max(-10, view.fine - 0.5) }),
-        "]": () => onView({ fine: Math.min(10, view.fine + 0.5) }),
-        Escape: () => setFocus(null),
-        j: () => step(1),
-        k: () => step(-1),
-      };
-      const run = actions[e.key.length === 1 ? e.key.toLowerCase() : e.key];
-      if (run) {
-        e.preventDefault();
-        run();
-      }
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+  // J/K: next/previous item needing review, in the issues panel's order.
+  const step = (dir: 1 | -1) => {
+    type Target = { fieldId: string } | { checkId: string };
+    const targets = sortIssues(model.issues).flatMap((i): Target[] => (i.fieldId ? [{ fieldId: i.fieldId }] : i.checkId ? [{ checkId: i.checkId }] : []));
+    const at = targets.findIndex((t) => ("fieldId" in t ? focus?.kind === "field" && focus.fieldId === t.fieldId : focus?.kind === "check" && focus.checkId === t.checkId));
+    const next = targets[(at + dir + targets.length) % targets.length];
+    if (next) select(next);
+  };
+  const zoomStep = (dir: 1 | -1) => onView({ zoom: ZOOMS[Math.min(ZOOMS.length - 1, Math.max(0, ZOOMS.indexOf(view.zoom as (typeof ZOOMS)[number]) + dir))] });
+  const focused = focus?.kind === "field" ? fieldById(focus.fieldId) : undefined;
+  const editable = model.shipment.status !== "EXPORTED";
+
+  useReviewShortcuts({
+    next: () => step(1),
+    previous: () => step(-1),
+    confirm: () => focused && editable && focused.value !== null && focused.status === "UNREVIEWED" && void actions.confirm(focused),
+    edit: () => focused && editable && setEditing(focused.id),
+    cancel: () => (editing ? setEditing(null) : setFocus(null)),
+    tab: (n) => onView({ docType: SLOTS[n - 1] ?? "INVOICE", pageNo: 1 }),
+    zoom: zoomStep,
+    rotate: () => onView({ rotation: view.rotation + 90 }),
+    fine: (dir) => onView({ fine: Math.min(10, Math.max(-10, view.fine + dir * 0.5)) }),
+    help: () => setHelp(true),
+    submit: () => submitRef.current?.(),
   });
 
   const tabs: Array<{ id: MobileTab; label: string; count?: number }> = [
@@ -112,16 +104,20 @@ export function Workstation({ model }: { model: ReviewModel }) {
         <div className={cn("min-h-[70vh] border-r lg:min-h-0", tab !== "document" && "max-lg:hidden")}>
           <DocumentViewer view={view} onView={onView} documents={model.shipment.documents} pages={model.pages} highlight={highlight} highlightLabel={source?.label} />
         </div>
-        <div className="min-h-0 overflow-y-auto">
-          <ExtractionProgress shipment={model.shipment} />
-          <div className={cn(tab !== "issues" && "max-lg:hidden")}>
-            <IssuesPanel model={model} focus={focus} select={select} />
+        <div className={cn("flex min-h-0 flex-col", tab === "document" && "max-lg:hidden")}>
+          <div className="min-h-0 flex-1 overflow-y-auto">
+            <ExtractionProgress shipment={model.shipment} />
+            <div className={cn(tab !== "issues" && "max-lg:hidden")}>
+              <IssuesPanel model={model} focus={focus} select={select} />
+            </div>
+            <div className={cn("border-t", tab !== "fields" && "max-lg:hidden")}>
+              <FieldPanel model={model} focus={focus} select={select} editing={editing} setEditing={setEditing} actions={actions} editable={editable} />
+            </div>
           </div>
-          <div className={cn("border-t", tab !== "fields" && "max-lg:hidden")}>
-            <FieldPanel model={model} focus={focus} select={select} />
-          </div>
+          <SubmitBar model={model} submitRef={submitRef} onHelp={() => setHelp(true)} />
         </div>
       </div>
+      <ShortcutHelp open={help} onOpenChange={setHelp} />
     </div>
   );
 }

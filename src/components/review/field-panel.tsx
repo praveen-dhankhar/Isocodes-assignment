@@ -4,6 +4,7 @@ import { Bot, FileText, PencilLine } from "lucide-react";
 import { DOC_LABEL, type DocType } from "@/domain/fields";
 import type { FieldDTO, ReviewModel } from "@/server/queries/review-model";
 import type { DocumentDTO } from "@/server/queries/shipments";
+import type { FieldActions } from "./field-actions";
 import { FieldRow } from "./field-row";
 import { MODE_LABEL } from "./labels";
 import type { Focus } from "./workstation";
@@ -24,7 +25,16 @@ export function ModeBadge({ document }: { document: DocumentDTO }) {
 }
 
 /** S4 fields, grouped by document: header values, then each line item. */
-export function FieldPanel({ model, focus, select }: { model: ReviewModel; focus: Focus; select: (f: { fieldId: string }) => void }) {
+interface RowProps {
+  focus: Focus;
+  select: (f: { fieldId: string }) => void;
+  editing: string | null;
+  setEditing: (id: string | null) => void;
+  actions: FieldActions;
+  editable: boolean;
+}
+
+export function FieldPanel({ model, ...rowProps }: RowProps & { model: ReviewModel }) {
   const docs = SLOTS.flatMap((slot) => model.shipment.documents.filter((d) => d.docType === slot));
   if (docs.length === 0) {
     return <p className="p-4 text-sm text-muted-foreground">No documents yet. Fields appear once a document has been read.</p>;
@@ -50,11 +60,11 @@ export function FieldPanel({ model, focus, select }: { model: ReviewModel; focus
               <p className="text-sm text-muted-foreground">{doc.status === "FAILED" ? "Not read: extraction failed." : "Not read yet."}</p>
             ) : (
               <>
-                <Rows fields={header} focus={focus} select={select} />
+                <Rows fields={header} {...rowProps} />
                 {lines.map((n) => (
                   <div key={n} className="mt-3">
                     <h3 className="px-2 pb-1 text-xs font-medium text-muted-foreground">Line {n}</h3>
-                    <Rows fields={fields.filter((f) => f.lineNo === n)} focus={focus} select={select} />
+                    <Rows fields={fields.filter((f) => f.lineNo === n)} {...rowProps} />
                   </div>
                 ))}
               </>
@@ -66,11 +76,20 @@ export function FieldPanel({ model, focus, select }: { model: ReviewModel; focus
   );
 }
 
-function Rows({ fields, focus, select }: { fields: FieldDTO[]; focus: Focus; select: (f: { fieldId: string }) => void }) {
+function Rows({ fields, focus, select, editing, setEditing, actions, editable }: RowProps & { fields: FieldDTO[] }) {
   return (
     <div className="flex flex-col">
       {fields.map((f) => (
-        <FieldRow key={f.id} field={f} selected={focus?.kind === "field" && focus.fieldId === f.id} onSelect={() => select({ fieldId: f.id })} />
+        <FieldRow
+          key={f.id}
+          field={f}
+          selected={focus?.kind === "field" && focus.fieldId === f.id}
+          onSelect={() => select({ fieldId: f.id })}
+          editing={editing === f.id}
+          onEdit={(on) => setEditing(on ? f.id : null)}
+          actions={actions}
+          editable={editable}
+        />
       ))}
     </div>
   );

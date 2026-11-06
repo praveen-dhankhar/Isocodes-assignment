@@ -116,7 +116,8 @@ Exact versions are pinned (no `^`) in `package.json` at scaffold time.
     │   ├── auth/       login-form.tsx
     │   ├── shipments/  shipment-table.tsx shipment-filters.tsx status-badge.tsx format.ts new-shipment-form.tsx upload-slot.tsx upload.ts sample-picker.tsx
     │   ├── review/     workstation.tsx document-viewer.tsx field-panel.tsx field-row.tsx issues-panel.tsx check-card.tsx extraction-progress.tsx
-    │   │               resolve-check-dialog.tsx query-importer-dialog.tsx use-review-action.ts labels.ts
+    │   │               resolve-check-dialog.tsx query-importer-dialog.tsx submit-bar.tsx shortcut-help.tsx
+    │   │               use-review-shortcuts.ts use-review-action.ts field-actions.ts labels.ts
     │   │               extraction-progress.tsx resolve-check-dialog.tsx query-importer-dialog.tsx
     │   │               submit-bar.tsx shortcut-help.tsx use-review-shortcuts.ts
     │   ├── approval/   approval-summary.tsx
@@ -570,7 +571,7 @@ type AiError = { code: 'AI_UNAVAILABLE' | 'AI_RATE_LIMITED' | 'AI_INVALID_OUTPUT
 - Mutations call Server Actions with `expectedVersion`; `useOptimistic` for confirm; on `VERSION_CONFLICT` show a toast and `router.refresh()`.
 - While any document is `EXTRACTING`, poll `GET /api/shipments/:id/status` every 2 s and refresh when it changes.
 - Layout: ≥ 1024 px two panes (document 55% / panel 45%); below 1024 px tabs **Document · Fields · Issues** (tablets get the full-width viewer too). Selecting a check jumps to the first observed value that disagrees with the first one (CC-03 → the packing list).
-- Keyboard: `J`/`K` next/previous item needing review · `Enter` confirm · `E` edit · `Esc` cancel · `1`/`2`/`3` document tabs · `+`/`−` zoom · `R` rotate 90° · `[`/`]` fine rotate ±0.5° · `?` shortcut sheet · `Ctrl/⌘+Enter` submit. Disabled while typing in an input.
+- Keyboard: `J`/`K` next/previous item needing review · `Enter` confirm · `E` edit · `Esc` cancel · `1`/`2`/`3` document tabs · `+`/`−` zoom · `R` rotate 90° · `[`/`]` fine rotate ±0.5° · `?` shortcut sheet · `Ctrl/⌘+Enter` submit. Disabled while typing in an input or while a dialog is open; `Enter` on a focused button or link keeps its native meaning, so keyboard focus follows the selection (a selected field row takes focus).
 - Visual language: zinc neutrals; amber only for low confidence, crimson (red-700 on red-50) only for mismatches, emerald only for verified; every badge = icon + text; all numbers, codes and weights through `<Num>` / `<Mono>` (`tabular-nums`).
 
 ## 12. Observability

@@ -16,3 +16,6 @@ export async function openShipment(page: Page, ref: string) {
   await page.getByRole("link", { name: ref }).filter({ visible: true }).first().click();
   await expect(page.getByRole("heading", { level: 1, name: ref })).toBeVisible();
 }
+
+/** An issue card in S4's "Open issues" list (the "All checks" list repeats check names). */
+export const issueCard = (page: Page, name: RegExp | string) => page.getByRole("list", { name: "Open issues" }).getByRole("button", { name });

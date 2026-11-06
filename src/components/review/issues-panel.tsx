@@ -41,7 +41,7 @@ export function IssuesPanel({ model, focus, select }: { model: ReviewModel; focu
         {issues.length === 0 ? "No open issues" : <>Open issues <span className="font-normal tabular-nums text-muted-foreground">{issues.length}</span></>}
       </h2>
       {issues.length === 0 && <p className="text-sm text-muted-foreground text-pretty">Every value is confident or confirmed and every check passes or is resolved.</p>}
-      <ul className="flex flex-col gap-2">
+      <ul aria-label="Open issues" className="flex flex-col gap-2">
         {issues.map((issue, n) => {
           const check = issue.checkId ? checks.get(issue.checkId) : undefined;
           const field = issue.fieldId ? fields.get(issue.fieldId) : undefined;
