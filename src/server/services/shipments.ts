@@ -1,5 +1,5 @@
 import "server-only";
-import { eq, sql } from "drizzle-orm";
+import { and, eq, isNull, sql } from "drizzle-orm";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { z } from "zod";
@@ -71,4 +71,9 @@ export async function createSampleShipment(input: { sampleRef: string; actorId: 
     documentIds[docType] = document.id;
   }
   return { shipmentId, ref, documentIds };
+}
+
+/** A-22: review time starts the first time someone opens S4. Not a data change: no version bump, no recompute. */
+export async function markFirstOpened(shipmentId: string): Promise<void> {
+  await db().update(shipments).set({ firstOpenedAt: sql`now()` }).where(and(eq(shipments.id, shipmentId), isNull(shipments.firstOpenedAt)));
 }

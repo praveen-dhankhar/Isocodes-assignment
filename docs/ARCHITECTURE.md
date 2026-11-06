@@ -564,11 +564,11 @@ type AiError = { code: 'AI_UNAVAILABLE' | 'AI_RATE_LIMITED' | 'AI_INVALID_OUTPUT
 
 ## 11. Frontend architecture (review workstation)
 
-- `page.tsx` (server) loads `getReviewModel(shipmentId)` — documents, pages, fields grouped by section, checks, issues, user role — and marks `firstOpenedAt` once.
+- `page.tsx` (server) loads `getReviewModel(shipmentId)` — documents, pages, fields grouped by section, checks, issues, user role — and marks `firstOpenedAt` once (`markFirstOpened` in `services/shipments.ts`; no version bump). The issue list comes from re-running the pure engine on a non-locking snapshot (`loadSnapshot(db, id, { lock: false })`).
 - `<Workstation>` (client) owns selection state: `{ docType, pageNo, focusedFieldId | focusedIssueKey, zoom, rotation }`. Selecting a field or issue sets the viewer tab/page and draws the box.
 - Mutations call Server Actions with `expectedVersion`; `useOptimistic` for confirm; on `VERSION_CONFLICT` show a toast and `router.refresh()`.
 - While any document is `EXTRACTING`, poll `GET /api/shipments/:id/status` every 2 s and refresh when it changes.
-- Layout: ≥ 1024 px two panes (document 55% / panel 45%); < 768 px tabs **Document · Fields · Issues**.
+- Layout: ≥ 1024 px two panes (document 55% / panel 45%); below 1024 px tabs **Document · Fields · Issues** (tablets get the full-width viewer too). Selecting a check jumps to the first observed value that disagrees with the first one (CC-03 → the packing list).
 - Keyboard: `J`/`K` next/previous item needing review · `Enter` confirm · `E` edit · `Esc` cancel · `1`/`2`/`3` document tabs · `+`/`−` zoom · `R` rotate 90° · `[`/`]` fine rotate ±0.5° · `?` shortcut sheet · `Ctrl/⌘+Enter` submit. Disabled while typing in an input.
 - Visual language: zinc neutrals; amber only for low confidence, crimson (red-700 on red-50) only for mismatches, emerald only for verified; every badge = icon + text; all numbers, codes and weights through `<Num>` / `<Mono>` (`tabular-nums`).
 

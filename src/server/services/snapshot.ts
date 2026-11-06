@@ -2,7 +2,7 @@ import "server-only";
 import { and, eq, inArray, isNotNull, isNull } from "drizzle-orm";
 import { ShipmentSnapshot } from "@/domain/snapshot";
 import { AppError } from "@/lib/errors";
-import type { Tx } from "../db/client";
+import type { Db, Tx } from "../db/client";
 import { crossCheckResults, documents, extractedFields, lineItems, shipments } from "../db/schema";
 
 type FieldRow = Pick<typeof extractedFields.$inferSelect, "id" | "documentId" | "lineItemId" | "fieldKey" | "value" | "status" | "confidence">;
@@ -19,15 +19,13 @@ const byKey = (rows: FieldRow[]) => Object.fromEntries(rows.map((f) => [f.fieldK
 
 /**
  * The engine's input (ARCHITECTURE §6.1) from DB rows: current documents, their fields and lines, and stored
- * resolutions. Locks the shipment row (FOR UPDATE) until the transaction ends. Zod-validated, so an unknown
- * field_key or out-of-range confidence fails here instead of inside the engine.
+ * resolutions. In a write transaction it locks the shipment row (FOR UPDATE) until the transaction ends; reads
+ * pass `lock: false`. Zod-validated, so an unknown field_key or out-of-range confidence fails here instead of inside
+ * the engine.
  */
-export async function loadSnapshot(tx: Tx, shipmentId: string): Promise<ShipmentSnapshot> {
-  const [shipment] = await tx
-    .select({ id: shipments.id, ref: shipments.ref, status: shipments.status })
-    .from(shipments)
-    .where(eq(shipments.id, shipmentId))
-    .for("update");
+export async function loadSnapshot(tx: Tx | Db, shipmentId: string, { lock = true } = {}): Promise<ShipmentSnapshot> {
+  const query = tx.select({ id: shipments.id, ref: shipments.ref, status: shipments.status }).from(shipments).where(eq(shipments.id, shipmentId));
+  const [shipment] = lock ? await query.for("update") : await query;
   if (!shipment) throw new AppError("NOT_FOUND", "Shipment not found");
 
   const docs = await tx.select().from(documents).where(and(eq(documents.shipmentId, shipmentId), isNull(documents.supersededAt)));

@@ -6,6 +6,18 @@ import type { ShipmentSnapshot } from "../snapshot";
 export const RuleId = z.enum(["CC-01", "CC-02", "CC-03", "CC-04", "CC-05", "CC-06", "CC-07", "CC-08"]);
 export type RuleId = z.infer<typeof RuleId>;
 
+/** PRD §9 rule names, as people read them. */
+export const RULE_NAME: Record<RuleId, string> = {
+  "CC-01": "Line totals",
+  "CC-02": "Invoice total",
+  "CC-03": "Gross weight",
+  "CC-04": "Net weight",
+  "CC-05": "Package count",
+  "CC-06": "Line items",
+  "CC-07": "Container numbers",
+  "CC-08": "Invoice reference",
+};
+
 export const CheckResolution = z.enum(["DISCREPANCY_ACCEPTED", "QUERY_RAISED", "ACKNOWLEDGED_MISSING"]);
 export type CheckResolution = z.infer<typeof CheckResolution>;
 
