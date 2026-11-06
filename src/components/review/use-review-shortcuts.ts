@@ -41,7 +41,7 @@ export function useReviewShortcuts(handlers: ShortcutHandlers) {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       const h = ref.current;
-      if (e.defaultPrevented || document.querySelector("[role=dialog]")) return;
+      if (e.defaultPrevented || document.querySelector("[role=dialog][data-state=open]")) return;
       if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
         e.preventDefault();
         return h.submit();

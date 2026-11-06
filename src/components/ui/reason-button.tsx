@@ -5,7 +5,7 @@ import { Button } from "./button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./tooltip";
 
 /**
- * A button that can't act is disabled with a tooltip saying why (CLAUDE.md UI rule). A disabled button gets no pointer
+ * A button that can't act is disabled with a tooltip saying why (contributor guide, UI rules). A disabled button gets no pointer
  * events, so the tooltip hangs on a focusable wrapper.
  */
 export function ReasonButton({ reason, disabled, ...props }: ComponentProps<typeof Button> & { reason: string | null }) {

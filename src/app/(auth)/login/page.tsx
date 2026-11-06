@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
+import { connection } from "next/server";
 import { LoginForm } from "@/components/auth/login-form";
 
 export const metadata: Metadata = { title: "Sign in · Customs cross-check" };
 
-// S1. Static on purpose: no session lookup, so the page renders even before the database is reachable.
-export default function LoginPage() {
+// S1. Rendered per request so its scripts carry the CSP nonce; still no session lookup, so it renders even when the
+// database is unreachable.
+export default async function LoginPage() {
+  await connection();
   return (
     <main className="flex flex-1 items-center justify-center px-4 py-12">
       <div className="w-full max-w-sm space-y-6">

@@ -24,7 +24,7 @@ export const hasFixture = (sha256: string) => /^[0-9a-f]{64}$/.test(sha256) && e
 
 /**
  * Replays a bundled file's stored per-page output (ARCHITECTURE §8.2). Only files whose sha256 has a fixture can be
- * served — an unknown file never gets invented values (CLAUDE.md rule 7). Documents it fills are labelled SAMPLE.
+ * served — an unknown file never gets invented values (contributor guide, rule 7). Documents it fills are labelled SAMPLE.
  */
 export class RecordedSampleProvider {
   readonly mode = "SAMPLE" as const;

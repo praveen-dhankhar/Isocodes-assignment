@@ -3,11 +3,20 @@ import { expect, type Page } from "@playwright/test";
 export const DEMO = { asha: "asha@demo.test", vikram: "vikram@demo.test", meera: "meera@demo.test" } as const;
 
 export async function signIn(page: Page, email: string) {
-  await page.goto("/login");
-  await page.getByLabel("Email").fill(email);
-  await page.getByLabel("Password").fill(process.env.SEED_DEMO_PASSWORD ?? "");
-  await page.getByRole("button", { name: /sign in/i }).click();
-  await expect(page).toHaveURL(/\/shipments/);
+  for (let attempt = 0; ; attempt++) {
+    await page.goto("/login");
+    await page.getByLabel("Email").fill(email);
+    await page.getByLabel("Password").fill(process.env.SEED_DEMO_PASSWORD ?? "");
+    await page.getByRole("button", { name: /sign in/i }).click();
+    try {
+      await expect(page).toHaveURL(/\/shipments/, { timeout: 5_000 });
+      return;
+    } catch (e) {
+      // A production build rate-limits sign-in (Better Auth, per IP); wait out the window once.
+      if (attempt > 0) throw e;
+      await page.waitForTimeout(11_000);
+    }
+  }
 }
 
 /** Opens a seeded sample shipment from the list (S2 → S4). */

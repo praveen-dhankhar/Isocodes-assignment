@@ -15,7 +15,7 @@ import { lockShipment } from "./recompute";
 import { loadSnapshot } from "./snapshot";
 
 // PRD §10.3 gate 3 and API_SPECS §4.6–4.7. The gate runs on the server inside the export transaction; the disabled
-// button on S6 only mirrors it (CLAUDE.md rule 1).
+// button on S6 only mirrors it (contributor guide, rule 1).
 
 async function build(q: Db | Tx, shipmentId: string, lock: boolean) {
   const snapshot = await loadSnapshot(q, shipmentId, { lock });
