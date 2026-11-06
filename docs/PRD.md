@@ -225,7 +225,7 @@ Rules run on the values present; e.g. CC-03 with no invoice gross weight compare
 | `DOCUMENT_MISSING` | one of the three slots has no current document |
 | `DOCUMENT_NOT_READY` | document is `UPLOADED`, `EXTRACTING` or `FAILED` |
 | `WRONG_DOCUMENT_TYPE` | model's detected type ≠ slot type and not dismissed |
-| `FIELD_NEEDS_REVIEW` | field `UNREVIEWED` with final confidence < 0.85 (includes required-but-missing) |
+| `FIELD_NEEDS_REVIEW` | field `UNREVIEWED` with final confidence < 0.85 (includes required-but-missing; an optional field the document does not print never blocks) |
 | `CHECK_FAILED` | check `FAIL` without `DISCREPANCY_ACCEPTED` |
 | `CHECK_INCOMPLETE` | check `INCOMPLETE` without `ACKNOWLEDGED_MISSING` |
 | `IMPORTER_QUERY_OPEN` | shipment `ON_HOLD` |

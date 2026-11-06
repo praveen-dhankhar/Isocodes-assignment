@@ -4,14 +4,9 @@ import { mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
 import { SCENARIOS } from "@/domain/checks/__fixtures__/snapshots";
-import { HEADER_FIELDS, LINE_FIELDS, type DocType, type FieldDef, type FieldKind } from "@/domain/fields";
-import { parseContainerList, parseHsCode } from "@/domain/normalize/codes";
-import { parseCurrency } from "@/domain/normalize/currency";
-import { parseDate } from "@/domain/normalize/date";
-import { parseIncoterm } from "@/domain/normalize/incoterm";
-import { detectDecimalSeparator, parseDecimal, parseInteger, type DecimalSeparator } from "@/domain/normalize/number";
-import { normalizeText, normalizeUnit } from "@/domain/normalize/text";
-import { parseWeightKg } from "@/domain/normalize/weight";
+import { HEADER_FIELDS, LINE_FIELDS, type DocType, type FieldDef } from "@/domain/fields";
+import { normalizeField } from "@/domain/normalize/field";
+import { detectDecimalSeparator } from "@/domain/normalize/number";
 import { SAMPLES, type SampleDocument, type SampleShipment, type Variant } from "./sample-data";
 import { imagesToHtml, renderDocument } from "./sample-templates";
 
@@ -46,28 +41,13 @@ const LINE: Record<string, FieldDef> = LINE_FIELDS;
 
 // ── Ground truth: the printed text read by the domain normalisers ────────────────────────────────────────────────
 
-function canonical(kind: FieldKind, text: string, sep: DecimalSeparator | null, country: string): string | null {
-  switch (kind) {
-    case "TEXT": case "IDENTIFIER": return normalizeText(text);
-    case "DATE": return parseDate(text, country)?.value ?? null;
-    case "CURRENCY": return parseCurrency(text, country);
-    case "INCOTERM": return parseIncoterm(text);
-    case "MONEY": case "DECIMAL": return parseDecimal(text, sep)?.value ?? null;
-    case "INTEGER": return parseInteger(text);
-    case "WEIGHT": return parseWeightKg(text, sep)?.kg ?? null;
-    case "CONTAINER_LIST": return parseContainerList(text)?.value ?? null;
-    case "HS_CODE": return parseHsCode(text)?.value ?? null;
-    case "UNIT": return normalizeUnit(text);
-  }
-}
-
 interface Truth { header: Record<string, string | null>; lines: Array<Record<string, string | null>> }
 
 function truthOf(doc: SampleDocument, country: string): Truth {
   const printed = [...Object.values(doc.header), ...doc.lines.flatMap((l) => Object.values(l))].filter((v): v is string => v !== undefined);
   const sep = detectDecimalSeparator(printed);
   const read = (registry: Record<string, FieldDef>, cells: Record<string, string | undefined>) =>
-    Object.fromEntries(Object.entries(cells).map(([k, v]) => [k, v === undefined ? null : canonical(registry[k]?.kind ?? "TEXT", v, sep, country)]));
+    Object.fromEntries(Object.entries(cells).map(([k, v]) => [k, v === undefined ? null : normalizeField(registry[k]?.kind ?? "TEXT", v, { separator: sep, supplierCountry: country }).value]));
   return { header: read(HEADER, doc.header), lines: doc.lines.map((l) => read(LINE, l)) };
 }
 

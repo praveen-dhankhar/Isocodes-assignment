@@ -127,7 +127,8 @@ export const extractedFields = pgTable("extracted_fields", {
 
 export const fieldEdits = pgTable("field_edits", {         // append-only; powers S7 + S8
   id: uuid("id").primaryKey().defaultRandom(),
-  fieldId: uuid("field_id").notNull().references(() => extractedFields.id),
+  // Nullable, set null: re-extraction with discardHumanEdits replaces the field rows; the edit history stays.
+  fieldId: uuid("field_id").references(() => extractedFields.id, { onDelete: "set null" }),
   shipmentId: uuid("shipment_id").notNull(),
   supplierId: uuid("supplier_id").notNull(),        // denormalised for per-supplier accuracy
   docType: docType("doc_type").notNull(),

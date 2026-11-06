@@ -37,6 +37,8 @@ describe("computeBlockingIssues (PRD §10.1)", () => {
     ["wrong document in the slot", edit((s) => { if (s.documents.INVOICE) s.documents.INVOICE.detectedDocType = "PACKING_LIST"; }), ["WRONG_DOCUMENT_TYPE", "CHECK_FAILED"]],
     ["wrong type dismissed", edit((s) => { if (s.documents.INVOICE) Object.assign(s.documents.INVOICE, { detectedDocType: "OTHER", wrongTypeDismissed: true }); }), ["CHECK_FAILED"]],
     ["required value missing (confidence 0)", edit((s) => { const f = s.documents.INVOICE?.header.invoiceDate; if (f) Object.assign(f, { value: null, confidence: 0 }); }), ["CHECK_FAILED", "FIELD_NEEDS_REVIEW"]],
+    ["optional field not printed (confidence 0) does not block", edit((s) => { const f = s.documents.BILL_OF_LADING?.header.netWeight; if (f) Object.assign(f, { value: null, confidence: 0 }); }), ["CHECK_FAILED"]],
+    ["optional line cell not printed does not block", edit((s) => { const f = s.documents.INVOICE?.lines[0]?.cells.hsCode; if (f) Object.assign(f, { value: null, confidence: 0 }); }), ["CHECK_FAILED"]],
     ["low-confidence line cell", edit((s) => { const f = s.documents.INVOICE?.lines[0]?.cells.unitPrice; if (f) f.confidence = 0.6; }), ["CHECK_FAILED", "FIELD_NEEDS_REVIEW"]],
     ["incomplete check", withValue(shp24811(), "BILL_OF_LADING", "containerNumbers", null), ["CHECK_FAILED", "CHECK_INCOMPLETE"]],
     ["on hold", edit((s) => { s.status = "ON_HOLD"; }), ["CHECK_FAILED", "IMPORTER_QUERY_OPEN"]],

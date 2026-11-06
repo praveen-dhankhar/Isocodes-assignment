@@ -122,7 +122,7 @@ Exact versions are pinned (no `^`) in `package.json` at scaffold time.
     │   └── reports/    accuracy-table.tsx calibration-table.tsx
     ├── domain/                   # PURE — no I/O, no React, no DB, no Date.now(), no Math.random()
     │   ├── money.ts
-    │   ├── normalize/ number.ts weight.ts date.ts currency.ts incoterm.ts codes.ts text.ts
+    │   ├── normalize/ number.ts weight.ts date.ts currency.ts incoterm.ts codes.ts text.ts field.ts (by kind)
     │   ├── fields.ts             # field registry = PRD §6
     │   ├── snapshot.ts           # ShipmentSnapshot types + Zod
     │   ├── evidence.ts           # value ↔ PDF text-layer matching
@@ -292,7 +292,7 @@ export const extractedFields = pgTable('extracted_fields', {
 
 export const fieldEdits = pgTable('field_edits', {         // append-only; powers S7 + S8
   id: uuid('id').primaryKey().defaultRandom(),
-  fieldId: uuid('field_id').notNull().references(() => extractedFields.id),
+  fieldId: uuid('field_id').references(() => extractedFields.id, { onDelete: 'set null' }), // kept when re-extraction replaces fields
   shipmentId: uuid('shipment_id').notNull(),
   supplierId: uuid('supplier_id').notNull(),        // denormalised for per-supplier accuracy
   docType: docType('doc_type').notNull(),
@@ -463,7 +463,8 @@ POST /api/shipments/:id/documents/:docId/extract  { force?, discardHumanEdits? }
       out   = provider.extractPage({ slot, pageNo, pageCount, image })  → validated PageExtraction (API_SPECS §2)
  4. merge pages: header field = highest-confidence non-null across pages; line items concatenated in page
     order, renumbered 1..n; detectedDocumentType = first page's
- 5. normalise (domain/normalize) → evidence (domain/evidence, digital PDFs only) → confidence caps (domain/confidence)
+ 5. normalise (domain/normalize/field.ts, by kind; separator detected over the document's printed numbers) → evidence (domain/evidence, digital PDFs only) → confidence caps (domain/confidence). A page reported unreadable contributes no values; documents with every page unreadable become MANUAL.
+    Chain per page (ai/provider.ts): primary → fallback → recorded sample; document mode SAMPLE if any page came from a sample.
  6. tx: delete old fields/lines for doc · insert line_items + extracted_fields · update document
         (status EXTRACTED | MANUAL, mode, modelId, latency, usage, rawAiOutput, page readability)
         · recomputeShipment · audit EXTRACTION_SUCCEEDED

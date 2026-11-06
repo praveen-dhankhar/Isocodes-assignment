@@ -3,7 +3,7 @@ import { and, asc, eq, isNull } from "drizzle-orm";
 import type { DocType } from "@/domain/fields";
 import type { ShipmentStatus } from "@/domain/snapshot";
 import { AppError } from "@/lib/errors";
-import type { Db, Tx } from "../db/client";
+import { db, type Db, type Tx } from "../db/client";
 import { documents, shipments } from "../db/schema";
 
 // API_SPECS §3 DTOs shared by routes and pages.
@@ -59,3 +59,6 @@ export async function shipmentStatus(q: Db | Tx, shipmentId: string): Promise<Sh
     documents: docs.map(toDocumentDTO).sort((a, b) => SLOT_ORDER[a.docType] - SLOT_ORDER[b.docType]),
   };
 }
+
+/** API_SPECS §4.3 polling. */
+export const getShipmentStatus = (shipmentId: string) => shipmentStatus(db(), shipmentId);

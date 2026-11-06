@@ -65,6 +65,9 @@ export function computeBlockingIssues(snapshot: ShipmentSnapshot, outcomes: read
     }
 
     const review = (ref: FieldRef, def: FieldDef | undefined, where: string) => {
+      // An optional field the document simply does not print is not something to review (the model reports it at
+      // confidence 0). A missing required field still blocks (PRD §10.1).
+      if (ref.value === null && def?.on[docType] !== "R") return;
       if (unverified(ref)) fields.push({ type: "FIELD_NEEDS_REVIEW", ref: { documentId, fieldId: ref.fieldId }, label: `${where}: ${def?.label ?? "Field"} needs review` });
     };
     for (const [key, ref] of Object.entries(doc.header)) review(ref, HEADER[key], name);
