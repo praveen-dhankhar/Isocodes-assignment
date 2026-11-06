@@ -1,8 +1,8 @@
 {
   "sha256": "29c20dc18d51afbb41b366c95a71bd82712715dfc76747a8d4e4191da2d54c1a",
-  "source": "hand-authored",
-  "modelId": "hand-authored",
-  "recordedAt": "2026-11-01T00:00:00.000Z",
+  "source": "recorded",
+  "modelId": "nvidia/nemotron-3.5-super-vl-120b-a12b",
+  "recordedAt": "2026-11-06T18:02:30.752Z",
   "pages": [
     {
       "pageNo": 1,
@@ -11,94 +11,94 @@
         "pageReadable": true,
         "pageIssues": [],
         "fields": {
-          "supplierName": {
-            "text": "Company C",
+          "blNumber": {
+            "text": "BLGOT2610118",
             "confidence": 0.99,
             "bbox": {
-              "x": 0.0828,
-              "y": 0.1528,
-              "w": 0.0931,
-              "h": 0.0143
+              "x": 0.391,
+              "y": 0.108,
+              "w": 0.209,
+              "h": 0.022
+            }
+          },
+          "supplierName": {
+            "text": "Company C",
+            "confidence": 0.98,
+            "bbox": {
+              "x": 0.078,
+              "y": 0.153,
+              "w": 0.156,
+              "h": 0.02
             }
           },
           "consigneeName": {
             "text": "Company Q",
-            "confidence": 0.95,
+            "confidence": 0.98,
             "bbox": {
-              "x": 0.5265,
-              "y": 0.1528,
-              "w": 0.0941,
-              "h": 0.0143
-            }
-          },
-          "totalPackages": {
-            "text": "6 PALLETS",
-            "confidence": 0.95,
-            "bbox": {
-              "x": 0.2143,
-              "y": 0.281,
-              "w": 0.0909,
-              "h": 0.0143
-            }
-          },
-          "grossWeight": {
-            "text": "1,460.000 KGS",
-            "confidence": 0.99,
-            "bbox": {
-              "x": 0.7059,
-              "y": 0.281,
-              "w": 0.0785,
-              "h": 0.0285
-            }
-          },
-          "netWeight": {
-            "text": "1,340.000 KGS",
-            "confidence": 0.97,
-            "bbox": {
-              "x": 0.8413,
-              "y": 0.281,
-              "w": 0.0785,
-              "h": 0.0285
-            }
-          },
-          "containerNumbers": {
-            "text": "KQZU2073199",
-            "confidence": 0.97,
-            "bbox": {
-              "x": 0.0802,
-              "y": 0.281,
-              "w": 0.1177,
-              "h": 0.0143
-            }
-          },
-          "blNumber": {
-            "text": "BLGOT2610118",
-            "confidence": 0.97,
-            "bbox": {
-              "x": 0.3731,
-              "y": 0.1046,
-              "w": 0.1895,
-              "h": 0.0187
+              "x": 0.523,
+              "y": 0.153,
+              "w": 0.133,
+              "h": 0.02
             }
           },
           "portOfLoading": {
             "text": "Gothenburg",
-            "confidence": 0.95,
+            "confidence": 0.97,
             "bbox": {
-              "x": 0.0714,
-              "y": 0.216,
-              "w": 0.0932,
-              "h": 0.0143
+              "x": 0.078,
+              "y": 0.222,
+              "w": 0.156,
+              "h": 0.02
             }
           },
           "portOfDischarge": {
             "text": "Nhava Sheva",
-            "confidence": 0.95,
+            "confidence": 0.97,
             "bbox": {
-              "x": 0.5151,
-              "y": 0.216,
-              "w": 0.1059,
-              "h": 0.0143
+              "x": 0.523,
+              "y": 0.222,
+              "w": 0.156,
+              "h": 0.02
+            }
+          },
+          "totalPackages": {
+            "text": "6 PALLETS",
+            "confidence": 0.98,
+            "bbox": {
+              "x": 0.211,
+              "y": 0.281,
+              "w": 0.125,
+              "h": 0.02
+            }
+          },
+          "grossWeight": {
+            "text": "1,460.000 KGS",
+            "confidence": 0.98,
+            "bbox": {
+              "x": 0.711,
+              "y": 0.281,
+              "w": 0.156,
+              "h": 0.02
+            }
+          },
+          "netWeight": {
+            "text": "1,340.000 KGS",
+            "confidence": 0.98,
+            "bbox": {
+              "x": 0.828,
+              "y": 0.281,
+              "w": 0.156,
+              "h": 0.02
+            }
+          },
+          "containerNumbers": {
+            "text": "KQZU2073199",
+            "confidence": 0.98,
+            "bbox": {
+              "x": 0.078,
+              "y": 0.281,
+              "w": 0.125,
+              "h": 0.02
             }
           }
         }

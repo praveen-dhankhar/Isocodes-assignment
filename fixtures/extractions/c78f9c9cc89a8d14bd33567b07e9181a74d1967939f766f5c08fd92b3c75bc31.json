@@ -1,8 +1,8 @@
 {
   "sha256": "c78f9c9cc89a8d14bd33567b07e9181a74d1967939f766f5c08fd92b3c75bc31",
-  "source": "hand-authored",
-  "modelId": "hand-authored",
-  "recordedAt": "2026-11-01T00:00:00.000Z",
+  "source": "recorded",
+  "modelId": "nvidia/nemotron-3.5-super-vl-120b-a12b",
+  "recordedAt": "2026-11-06T18:04:25.737Z",
   "pages": [
     {
       "pageNo": 1,
@@ -13,113 +13,58 @@
         "fields": {
           "supplierName": {
             "text": "Company F",
-            "confidence": 0.96,
-            "bbox": {
-              "x": 0.0714,
-              "y": 0.0539,
-              "w": 0.1555,
-              "h": 0.0223
-            }
+            "confidence": 0.99,
+            "bbox": null
           },
           "importerName": {
             "text": "Company Q",
-            "confidence": 0.97,
-            "bbox": {
-              "x": 0.0828,
-              "y": 0.2347,
-              "w": 0.0941,
-              "h": 0.0143
-            }
+            "confidence": 0.99,
+            "bbox": null
           },
           "consigneeName": {
             "text": "Company Q",
-            "confidence": 0.97,
-            "bbox": {
-              "x": 0.5265,
-              "y": 0.2347,
-              "w": 0.0941,
-              "h": 0.0143
-            }
+            "confidence": 0.99,
+            "bbox": null
           },
           "invoiceNumber": {
             "text": "TH-2026-1290",
-            "confidence": 0.98,
-            "bbox": {
-              "x": 0.0714,
-              "y": 0.159,
-              "w": 0.1137,
-              "h": 0.0143
-            }
+            "confidence": 0.99,
+            "bbox": null
           },
           "invoiceDate": {
             "text": "07/10/2026",
             "confidence": 0.99,
-            "bbox": {
-              "x": 0.5151,
-              "y": 0.159,
-              "w": 0.0883,
-              "h": 0.0143
-            }
+            "bbox": null
           },
           "currency": {
             "text": "USD",
-            "confidence": 0.97,
-            "bbox": {
-              "x": 0.0714,
-              "y": 0.1911,
-              "w": 0.0372,
-              "h": 0.0143
-            }
+            "confidence": 0.99,
+            "bbox": null
           },
           "incoterm": {
             "text": "FOB Laem Chabang",
-            "confidence": 0.96,
-            "bbox": {
-              "x": 0.5151,
-              "y": 0.1911,
-              "w": 0.1618,
-              "h": 0.0143
-            }
+            "confidence": 0.99,
+            "bbox": null
           },
           "invoiceTotal": {
             "text": "7,200.00",
-            "confidence": 0.95,
-            "bbox": {
-              "x": 0.8511,
-              "y": 0.3541,
-              "w": 0.0687,
-              "h": 0.0143
-            }
+            "confidence": 0.99,
+            "bbox": null
           },
           "totalPackages": {
             "text": "60 CTNS",
-            "confidence": 0.98,
-            "bbox": {
-              "x": 0.8472,
-              "y": 0.3781,
-              "w": 0.0725,
-              "h": 0.0143
-            }
+            "confidence": 0.99,
+            "bbox": null
           },
           "grossWeight": {
             "text": "1,830.00 KGS",
-            "confidence": 0.97,
-            "bbox": {
-              "x": 0.8089,
-              "y": 0.4022,
-              "w": 0.1108,
-              "h": 0.0143
-            }
+            "confidence": 0.99,
+            "bbox": null
           },
           "netWeight": {
             "text": "1,710.00 KGS",
-            "confidence": 0.97,
-            "bbox": {
-              "x": 0.8089,
-              "y": 0.4262,
-              "w": 0.1108,
-              "h": 0.0143
-            }
+            "confidence": 0.99,
+            "bbox": null
           },
           "containerNumbers": {
             "text": null,
@@ -132,62 +77,32 @@
             "description": {
               "text": "Rubber timing belt",
               "confidence": 0.99,
-              "bbox": {
-                "x": 0.1147,
-                "y": 0.3185,
-                "w": 0.1432,
-                "h": 0.0143
-              }
+              "bbox": null
             },
             "hsCode": {
               "text": "4010.39.00",
-              "confidence": 0.98,
-              "bbox": {
-                "x": 0.3712,
-                "y": 0.3185,
-                "w": 0.0883,
-                "h": 0.0143
-              }
+              "confidence": 0.99,
+              "bbox": null
             },
             "quantity": {
               "text": "3,000",
-              "confidence": 0.98,
-              "bbox": {
-                "x": 0.5661,
-                "y": 0.3185,
-                "w": 0.0442,
-                "h": 0.0143
-              }
+              "confidence": 0.99,
+              "bbox": null
             },
             "unit": {
               "text": "PCS",
-              "confidence": 0.98,
-              "bbox": {
-                "x": 0.6267,
-                "y": 0.3185,
-                "w": 0.0363,
-                "h": 0.0143
-              }
+              "confidence": 0.99,
+              "bbox": null
             },
             "unitPrice": {
               "text": "2.40",
               "confidence": 0.99,
-              "bbox": {
-                "x": 0.7734,
-                "y": 0.3185,
-                "w": 0.0343,
-                "h": 0.0143
-              }
+              "bbox": null
             },
             "lineTotal": {
               "text": "7,200.00",
-              "confidence": 0.95,
-              "bbox": {
-                "x": 0.8511,
-                "y": 0.3185,
-                "w": 0.0687,
-                "h": 0.0143
-              }
+              "confidence": 0.99,
+              "bbox": null
             }
           }
         ]

@@ -1,57 +1,50 @@
 {
   "sha256": "d42a1abb611d161c8cfd95581f6060dbace30861e062058a34da167f8c44d62e",
-  "source": "hand-authored",
-  "modelId": "hand-authored",
-  "recordedAt": "2026-11-01T00:00:00.000Z",
+  "source": "recorded",
+  "modelId": "nvidia/nemotron-3.5-super-vl-120b-a12b",
+  "recordedAt": "2026-11-06T18:04:46.466Z",
   "pages": [
     {
       "pageNo": 1,
       "output": {
         "detectedDocumentType": "BILL_OF_LADING",
         "pageReadable": true,
-        "pageIssues": [
-          "SKEWED"
-        ],
+        "pageIssues": [],
         "fields": {
+          "blNumber": {
+            "text": "BLLCH2610090",
+            "confidence": 0.95,
+            "bbox": null
+          },
           "supplierName": {
             "text": "Company F",
-            "confidence": 0.86,
-            "bbox": {
-              "x": 0.0828,
-              "y": 0.1528,
-              "w": 0.0912,
-              "h": 0.0143
-            }
+            "confidence": 0.95,
+            "bbox": null
           },
           "consigneeName": {
             "text": "Company Q",
-            "confidence": 0.92,
-            "bbox": {
-              "x": 0.5265,
-              "y": 0.1528,
-              "w": 0.0941,
-              "h": 0.0143
-            }
+            "confidence": 0.95,
+            "bbox": null
+          },
+          "portOfLoading": {
+            "text": "Laem Chabang",
+            "confidence": 0.95,
+            "bbox": null
+          },
+          "portOfDischarge": {
+            "text": "Nhava Sheva",
+            "confidence": 0.95,
+            "bbox": null
           },
           "totalPackages": {
             "text": "60 CARTONS",
-            "confidence": 0.86,
-            "bbox": {
-              "x": 0.2427,
-              "y": 0.2686,
-              "w": 0.1101,
-              "h": 0.0143
-            }
+            "confidence": 0.95,
+            "bbox": null
           },
           "grossWeight": {
             "text": "1,830.000 KGS",
-            "confidence": 0.87,
-            "bbox": {
-              "x": 0.7991,
-              "y": 0.2686,
-              "w": 0.1206,
-              "h": 0.0143
-            }
+            "confidence": 0.95,
+            "bbox": null
           },
           "netWeight": {
             "text": null,
@@ -60,43 +53,8 @@
           },
           "containerNumbers": {
             "text": "XZQU4821254",
-            "confidence": 0.62,
-            "bbox": {
-              "x": 0.0802,
-              "y": 0.2686,
-              "w": 0.1177,
-              "h": 0.0143
-            }
-          },
-          "blNumber": {
-            "text": "BLLCH2610090",
-            "confidence": 0.87,
-            "bbox": {
-              "x": 0.3731,
-              "y": 0.1046,
-              "w": 0.1881,
-              "h": 0.0187
-            }
-          },
-          "portOfLoading": {
-            "text": "Laem Chabang",
-            "confidence": 0.93,
-            "bbox": {
-              "x": 0.0714,
-              "y": 0.216,
-              "w": 0.1206,
-              "h": 0.0143
-            }
-          },
-          "portOfDischarge": {
-            "text": "Nhava Sheva",
-            "confidence": 0.89,
-            "bbox": {
-              "x": 0.5151,
-              "y": 0.216,
-              "w": 0.1059,
-              "h": 0.0143
-            }
+            "confidence": 0.95,
+            "bbox": null
           }
         }
       }

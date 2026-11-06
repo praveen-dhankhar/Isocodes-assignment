@@ -131,19 +131,29 @@ A resolution is stored with the **fingerprint** of the values it was made on. If
   | No text layer | 0.95 |
 
   Anything below 0.85 blocks until a person acts. The UI shows the reason, for example "Model 0.97 · not found in the PDF text → 0.70".
-- **Honesty in the demo.** A badge marks every recorded or hand-authored output ("Recorded sample"), next to "Live" and "Manual". The seeded hand-authored fixtures contain four declared misreads (`misread` in `scripts/sample-data.ts`), so that the seeded corrections are real `CORRECT` edits made through the review service.
+- **Honesty in the demo.** A badge marks every replayed output ("Recorded sample", with the model id), next to "Live" and "Manual". The bundled samples replay what the primary model actually returned. The seeded history reviews them the way a person would: values that differ from the document are corrected, uncertain ones confirmed. Because the model got these documents right, the seed contains confirmations and manual entries but no corrections; a reviewer's own corrections show up in S7 at once.
 
 ## 6. Model evaluation
 
-`pnpm eval:extraction --model primary|fallback` runs a model over the 27 bundled files. It reports per-field accuracy against the manifest's ground truth (compared after the app's own normalisation), the JSON-validity rate and the p50/p95 latency per page. `pnpm fixtures:record` replaces the hand-authored fixtures with real model output (`source: "recorded"`).
+`pnpm eval:extraction --model primary|fallback` runs a model over the 27 bundled files (28 pages: 9 shipments, digital PDFs, scans, a skewed phone photo, a bilingual Chinese/English invoice, a document with a blurred page). It compares each field with the manifest's ground truth after the app's own normalisation, and reports pages read, the JSON-validity rate and latency per page. Fields on the deliberately unreadable page are left out.
 
-**Status: the live evaluation has not been run yet.** No NVIDIA API key was available while this was built. The only number so far is offline, and it measures the scorer, not a model:
+Run on 2026-11-06 against NVIDIA's hosted API, with the final prompt and normaliser:
 
-| Run | Result |
-|---|---|
-| `--model recorded` on the hand-authored fixtures | 98.8% field accuracy (343/347). The 4 misses are exactly the 4 declared misreads, which shows that the scorer and the app's normalisation agree. |
+| Model | Field accuracy | Pages read | JSON valid | Latency per page p50 / p95 |
+|---|---|---|---|---|
+| **Primary** `nvidia/nemotron-3.5-super-vl-120b-a12b` | **100%** (347/347) | 100% (28/28) | 100% | 7.9 s / 40.8 s |
+| Fallback `nvidia/nemotron-3-nano-omni-30b-a3b-reasoning` | 97.7% (339/347) | 100% (28/28) | 100% | 11.2 s / 22.9 s |
 
-To fill this section, add `NVIDIA_API_KEY` to `.env.local` and run `pnpm eval:extraction --model primary`, `pnpm eval:extraction --model fallback` and `pnpm fixtures:record`. Then paste the two tables here and keep or swap the defaults in `src/lib/env.ts` based on accuracy and latency. In production, S7's calibration table keeps measuring the same thing on real corrections.
+The first run, before the two fixes below, gave the primary 99.7% (346/347) at 4.8 s / 13.8 s and the fallback 96.3% with one page failed. Latency on the shared hosted API moves between runs; a self-hosted NIM would be steadier.
+
+What the numbers led to:
+
+- **The primary stays primary.** It is more accurate and, at the median, faster. Its one miss in the first run was a space it put inside the Chinese product name ("太阳能 控制器"). Chinese and Japanese don't space words, so the text normaliser now removes such spaces (Korean, which does space words, is left alone).
+- **The fallback is a safety net, not a peer.** It is weakest on HS codes (72.7%) and on weights and containers printed on invoices (about 88%). When it is used, its output still goes through the same confidence caps and cross-checks, and it is labelled with its model id.
+- **Fixes the live run found:** the fallback first planned (`nemotron-nano-12b-v2-vl`) is not served at all; the fallback describes a missing box as an object of nulls, now read as "no box"; the prompt said "use null if unsure" for boxes and the primary returned none, so it now asks for an approximate box for every value.
+- **Boxes are the model's weak spot.** With the new prompt the primary boxes 91 of 335 values, and none on the three scanned documents. Digital PDFs don't depend on it: their boxes come from the PDF text layer, which is exact. On a scan, the review screen still opens the right page but can only draw the box when the model gave one.
+- **Recorded fixtures are real output.** `pnpm fixtures:record` replaced every hand-authored stand-in with the primary model's actual answers (`source: "recorded"`, model id and time in each file). The demo and the seeded history replay those.
+- **Limits of this evaluation.** It is 27 synthetic documents, not the 200 past shipments the client's 95% target refers to. It shows the pipeline works and is accurate on clean and messy layouts; the client's own sample is the real test. In use, S7 keeps measuring accuracy on real corrections.
 
 ## 7. UI decisions per screen
 
@@ -173,9 +183,9 @@ To fill this section, add `NVIDIA_API_KEY` to `.env.local` and run `pnpm eval:ex
 
 | Layer | Count | What it pins down |
 |---|---|---|
-| Unit (Vitest) | 620 tests, 37 files | normalisers and the typed-input gate, confidence caps, the CC-01…CC-08 engine on named scenarios SHP-24811…24816 (and property tests), blocking issues, the status machine, the export gate, CF-1 against a byte-exact golden file (BOM, CRLF, injection guard, JPY with no decimals), NVIDIA client retries and repair |
+| Unit (Vitest) | 626 tests, 37 files | normalisers and the typed-input gate, confidence caps, the CC-01…CC-08 engine on named scenarios SHP-24811…24816 (and property tests), blocking issues, the status machine, the export gate, CF-1 against a byte-exact golden file (BOM, CRLF, injection guard, JPY with no decimals), NVIDIA client retries and repair |
 | Integration (Postgres) | 69 tests, 14 files | extraction (including three documents extracted at once — this found and fixed a lock-order deadlock), manual entry, review and resolutions, approval rules (`FORBIDDEN`, `SELF_APPROVAL_FORBIDDEN`, unacknowledged discrepancy), the export gate (`EXPORT_BLOCKED` reasons, `CHANGED_AFTER_APPROVAL` defence in depth, re-download audit), seed scenarios, report and history queries |
-| e2e (Playwright, recorded samples) | 9 tests, 5 specs | SHP-24811 CC-03 traced to the packing list; resolving by keyboard and submitting; approve → export download; unknown file → FAILED → manual entry; 390 px smoke over S2/S5/S6/S7; CSP headers. The whole suite also passes against a production build. |
+| e2e (Playwright, recorded samples) | 10 tests, 5 specs | SHP-24811 CC-03 traced to the packing list; accepting it and submitting; J/Enter confirming an uncertain value; approve → export download; unknown file → FAILED → manual entry; 390 px smoke over S2/S5/S6/S7; CSP headers. The whole suite also passes against a production build. |
 
 CI runs typecheck, lint, unit, integration and build on every push, plus gitleaks. `pnpm verify` gates every commit.
 
@@ -213,17 +223,17 @@ The brief leaves these open; each is labelled in code where it is applied (`// A
 
 ## 11. What was cut or simplified
 
-- **Live model numbers** (§6): blocked on an API key; the scripts are ready.
+- **Evaluation size** (§6): 27 synthetic documents, not the client's 200 past shipments.
 - **Model concurrency** is limited in-process per function instance; real load needs a queue.
 - **Pagination:** the shipment list shows the 200 most recent.
 - **No CI e2e job:** e2e runs locally against a seeded database.
 - **Orphaned blobs:** a blob written before a failed transaction is left behind, and there is no sweep.
 - **Retention purge (A-17)** is documented, not built.
-- **Evidence matching** needs a PDF text layer; scans rely on confidence plus the cross-checks.
+- **Evidence matching** needs a PDF text layer; scans rely on confidence plus the cross-checks, and source boxes on scans appear only when the model returns one (§6).
 
 ## 12. What's next
 
-1. Record fixtures and evaluate both models with a key; choose the defaults from the numbers.
+1. Evaluate on the client's 200 past shipments (their 95% target) and get better boxes on scans: ask for word boxes separately or run an OCR pass on scans.
 2. Replace CF-1 with the client's real import template (one mapping file) and add XLSX output.
 3. Move extraction onto a job queue with retries, and add an e2e job to CI against a seeded Postgres service.
 4. Email intake of documents; a self-hosted NIM in an India region for production (A-16).

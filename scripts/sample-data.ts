@@ -21,11 +21,6 @@ export interface SampleDocument {
   page2?: HeaderFieldKey[];
   /** Hand-authored confidences: "grossWeight" or "line2.unitPrice". Others get a per-variant default. */
   confidence?: Record<string, number>;
-  /**
-   * Hand-authored misreads: what the fixture's "model" returns instead of the printed text, same keys as
-   * `confidence`. Truth stays the printed text, so these become real corrections in the seeded history (M8.4).
-   */
-  misread?: Record<string, string>;
 }
 
 export interface SampleShipment {
@@ -147,7 +142,6 @@ export const SAMPLES: SampleShipment[] = [
           { description: "Hydraulic gear pump 16cc", hsCode: "8413.60.10", quantity: "40", unit: "PCS", unitPrice: "118.00", lineTotal: "4,720.00" },
           { description: "Pump seal kit", hsCode: "8484.90.00", quantity: "40", unit: "SETS", unitPrice: "9.50", lineTotal: "380.00" },
         ],
-        misread: { "line1.hsCode": "8413.60.1" }, // a dropped digit
       },
       {
         docType: "PACKING_LIST",
@@ -160,8 +154,6 @@ export const SAMPLES: SampleShipment[] = [
           { description: "Hydraulic gear pump 16cc", quantity: "40", unit: "PCS" },
           { description: "Pump seal kit", quantity: "40", unit: "SET" },
         ],
-        misread: { netWeight: "580.00 KG" },
-        confidence: { netWeight: 0.83 },
       },
       {
         docType: "BILL_OF_LADING",
@@ -273,8 +265,6 @@ export const SAMPLES: SampleShipment[] = [
           invoiceTotal: "8,550.00", totalPackages: "50 CTNS",
         },
         lines: [{ description: "Stainless fastener assortment", hsCode: "7318.15.00", quantity: "600", unit: "KITS", unitPrice: "14.25", lineTotal: "8,550.00" }],
-        misread: { invoiceNumber: "US-2026-4477" }, // 1 read as 7
-        confidence: { invoiceNumber: 0.84 },
       },
       {
         docType: "PACKING_LIST",
@@ -313,8 +303,7 @@ export const SAMPLES: SampleShipment[] = [
           containerNumbers: "ZXKU7311220",
         },
         lines: [{ description: "Solar charge controller 40A / 太阳能控制器", hsCode: "8504.40.90", quantity: "800", unit: "PCS", unitPrice: "11.30", lineTotal: "9,040.00" }],
-        confidence: { "line1.description": 0.78, "line1.unitPrice": 0.82 },
-        misread: { "line1.unitPrice": "11.80" }, // 3 read as 8
+        confidence: { "line1.description": 0.78 },
       },
       {
         docType: "PACKING_LIST",

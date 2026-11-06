@@ -1,8 +1,8 @@
 {
   "sha256": "17e6e2d1ef5078b452c1ed00af2cdaac14fd6da684d383f146599d541e990aa6",
-  "source": "hand-authored",
-  "modelId": "hand-authored",
-  "recordedAt": "2026-11-01T00:00:00.000Z",
+  "source": "recorded",
+  "modelId": "nvidia/nemotron-3.5-super-vl-120b-a12b",
+  "recordedAt": "2026-11-06T18:05:30.447Z",
   "pages": [
     {
       "pageNo": 1,
@@ -13,186 +13,96 @@
         "fields": {
           "supplierName": {
             "text": "Company B",
-            "confidence": 0.97,
-            "bbox": {
-              "x": 0.0714,
-              "y": 0.0539,
-              "w": 0.1586,
-              "h": 0.0223
-            }
+            "confidence": 0.99,
+            "bbox": null
           },
           "importerName": {
             "text": "Company P",
-            "confidence": 0.92,
-            "bbox": {
-              "x": 0.0828,
-              "y": 0.2793,
-              "w": 0.0922,
-              "h": 0.0143
-            }
+            "confidence": 0.99,
+            "bbox": null
           },
           "consigneeName": {
             "text": "Company P",
-            "confidence": 0.94,
-            "bbox": {
-              "x": 0.5265,
-              "y": 0.2793,
-              "w": 0.0922,
-              "h": 0.0143
-            }
+            "confidence": 0.99,
+            "bbox": null
           },
           "invoiceNumber": {
             "text": "CB-2026-1302",
-            "confidence": 0.96,
-            "bbox": {
-              "x": 0.0714,
-              "y": 0.1661,
-              "w": 0.1147,
-              "h": 0.0143
-            }
+            "confidence": 0.99,
+            "bbox": null
           },
           "invoiceDate": {
             "text": "20/10/2026",
-            "confidence": 0.97,
-            "bbox": {
-              "x": 0.5151,
-              "y": 0.1661,
-              "w": 0.0883,
-              "h": 0.0143
-            }
+            "confidence": 0.99,
+            "bbox": null
           },
           "currency": {
             "text": "USD",
-            "confidence": 0.92,
-            "bbox": {
-              "x": 0.0714,
-              "y": 0.2,
-              "w": 0.0372,
-              "h": 0.0143
-            }
+            "confidence": 0.99,
+            "bbox": null
           },
           "incoterm": {
             "text": "FOB Ningbo",
-            "confidence": 0.94,
-            "bbox": {
-              "x": 0.5151,
-              "y": 0.2,
-              "w": 0.0971,
-              "h": 0.0143
-            }
+            "confidence": 0.99,
+            "bbox": null
           },
           "invoiceTotal": {
             "text": "9,040.00",
-            "confidence": 0.93,
-            "bbox": {
-              "x": 0.8511,
-              "y": 0.4343,
-              "w": 0.0687,
-              "h": 0.0143
-            }
+            "confidence": 0.99,
+            "bbox": null
           },
           "totalPackages": {
             "text": "40 CTNS",
-            "confidence": 0.96,
-            "bbox": {
-              "x": 0.8472,
-              "y": 0.4583,
-              "w": 0.0725,
-              "h": 0.0143
-            }
+            "confidence": 0.99,
+            "bbox": null
           },
           "grossWeight": {
             "text": "1,280.00 KGS",
-            "confidence": 0.96,
-            "bbox": {
-              "x": 0.8089,
-              "y": 0.4824,
-              "w": 0.1108,
-              "h": 0.0143
-            }
+            "confidence": 0.99,
+            "bbox": null
           },
           "netWeight": {
             "text": "1,120.00 KGS",
-            "confidence": 0.96,
-            "bbox": {
-              "x": 0.8089,
-              "y": 0.5064,
-              "w": 0.1108,
-              "h": 0.0143
-            }
+            "confidence": 0.99,
+            "bbox": null
           },
           "containerNumbers": {
             "text": "ZXKU7311220",
-            "confidence": 0.97,
-            "bbox": {
-              "x": 0.0714,
-              "y": 0.2338,
-              "w": 0.1144,
-              "h": 0.0143
-            }
+            "confidence": 0.99,
+            "bbox": null
           }
         },
         "lineItems": [
           {
             "description": {
-              "text": "Solar charge controller 40A / 太阳能控制器",
-              "confidence": 0.78,
-              "bbox": {
-                "x": 0.1064,
-                "y": 0.3799,
-                "w": 0.2804,
-                "h": 0.0321
-              }
+              "text": "Solar charge controller 40A / 太阳能 控制器",
+              "confidence": 0.99,
+              "bbox": null
             },
             "hsCode": {
               "text": "8504.40.90",
-              "confidence": 0.96,
-              "bbox": {
-                "x": 0.4142,
-                "y": 0.3772,
-                "w": 0.0883,
-                "h": 0.0143
-              }
+              "confidence": 0.99,
+              "bbox": null
             },
             "quantity": {
               "text": "800",
-              "confidence": 0.95,
-              "bbox": {
-                "x": 0.5891,
-                "y": 0.3772,
-                "w": 0.0294,
-                "h": 0.0143
-              }
+              "confidence": 0.99,
+              "bbox": null
             },
             "unit": {
               "text": "PCS",
-              "confidence": 0.93,
-              "bbox": {
-                "x": 0.635,
-                "y": 0.3772,
-                "w": 0.0363,
-                "h": 0.0143
-              }
+              "confidence": 0.99,
+              "bbox": null
             },
             "unitPrice": {
-              "text": "11.80",
-              "confidence": 0.82,
-              "bbox": {
-                "x": 0.77,
-                "y": 0.3772,
-                "w": 0.0429,
-                "h": 0.0143
-              }
+              "text": "11.30",
+              "confidence": 0.99,
+              "bbox": null
             },
             "lineTotal": {
               "text": "9,040.00",
-              "confidence": 0.97,
-              "bbox": {
-                "x": 0.8511,
-                "y": 0.3772,
-                "w": 0.0687,
-                "h": 0.0143
-              }
+              "confidence": 0.99,
+              "bbox": null
             }
           }
         ]

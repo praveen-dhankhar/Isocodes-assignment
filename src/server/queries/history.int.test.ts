@@ -19,8 +19,8 @@ describe("S8 history and contact reveal", () => {
     const [s] = await db().select().from(shipments).where(eq(shipments.ref, "SHP-24816"));
     const events = await getShipmentHistory(s?.id ?? "");
     const texts = events.map((e) => `${e.actor} ${e.text}`);
-    expect(texts).toEqual(expect.arrayContaining(["Meera Iyer exported CF-1", "Meera Iyer approved", "Vikram Shah submitted for approval", "Asha Rao corrected Invoice · Invoice no."]));
-    expect(events.find((e) => e.text === "corrected Invoice · Invoice no.")?.detail).toBe("AI read US-2026-4477 → US-2026-4471");
+    expect(texts).toEqual(expect.arrayContaining(["Meera Iyer exported CF-1", "Meera Iyer approved", "Vikram Shah submitted for approval", "Asha Rao confirmed Invoice · Invoice date"]));
+    expect(events.find((e) => e.text === "confirmed Invoice · Invoice date")?.detail).toBe("3 Oct 2026"); // US supplier: 10/03 is 3 October
     expect([...events].sort((a, b) => b.at.localeCompare(a.at))).toEqual(events);
   });
 

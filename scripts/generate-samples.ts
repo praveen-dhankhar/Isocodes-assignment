@@ -1,5 +1,6 @@
 import { chromium, type Page } from "@playwright/test";
 import { createHash } from "node:crypto";
+import { existsSync } from "node:fs";
 import { mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
@@ -11,7 +12,8 @@ import { SAMPLES, type SampleDocument, type SampleShipment, type Variant } from 
 import { imagesToHtml, renderDocument } from "./sample-templates";
 
 // `pnpm samples:generate` (PLAN M4.1): sample-data → HTML → PDF (Playwright) or scan variants (sharp) under
-// fixtures/samples, a manifest with sha256 + ground truth, and hand-authored extraction fixtures per file.
+// fixtures/samples, a manifest with sha256 + ground truth, and a hand-authored extraction fixture for every file that has
+// no recorded one yet (recorded model output always wins).
 
 const SAMPLES_DIR = "fixtures/samples";
 const EXTRACTIONS_DIR = "fixtures/extractions";
@@ -171,7 +173,7 @@ function extractionFixture(ship: SampleShipment, doc: SampleDocument, sha256: st
   const aiValue = (pageNo: number, field: string, line: number | null, text: string | undefined, key: string) => {
     const at = where(field, line);
     if (text === undefined || !at || at.pageNo !== pageNo || unreadable(pageNo)) return { text: null, confidence: 0, bbox: null }; // prompt rule 2
-    return { text: doc.misread?.[key] ?? text, confidence: confidenceFor(ship, doc, key), bbox: at.box };
+    return { text, confidence: confidenceFor(ship, doc, key), bbox: at.box };
   };
   const slotKeys = (registry: Record<string, FieldDef>) => Object.keys(registry).filter((k) => registry[k]?.on[doc.docType]);
 
@@ -225,6 +227,7 @@ async function main() {
   const page = await browser.newPage({ deviceScaleFactor: 1.5 });
   const manifest = { version: 1, samples: [] as unknown[] };
   let files = 0;
+  let authored = 0;
   try {
     for (const [si, ship] of SAMPLES.entries()) {
       await mkdir(path.join(SAMPLES_DIR, ship.ref), { recursive: true });
@@ -236,8 +239,12 @@ async function main() {
         const file = `${ship.ref}/${FILE[doc.docType]}.${EXT[doc.variant]}`;
         await writeFile(path.join(SAMPLES_DIR, file), bytes);
         const sha256 = createHash("sha256").update(bytes).digest("hex");
-        const fixture = extractionFixture(ship, doc, sha256, placed, pageCount);
-        await writeFile(path.join(EXTRACTIONS_DIR, `${sha256}.json`), `${JSON.stringify(fixture, null, 2)}\n`);
+        // Real model output (pnpm fixtures:record) is never replaced by a hand-authored stand-in.
+        const target = path.join(EXTRACTIONS_DIR, `${sha256}.json`);
+        if (!existsSync(target)) {
+          await writeFile(target, `${JSON.stringify(extractionFixture(ship, doc, sha256, placed, pageCount), null, 2)}\n`);
+          authored++;
+        }
         documents.push({ docType: doc.docType, file, sha256, variant: doc.variant, truth: truths.get(ship.ref)?.get(doc.docType) });
         files++;
         console.log(`${file.padEnd(36)} ${String(pageCount).padStart(1)} page(s) ${(bytes.length / 1024).toFixed(0).padStart(5)} KB  ${doc.variant}`);
@@ -248,7 +255,7 @@ async function main() {
     await browser.close();
   }
   await writeFile(path.join(SAMPLES_DIR, "manifest.json"), `${JSON.stringify(manifest, null, 2)}\n`);
-  console.log(`samples:generate: ${files} files + manifest.json; ${files} hand-authored extraction fixtures`);
+  console.log(`samples:generate: ${files} files + manifest.json; ${authored} hand-authored fixtures written, ${files - authored} recorded ones kept`);
 }
 
 main().catch((e: unknown) => {

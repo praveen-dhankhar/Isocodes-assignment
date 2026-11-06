@@ -1,8 +1,8 @@
 {
   "sha256": "6fe33ba0915da4297c4abf3bce53a254f89656d6263befce4ea4f75642b4cb8d",
-  "source": "hand-authored",
-  "modelId": "hand-authored",
-  "recordedAt": "2026-11-01T00:00:00.000Z",
+  "source": "recorded",
+  "modelId": "nvidia/nemotron-3.5-super-vl-120b-a12b",
+  "recordedAt": "2026-11-06T18:06:58.797Z",
   "pages": [
     {
       "pageNo": 1,
@@ -13,106 +13,56 @@
         "fields": {
           "supplierName": {
             "text": "Company C",
-            "confidence": 0.96,
-            "bbox": {
-              "x": 0.0714,
-              "y": 0.0539,
-              "w": 0.1586,
-              "h": 0.0223
-            }
+            "confidence": 0.99,
+            "bbox": null
           },
           "consigneeName": {
             "text": "Company R",
-            "confidence": 0.98,
-            "bbox": {
-              "x": 0.0828,
-              "y": 0.2026,
-              "w": 0.0931,
-              "h": 0.0143
-            }
+            "confidence": 0.99,
+            "bbox": null
           },
           "invoiceNumber": {
             "text": "CC-2026-0455",
             "confidence": 0.99,
-            "bbox": {
-              "x": 0.0714,
-              "y": 0.159,
-              "w": 0.1157,
-              "h": 0.0143
-            }
+            "bbox": null
           },
           "totalPackages": {
             "text": "3 PALLETS",
             "confidence": 0.99,
-            "bbox": {
-              "x": 0.8289,
-              "y": 0.322,
-              "w": 0.0909,
-              "h": 0.0143
-            }
+            "bbox": null
           },
           "grossWeight": {
             "text": "640.00 KG",
-            "confidence": 0.97,
-            "bbox": {
-              "x": 0.8354,
-              "y": 0.3461,
-              "w": 0.0843,
-              "h": 0.0143
-            }
+            "confidence": 0.99,
+            "bbox": null
           },
           "netWeight": {
             "text": "590.00 KG",
-            "confidence": 0.98,
-            "bbox": {
-              "x": 0.8354,
-              "y": 0.3701,
-              "w": 0.0843,
-              "h": 0.0143
-            }
+            "confidence": 0.99,
+            "bbox": null
           },
           "containerNumbers": {
             "text": "XZQU9002130",
             "confidence": 0.99,
-            "bbox": {
-              "x": 0.8021,
-              "y": 0.3942,
-              "w": 0.1177,
-              "h": 0.0143
-            }
+            "bbox": null
           }
         },
         "lineItems": [
           {
             "description": {
               "text": "Steel ball valve DN80",
-              "confidence": 0.96,
-              "bbox": {
-                "x": 0.142,
-                "y": 0.2864,
-                "w": 0.1687,
-                "h": 0.0143
-              }
+              "confidence": 0.99,
+              "bbox": null
             },
             "quantity": {
               "text": "60",
-              "confidence": 0.98,
-              "bbox": {
-                "x": 0.7759,
-                "y": 0.2864,
-                "w": 0.0196,
-                "h": 0.0143
-              }
+              "confidence": 0.99,
+              "bbox": null
             },
             "unit": {
               "text": "PCS",
-              "confidence": 0.96,
-              "bbox": {
-                "x": 0.8119,
-                "y": 0.2864,
-                "w": 0.0363,
-                "h": 0.0143
-              }
+              "confidence": 0.99,
+              "bbox": null
             }
           }
         ]

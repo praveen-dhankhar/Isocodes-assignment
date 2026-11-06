@@ -1,8 +1,8 @@
 {
   "sha256": "d925875fedf35ecf4aa149dc2f2c1c4f0c3e559d46da56cbc2567f7a093f3f50",
-  "source": "hand-authored",
-  "modelId": "hand-authored",
-  "recordedAt": "2026-11-01T00:00:00.000Z",
+  "source": "recorded",
+  "modelId": "nvidia/nemotron-3.5-super-vl-120b-a12b",
+  "recordedAt": "2026-11-06T18:03:03.363Z",
   "pages": [
     {
       "pageNo": 1,
@@ -14,137 +14,72 @@
           "supplierName": {
             "text": "Company D",
             "confidence": 0.99,
-            "bbox": {
-              "x": 0.0714,
-              "y": 0.0539,
-              "w": 0.1586,
-              "h": 0.0223
-            }
+            "bbox": null
           },
           "consigneeName": {
             "text": "Company R",
-            "confidence": 0.96,
-            "bbox": {
-              "x": 0.0828,
-              "y": 0.2026,
-              "w": 0.0931,
-              "h": 0.0143
-            }
+            "confidence": 0.99,
+            "bbox": null
           },
           "invoiceNumber": {
             "text": "DE-2026-3307",
-            "confidence": 0.98,
-            "bbox": {
-              "x": 0.0714,
-              "y": 0.159,
-              "w": 0.1147,
-              "h": 0.0143
-            }
+            "confidence": 0.99,
+            "bbox": null
           },
           "totalPackages": {
             "text": "8 CASES",
-            "confidence": 0.96,
-            "bbox": {
-              "x": 0.8452,
-              "y": 0.3461,
-              "w": 0.0745,
-              "h": 0.0143
-            }
+            "confidence": 0.99,
+            "bbox": null
           },
           "grossWeight": {
             "text": "620.00 KG",
-            "confidence": 0.96,
-            "bbox": {
-              "x": 0.8354,
-              "y": 0.3701,
-              "w": 0.0843,
-              "h": 0.0143
-            }
+            "confidence": 0.99,
+            "bbox": null
           },
           "netWeight": {
-            "text": "580.00 KG",
-            "confidence": 0.83,
-            "bbox": {
-              "x": 0.8354,
-              "y": 0.3942,
-              "w": 0.0843,
-              "h": 0.0143
-            }
+            "text": "560.00 KG",
+            "confidence": 0.99,
+            "bbox": null
           },
           "containerNumbers": {
             "text": "ZXKU7310049",
-            "confidence": 0.95,
-            "bbox": {
-              "x": 0.804,
-              "y": 0.4182,
-              "w": 0.1157,
-              "h": 0.0143
-            }
+            "confidence": 0.99,
+            "bbox": null
           }
         },
         "lineItems": [
           {
             "description": {
               "text": "Hydraulic gear pump 16cc",
-              "confidence": 0.96,
-              "bbox": {
-                "x": 0.1378,
-                "y": 0.2864,
-                "w": 0.2049,
-                "h": 0.0143
-              }
+              "confidence": 0.99,
+              "bbox": null
             },
             "quantity": {
               "text": "40",
-              "confidence": 0.95,
-              "bbox": {
-                "x": 0.7844,
-                "y": 0.2864,
-                "w": 0.0196,
-                "h": 0.0143
-              }
+              "confidence": 0.99,
+              "bbox": null
             },
             "unit": {
               "text": "PCS",
-              "confidence": 0.98,
-              "bbox": {
-                "x": 0.8204,
-                "y": 0.2864,
-                "w": 0.0363,
-                "h": 0.0143
-              }
+              "confidence": 0.99,
+              "bbox": null
             }
           },
           {
             "description": {
               "text": "Pump seal kit",
-              "confidence": 0.98,
-              "bbox": {
-                "x": 0.1378,
-                "y": 0.3104,
-                "w": 0.1059,
-                "h": 0.0143
-              }
+              "confidence": 0.99,
+              "bbox": null
             },
             "quantity": {
               "text": "40",
-              "confidence": 0.97,
-              "bbox": {
-                "x": 0.7844,
-                "y": 0.3104,
-                "w": 0.0196,
-                "h": 0.0143
-              }
+              "confidence": 0.99,
+              "bbox": null
             },
             "unit": {
               "text": "SET",
               "confidence": 0.99,
-              "bbox": {
-                "x": 0.8204,
-                "y": 0.3104,
-                "w": 0.0343,
-                "h": 0.0143
-              }
+              "bbox": null
             }
           }
         ]

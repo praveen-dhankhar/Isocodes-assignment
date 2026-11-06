@@ -1,8 +1,8 @@
 {
   "sha256": "10c770c0f584c15be0ccbe57841f0745167127ce2be7b1a6c8afe598b4a471b3",
-  "source": "hand-authored",
-  "modelId": "hand-authored",
-  "recordedAt": "2026-11-01T00:00:00.000Z",
+  "source": "recorded",
+  "modelId": "nvidia/nemotron-3.5-super-vl-120b-a12b",
+  "recordedAt": "2026-11-06T18:01:39.538Z",
   "pages": [
     {
       "pageNo": 1,
@@ -13,186 +13,96 @@
         "fields": {
           "supplierName": {
             "text": "Company B",
-            "confidence": 0.98,
-            "bbox": {
-              "x": 0.0714,
-              "y": 0.0539,
-              "w": 0.1586,
-              "h": 0.0223
-            }
+            "confidence": 0.99,
+            "bbox": null
           },
           "importerName": {
             "text": "Company P",
-            "confidence": 0.98,
-            "bbox": {
-              "x": 0.0828,
-              "y": 0.2668,
-              "w": 0.0922,
-              "h": 0.0143
-            }
+            "confidence": 0.99,
+            "bbox": null
           },
           "consigneeName": {
             "text": "Company P",
-            "confidence": 0.97,
-            "bbox": {
-              "x": 0.5265,
-              "y": 0.2668,
-              "w": 0.0922,
-              "h": 0.0143
-            }
+            "confidence": 0.99,
+            "bbox": null
           },
           "invoiceNumber": {
             "text": "CB-2026-1187",
-            "confidence": 0.97,
-            "bbox": {
-              "x": 0.0714,
-              "y": 0.159,
-              "w": 0.1134,
-              "h": 0.0143
-            }
+            "confidence": 0.99,
+            "bbox": null
           },
           "invoiceDate": {
             "text": "14/10/2026",
-            "confidence": 0.96,
-            "bbox": {
-              "x": 0.5151,
-              "y": 0.159,
-              "w": 0.0883,
-              "h": 0.0143
-            }
+            "confidence": 0.99,
+            "bbox": null
           },
           "currency": {
             "text": "USD",
-            "confidence": 0.97,
-            "bbox": {
-              "x": 0.0714,
-              "y": 0.1911,
-              "w": 0.0372,
-              "h": 0.0143
-            }
+            "confidence": 0.99,
+            "bbox": null
           },
           "incoterm": {
             "text": "FOB Ningbo",
-            "confidence": 0.96,
-            "bbox": {
-              "x": 0.5151,
-              "y": 0.1911,
-              "w": 0.0971,
-              "h": 0.0143
-            }
+            "confidence": 0.99,
+            "bbox": null
           },
           "invoiceTotal": {
             "text": "16,320.00",
-            "confidence": 0.98,
-            "bbox": {
-              "x": 0.8413,
-              "y": 0.3862,
-              "w": 0.0785,
-              "h": 0.0143
-            }
+            "confidence": 0.99,
+            "bbox": null
           },
           "totalPackages": {
             "text": "240 CTNS",
-            "confidence": 0.97,
-            "bbox": {
-              "x": 0.8374,
-              "y": 0.4102,
-              "w": 0.0823,
-              "h": 0.0143
-            }
+            "confidence": 0.99,
+            "bbox": null
           },
           "grossWeight": {
             "text": "3,120.00 KGS",
-            "confidence": 0.98,
-            "bbox": {
-              "x": 0.8089,
-              "y": 0.4343,
-              "w": 0.1108,
-              "h": 0.0143
-            }
+            "confidence": 0.99,
+            "bbox": null
           },
           "netWeight": {
             "text": "2,880.00 KGS",
-            "confidence": 0.95,
-            "bbox": {
-              "x": 0.8089,
-              "y": 0.4583,
-              "w": 0.1108,
-              "h": 0.0143
-            }
+            "confidence": 0.99,
+            "bbox": null
           },
           "containerNumbers": {
             "text": "XZQU4821171",
-            "confidence": 0.96,
-            "bbox": {
-              "x": 0.0714,
-              "y": 0.2231,
-              "w": 0.1164,
-              "h": 0.0143
-            }
+            "confidence": 0.99,
+            "bbox": null
           }
         },
         "lineItems": [
           {
             "description": {
               "text": "LED panel light 40W",
-              "confidence": 0.98,
-              "bbox": {
-                "x": 0.1142,
-                "y": 0.3505,
-                "w": 0.1608,
-                "h": 0.0143
-              }
+              "confidence": 0.99,
+              "bbox": null
             },
             "hsCode": {
               "text": "9405.42.90",
-              "confidence": 0.97,
-              "bbox": {
-                "x": 0.3669,
-                "y": 0.3505,
-                "w": 0.0883,
-                "h": 0.0143
-              }
+              "confidence": 0.99,
+              "bbox": null
             },
             "quantity": {
               "text": "2,400",
-              "confidence": 0.97,
-              "bbox": {
-                "x": 0.558,
-                "y": 0.3505,
-                "w": 0.0442,
-                "h": 0.0143
-              }
+              "confidence": 0.99,
+              "bbox": null
             },
             "unit": {
               "text": "PCS",
-              "confidence": 0.97,
-              "bbox": {
-                "x": 0.6186,
-                "y": 0.3505,
-                "w": 0.0363,
-                "h": 0.0143
-              }
+              "confidence": 0.99,
+              "bbox": null
             },
             "unitPrice": {
               "text": "6.80",
-              "confidence": 0.97,
-              "bbox": {
-                "x": 0.7623,
-                "y": 0.3505,
-                "w": 0.0343,
-                "h": 0.0143
-              }
+              "confidence": 0.99,
+              "bbox": null
             },
             "lineTotal": {
               "text": "16,320.00",
-              "confidence": 0.96,
-              "bbox": {
-                "x": 0.8413,
-                "y": 0.3505,
-                "w": 0.0785,
-                "h": 0.0143
-              }
+              "confidence": 0.99,
+              "bbox": null
             }
           }
         ]

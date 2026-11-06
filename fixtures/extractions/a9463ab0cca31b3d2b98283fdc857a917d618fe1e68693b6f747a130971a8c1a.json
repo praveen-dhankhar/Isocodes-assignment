@@ -1,8 +1,8 @@
 {
   "sha256": "a9463ab0cca31b3d2b98283fdc857a917d618fe1e68693b6f747a130971a8c1a",
-  "source": "hand-authored",
-  "modelId": "hand-authored",
-  "recordedAt": "2026-11-01T00:00:00.000Z",
+  "source": "recorded",
+  "modelId": "nvidia/nemotron-3.5-super-vl-120b-a12b",
+  "recordedAt": "2026-11-06T18:06:52.245Z",
   "pages": [
     {
       "pageNo": 1,
@@ -13,122 +13,122 @@
         "fields": {
           "supplierName": {
             "text": "Company C",
-            "confidence": 0.97,
+            "confidence": 0.99,
             "bbox": {
-              "x": 0.0714,
-              "y": 0.0539,
-              "w": 0.1586,
-              "h": 0.0223
+              "x": 0.071,
+              "y": 0.054,
+              "w": 0.208,
+              "h": 0.034
             }
           },
           "importerName": {
             "text": "Company R",
-            "confidence": 0.96,
+            "confidence": 0.99,
             "bbox": {
-              "x": 0.0828,
-              "y": 0.2668,
-              "w": 0.0931,
-              "h": 0.0143
+              "x": 0.083,
+              "y": 0.264,
+              "w": 0.164,
+              "h": 0.02
             }
           },
           "consigneeName": {
             "text": "Company R",
             "confidence": 0.99,
             "bbox": {
-              "x": 0.5265,
-              "y": 0.2668,
-              "w": 0.0931,
-              "h": 0.0143
+              "x": 0.531,
+              "y": 0.264,
+              "w": 0.164,
+              "h": 0.02
             }
           },
           "invoiceNumber": {
             "text": "CC-2026-0455",
-            "confidence": 0.97,
+            "confidence": 0.99,
             "bbox": {
-              "x": 0.0714,
-              "y": 0.159,
-              "w": 0.1157,
-              "h": 0.0143
+              "x": 0.071,
+              "y": 0.161,
+              "w": 0.178,
+              "h": 0.02
             }
           },
           "invoiceDate": {
             "text": "22.10.2026",
-            "confidence": 0.95,
+            "confidence": 0.99,
             "bbox": {
-              "x": 0.5151,
-              "y": 0.159,
-              "w": 0.0883,
-              "h": 0.0143
+              "x": 0.512,
+              "y": 0.161,
+              "w": 0.178,
+              "h": 0.02
             }
           },
           "currency": {
             "text": "EUR",
-            "confidence": 0.98,
+            "confidence": 0.99,
             "bbox": {
-              "x": 0.0714,
-              "y": 0.1911,
-              "w": 0.0372,
-              "h": 0.0143
+              "x": 0.071,
+              "y": 0.191,
+              "w": 0.071,
+              "h": 0.02
             }
           },
           "incoterm": {
             "text": "FCA Gothenburg",
-            "confidence": 0.97,
+            "confidence": 0.99,
             "bbox": {
-              "x": 0.5151,
-              "y": 0.1911,
-              "w": 0.1324,
-              "h": 0.0143
+              "x": 0.512,
+              "y": 0.191,
+              "w": 0.222,
+              "h": 0.02
             }
           },
           "invoiceTotal": {
             "text": "4.260,00",
-            "confidence": 0.97,
+            "confidence": 0.99,
             "bbox": {
-              "x": 0.8511,
-              "y": 0.3862,
-              "w": 0.0687,
-              "h": 0.0143
+              "x": 0.844,
+              "y": 0.386,
+              "w": 0.122,
+              "h": 0.02
             }
           },
           "totalPackages": {
             "text": "3 pallets",
-            "confidence": 0.96,
+            "confidence": 0.99,
             "bbox": {
-              "x": 0.854,
-              "y": 0.4102,
-              "w": 0.0657,
-              "h": 0.0143
+              "x": 0.844,
+              "y": 0.409,
+              "w": 0.122,
+              "h": 0.02
             }
           },
           "grossWeight": {
             "text": "640,00 kg",
-            "confidence": 0.98,
+            "confidence": 0.99,
             "bbox": {
-              "x": 0.8423,
-              "y": 0.4343,
-              "w": 0.0775,
-              "h": 0.0143
+              "x": 0.844,
+              "y": 0.436,
+              "w": 0.122,
+              "h": 0.02
             }
           },
           "netWeight": {
             "text": "590,00 kg",
-            "confidence": 0.97,
+            "confidence": 0.99,
             "bbox": {
-              "x": 0.8423,
-              "y": 0.4583,
-              "w": 0.0775,
-              "h": 0.0143
+              "x": 0.844,
+              "y": 0.461,
+              "w": 0.122,
+              "h": 0.02
             }
           },
           "containerNumbers": {
             "text": "XZQU9002130",
-            "confidence": 0.97,
+            "confidence": 0.99,
             "bbox": {
-              "x": 0.0714,
-              "y": 0.2231,
-              "w": 0.1177,
-              "h": 0.0143
+              "x": 0.071,
+              "y": 0.221,
+              "w": 0.178,
+              "h": 0.02
             }
           }
         },
@@ -136,62 +136,62 @@
           {
             "description": {
               "text": "Steel ball valve DN80",
-              "confidence": 0.96,
+              "confidence": 0.99,
               "bbox": {
-                "x": 0.1147,
-                "y": 0.3505,
-                "w": 0.1687,
-                "h": 0.0143
+                "x": 0.122,
+                "y": 0.351,
+                "w": 0.222,
+                "h": 0.02
               }
             },
             "hsCode": {
               "text": "8481.80.30",
-              "confidence": 0.96,
+              "confidence": 0.99,
               "bbox": {
-                "x": 0.3712,
-                "y": 0.3505,
-                "w": 0.0883,
-                "h": 0.0143
+                "x": 0.361,
+                "y": 0.351,
+                "w": 0.122,
+                "h": 0.02
               }
             },
             "quantity": {
               "text": "60",
-              "confidence": 0.98,
+              "confidence": 0.99,
               "bbox": {
-                "x": 0.5907,
-                "y": 0.3505,
-                "w": 0.0196,
-                "h": 0.0143
+                "x": 0.561,
+                "y": 0.351,
+                "w": 0.056,
+                "h": 0.02
               }
             },
             "unit": {
               "text": "PCS",
-              "confidence": 0.98,
+              "confidence": 0.99,
               "bbox": {
-                "x": 0.6267,
-                "y": 0.3505,
-                "w": 0.0363,
-                "h": 0.0143
+                "x": 0.661,
+                "y": 0.351,
+                "w": 0.056,
+                "h": 0.02
               }
             },
             "unitPrice": {
               "text": "71,00",
-              "confidence": 0.96,
+              "confidence": 0.99,
               "bbox": {
-                "x": 0.7635,
-                "y": 0.3505,
-                "w": 0.0442,
-                "h": 0.0143
+                "x": 0.756,
+                "y": 0.351,
+                "w": 0.078,
+                "h": 0.02
               }
             },
             "lineTotal": {
               "text": "4.260,00",
-              "confidence": 0.98,
+              "confidence": 0.99,
               "bbox": {
-                "x": 0.8511,
-                "y": 0.3505,
-                "w": 0.0687,
-                "h": 0.0143
+                "x": 0.844,
+                "y": 0.351,
+                "w": 0.122,
+                "h": 0.02
               }
             }
           }

@@ -165,7 +165,7 @@ Rules:
 1. Copy each value exactly as printed on this page: keep digits, separators, units, currency symbols and spelling. Do not convert units, reformat dates, calculate totals or guess.
 2. If a field is not printed on this page, set text to null, confidence to 0 and bbox to null.
 3. confidence is your probability (0 to 1) that text is exactly what this document states for that field. Use less than 0.5 when the print is unclear, the value is partly hidden, or you are unsure which printed value belongs to the field.
-4. bbox is where the value sits on the page image, as fractions of image width and height from the top-left corner. Use null if unsure.
+4. bbox is where the value sits on the page image: x, y of its top-left corner and its w, h, as fractions (0 to 1) of image width and height. Give a box for every value you return; an approximate box is better than none. Use null only when text is null.
 5. For weights, include the unit printed next to the value or in its column header, for example "3,120.00 KGS".
 6. lineItems: one entry per goods row, in printed order. Skip subtotal, total, freight, insurance and blank rows.
 7. containerNumbers: every container number on the page, separated by ", ".
@@ -486,7 +486,7 @@ Users (seeded; password from `SEED_DEMO_PASSWORD`):
 | `vikram@demo.test` | Vikram Shah | DOCUMENTATION_EXECUTIVE |
 | `meera@demo.test` | Meera Iyer | DOCUMENTATION_MANAGER |
 
-Seeded history makes S7 and S8 non-empty: corrections on SHP-24813/24816/24817 (e.g. a misread net weight, an HS code with a dropped digit), submissions by Asha or Vikram, approval and export by Meera. The misreads are declared in `scripts/sample-data.ts` (`misread`: what the hand-authored fixture returns instead of the printed text — PL net weight and an HS code on SHP-24813, the invoice number on SHP-24816, a unit price on SHP-24817), so the corrections go through the real review service. The human steps live in `src/server/db/scenario-steps.ts` and run once per shipment.
+Seeded history makes S7 and S8 non-empty: reviews by Asha or Vikram, submissions, approval and export by Meera, a manual entry and an importer query. The human steps live in `src/server/db/scenario-steps.ts` and review the way the screen asks: where the fixture's value differs from the manifest's ground truth, the printed text is typed in (a `CORRECT` edit); where it is right but uncertain, it is confirmed. So the seeded corrections are exactly the model's real mistakes in the recorded fixtures (none in the current recording). Steps act only from the state they expect and run once per shipment.
 
 ### 7.3 `fixtures/samples/manifest.json`
 ```json
@@ -523,7 +523,7 @@ Seeded history makes S7 and S8 non-empty: corrections on SHP-24813/24816/24817 (
                                         "pageIssues": [], "fields": { "...": "PageExtraction" }, "lineItems": [] } }]
 }
 ```
-`source` ∈ `recorded | hand-authored`. The loader validates `output` with `PAGE_SCHEMAS[docType]`. Hand-authored files (from `pnpm samples:generate`) use `modelId: "hand-authored"`, take `text` from what `scripts/sample-data.ts` prints (or its declared `misread`) and `bbox` from the rendered layout, and give a fixed `recordedAt`. The generator stamps PDF metadata dates, so regenerating produces byte-identical samples: sha256 keys — and recorded fixtures keyed by them — stay valid. It also refuses to write when the ground truth for SHP-24811…24816 disagrees with `src/domain/checks/__fixtures__/snapshots.ts`.
+`source` ∈ `recorded | hand-authored`. The loader validates `output` with `PAGE_SCHEMAS[docType]`. Hand-authored files (from `pnpm samples:generate`) use `modelId: "hand-authored"`, take `text` from what `scripts/sample-data.ts` prints and `bbox` from the rendered layout, and give a fixed `recordedAt`. The generator stamps PDF metadata dates, so regenerating produces byte-identical samples: sha256 keys — and recorded fixtures keyed by them — stay valid. It also refuses to write when the ground truth for SHP-24811…24816 disagrees with `src/domain/checks/__fixtures__/snapshots.ts`.
 
 ---
 

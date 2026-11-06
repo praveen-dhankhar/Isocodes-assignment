@@ -81,10 +81,14 @@ describe("seedScenarios (PLAN M6.1)", () => {
     expect(await db().select().from(documents).where(eq(documents.shipmentId, byRef["SHP-24819"]?.id ?? ""))).toHaveLength(1);
     expect((await db().select().from(documents).where(inArray(documents.shipmentId, rows.map((r) => r.id)))).every((d) => d.mode === "SAMPLE")).toBe(true);
 
-    // The seeded history holds real corrections, a manual entry and a submission by someone other than the creator.
-    const edits = await db().select({ action: fieldEdits.action, key: fieldEdits.fieldKey }).from(fieldEdits).where(inArray(fieldEdits.shipmentId, rows.map((r) => r.id)));
-    expect(edits.filter((e) => e.action === "CORRECT").map((e) => e.key).sort()).toEqual(["hsCode", "invoiceNumber", "netWeight", "unitPrice"]);
-    expect(edits.filter((e) => e.action === "MANUAL_ENTRY")).toHaveLength(2);
+    // The seeded history: a correction only where the model's value differs from the document (none, when the recorded
+    // output is right), the unreadable page's weights typed by hand, and a submission by someone other than the creator.
+    const edits = await db()
+      .select({ action: fieldEdits.action, key: fieldEdits.fieldKey, ai: fieldEdits.originalAiValue, now: fieldEdits.newValue })
+      .from(fieldEdits)
+      .where(inArray(fieldEdits.shipmentId, rows.map((r) => r.id)));
+    expect(edits.filter((e) => e.action === "CORRECT").every((e) => e.ai !== e.now)).toBe(true);
+    expect(edits.filter((e) => e.action === "MANUAL_ENTRY").map((e) => e.key).sort()).toEqual(["grossWeight", "netWeight"]);
     const [vikram] = await db().select({ id: user.id }).from(user).where(eq(user.email, "vikram@demo.test"));
     expect(byRef["SHP-24817"]?.submittedBy).toBe(vikram?.id);
     const [meera] = await db().select({ id: user.id }).from(user).where(eq(user.email, "meera@demo.test"));

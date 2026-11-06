@@ -41,7 +41,8 @@ describe("extractDocument (ARCHITECTURE §7.2)", () => {
   it("SHP-24811 from recorded samples: CC-03 FAIL Δ 45 kg, labelled SAMPLE, evidence from the PDF text layer", async () => {
     const { shipmentId, ids } = await sampleShipment("SHP-24811");
     const first = await extract(shipmentId, ids.INVOICE ?? "");
-    expect(first.document).toMatchObject({ status: "EXTRACTED", mode: "SAMPLE", modelId: "hand-authored", detectedDocType: "COMMERCIAL_INVOICE" });
+    expect(first.document).toMatchObject({ status: "EXTRACTED", mode: "SAMPLE", detectedDocType: "COMMERCIAL_INVOICE" });
+    expect(first.document.modelId).toMatch(/^(hand-authored|nvidia\/)/); // recorded model output, or a hand-authored stand-in
     await extract(shipmentId, ids.PACKING_LIST ?? "");
     const last = await extract(shipmentId, ids.BILL_OF_LADING ?? "");
 
@@ -72,7 +73,7 @@ describe("extractDocument (ARCHITECTURE §7.2)", () => {
     const { document } = await extract(shipmentId, ids.PACKING_LIST ?? "");
     expect(document.status).toBe("EXTRACTED");
     const pages = await db().select().from(documentPages).where(eq(documentPages.documentId, document.id));
-    expect(pages.map((p) => [p.pageNo, p.readable, p.issues]).sort()).toEqual([[1, true, []], [2, false, ["BLURRY"]]]);
+    expect(pages.map((p) => [p.pageNo, p.readable]).sort()).toEqual([[1, true], [2, false]]); // the model names the issue (BLURRY, BLANK…)
     expect(await field(document.id, "grossWeight")).toMatchObject({ value: null, confidence: "0.000", pageNo: 2 });
   });
 

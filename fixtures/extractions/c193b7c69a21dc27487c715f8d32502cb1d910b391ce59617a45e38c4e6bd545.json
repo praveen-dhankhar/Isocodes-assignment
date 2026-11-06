@@ -1,8 +1,8 @@
 {
   "sha256": "c193b7c69a21dc27487c715f8d32502cb1d910b391ce59617a45e38c4e6bd545",
-  "source": "hand-authored",
-  "modelId": "hand-authored",
-  "recordedAt": "2026-11-01T00:00:00.000Z",
+  "source": "recorded",
+  "modelId": "nvidia/nemotron-3.5-super-vl-120b-a12b",
+  "recordedAt": "2026-11-06T18:06:22.045Z",
   "pages": [
     {
       "pageNo": 1,
@@ -13,33 +13,18 @@
         "fields": {
           "supplierName": {
             "text": "Company H",
-            "confidence": 0.88,
-            "bbox": {
-              "x": 0.0714,
-              "y": 0.0539,
-              "w": 0.1586,
-              "h": 0.0223
-            }
+            "confidence": 0.99,
+            "bbox": null
           },
           "consigneeName": {
             "text": "Company Q",
-            "confidence": 0.93,
-            "bbox": {
-              "x": 0.0828,
-              "y": 0.2026,
-              "w": 0.0941,
-              "h": 0.0143
-            }
+            "confidence": 0.99,
+            "bbox": null
           },
           "invoiceNumber": {
             "text": "H-2026-0577",
-            "confidence": 0.9,
-            "bbox": {
-              "x": 0.0714,
-              "y": 0.159,
-              "w": 0.103,
-              "h": 0.0143
-            }
+            "confidence": 0.99,
+            "bbox": null
           },
           "totalPackages": {
             "text": null,
@@ -66,33 +51,18 @@
           {
             "description": {
               "text": "Bearing 6205-2RS",
-              "confidence": 0.89,
-              "bbox": {
-                "x": 0.142,
-                "y": 0.2864,
-                "w": 0.1451,
-                "h": 0.0143
-              }
+              "confidence": 0.99,
+              "bbox": null
             },
             "quantity": {
               "text": "5,000",
-              "confidence": 0.93,
-              "bbox": {
-                "x": 0.7514,
-                "y": 0.2864,
-                "w": 0.0442,
-                "h": 0.0143
-              }
+              "confidence": 0.99,
+              "bbox": null
             },
             "unit": {
               "text": "PCS",
-              "confidence": 0.94,
-              "bbox": {
-                "x": 0.8119,
-                "y": 0.2864,
-                "w": 0.0363,
-                "h": 0.0143
-              }
+              "confidence": 0.99,
+              "bbox": null
             }
           }
         ]
@@ -104,7 +74,7 @@
         "detectedDocumentType": "PACKING_LIST",
         "pageReadable": false,
         "pageIssues": [
-          "BLURRY"
+          "BLANK"
         ],
         "fields": {
           "supplierName": {

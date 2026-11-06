@@ -78,12 +78,15 @@ describe("RecordedSampleProvider (API_SPECS §7.4)", () => {
     const provider = new RecordedSampleProvider(INVOICE_24811);
     const result = await provider.extractPage(INPUT);
     expect(result.ok && "invoiceNumber" in result.data.fields && result.data.fields.invoiceNumber.text).toBe("CB-2026-1187");
-    expect([provider.mode, provider.source, provider.modelId]).toEqual(["SAMPLE", "hand-authored", "hand-authored"]);
+    expect(provider.mode).toBe("SAMPLE");
+    expect(["recorded", "hand-authored"]).toContain(provider.source); // labelled with where it came from
+    expect(provider.modelId).toMatch(/^(hand-authored|nvidia\/)/);
   });
 
   it("serves an unreadable page as unreadable", async () => {
     const result = await new RecordedSampleProvider(PL_24818).extractPage({ slot: "PACKING_LIST", pageNo: 2, pageCount: 2, jpegBase64: "" });
-    expect(result.ok && [result.data.pageReadable, result.data.pageIssues]).toEqual([false, ["BLURRY"]]);
+    expect(result.ok && result.data.pageReadable).toBe(false);
+    expect(result.ok && result.data.pageIssues.length).toBeGreaterThan(0); // the model names the problem (BLURRY, BLANK…)
   });
 
   it("has nothing for a page the file does not have", async () => {

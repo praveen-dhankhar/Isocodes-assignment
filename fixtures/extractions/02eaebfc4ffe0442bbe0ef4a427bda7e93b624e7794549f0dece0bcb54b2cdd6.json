@@ -1,8 +1,8 @@
 {
   "sha256": "02eaebfc4ffe0442bbe0ef4a427bda7e93b624e7794549f0dece0bcb54b2cdd6",
-  "source": "hand-authored",
-  "modelId": "hand-authored",
-  "recordedAt": "2026-11-01T00:00:00.000Z",
+  "source": "recorded",
+  "modelId": "nvidia/nemotron-3.5-super-vl-120b-a12b",
+  "recordedAt": "2026-11-06T18:02:00.072Z",
   "pages": [
     {
       "pageNo": 1,
@@ -11,44 +11,74 @@
         "pageReadable": true,
         "pageIssues": [],
         "fields": {
+          "blNumber": {
+            "text": "BLNGB2610447",
+            "confidence": 0.99,
+            "bbox": {
+              "x": 0.391,
+              "y": 0.109,
+              "w": 0.209,
+              "h": 0.022
+            }
+          },
           "supplierName": {
             "text": "Company B",
-            "confidence": 0.97,
+            "confidence": 0.99,
             "bbox": {
-              "x": 0.0828,
-              "y": 0.1528,
-              "w": 0.0922,
-              "h": 0.0143
+              "x": 0.078,
+              "y": 0.153,
+              "w": 0.125,
+              "h": 0.02
             }
           },
           "consigneeName": {
             "text": "Company P",
-            "confidence": 0.96,
+            "confidence": 0.99,
             "bbox": {
-              "x": 0.5265,
-              "y": 0.1528,
-              "w": 0.0922,
-              "h": 0.0143
+              "x": 0.527,
+              "y": 0.153,
+              "w": 0.113,
+              "h": 0.02
+            }
+          },
+          "portOfLoading": {
+            "text": "Ningbo",
+            "confidence": 0.99,
+            "bbox": {
+              "x": 0.078,
+              "y": 0.222,
+              "w": 0.094,
+              "h": 0.02
+            }
+          },
+          "portOfDischarge": {
+            "text": "Nhava Sheva",
+            "confidence": 0.99,
+            "bbox": {
+              "x": 0.527,
+              "y": 0.222,
+              "w": 0.143,
+              "h": 0.02
             }
           },
           "totalPackages": {
             "text": "240 CARTONS",
-            "confidence": 0.98,
+            "confidence": 0.99,
             "bbox": {
-              "x": 0.2374,
-              "y": 0.2686,
-              "w": 0.12,
-              "h": 0.0143
+              "x": 0.232,
+              "y": 0.271,
+              "w": 0.143,
+              "h": 0.02
             }
           },
           "grossWeight": {
             "text": "3,165.000 KGS",
-            "confidence": 0.95,
+            "confidence": 0.99,
             "bbox": {
-              "x": 0.7991,
-              "y": 0.2686,
-              "w": 0.1206,
-              "h": 0.0143
+              "x": 0.797,
+              "y": 0.271,
+              "w": 0.143,
+              "h": 0.02
             }
           },
           "netWeight": {
@@ -58,42 +88,12 @@
           },
           "containerNumbers": {
             "text": "XZQU4821171",
-            "confidence": 0.98,
-            "bbox": {
-              "x": 0.0802,
-              "y": 0.2686,
-              "w": 0.1164,
-              "h": 0.0143
-            }
-          },
-          "blNumber": {
-            "text": "BLNGB2610447",
             "confidence": 0.99,
             "bbox": {
-              "x": 0.3731,
-              "y": 0.1046,
-              "w": 0.1921,
-              "h": 0.0187
-            }
-          },
-          "portOfLoading": {
-            "text": "Ningbo",
-            "confidence": 0.98,
-            "bbox": {
-              "x": 0.0714,
-              "y": 0.216,
-              "w": 0.0559,
-              "h": 0.0143
-            }
-          },
-          "portOfDischarge": {
-            "text": "Nhava Sheva",
-            "confidence": 0.95,
-            "bbox": {
-              "x": 0.5151,
-              "y": 0.216,
-              "w": 0.1059,
-              "h": 0.0143
+              "x": 0.078,
+              "y": 0.271,
+              "w": 0.143,
+              "h": 0.02
             }
           }
         }

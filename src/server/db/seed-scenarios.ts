@@ -43,7 +43,7 @@ export async function seedScenarios(): Promise<{ shipments: number }> {
       if (document.status !== "EXTRACTED") throw new Error(`${sample.ref} ${document.docType}: extraction ${document.status} ${document.errorCode ?? ""}`);
     }
     const human = HUMAN_SCENARIOS[sample.ref];
-    if (human && !(await touchedByPeople(shipmentId))) await human(steps(shipmentId), { asha, vikram, meera });
+    if (human && !(await touchedByPeople(shipmentId))) await human(steps(shipmentId, sample.ref), { asha, vikram, meera });
   }
   return { shipments: created };
 }
