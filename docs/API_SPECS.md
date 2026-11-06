@@ -486,7 +486,7 @@ Users (seeded; password from `SEED_DEMO_PASSWORD`):
 | `vikram@demo.test` | Vikram Shah | DOCUMENTATION_EXECUTIVE |
 | `meera@demo.test` | Meera Iyer | DOCUMENTATION_MANAGER |
 
-Seeded history makes S7 and S8 non-empty: corrections on SHP-24813/24816/24817 (e.g. a misread net weight, an HS code with a dropped digit), submissions by Asha or Vikram, approval and export by Meera.
+Seeded history makes S7 and S8 non-empty: corrections on SHP-24813/24816/24817 (e.g. a misread net weight, an HS code with a dropped digit), submissions by Asha or Vikram, approval and export by Meera. The misreads are declared in `scripts/sample-data.ts` (`misread`: what the hand-authored fixture returns instead of the printed text — PL net weight and an HS code on SHP-24813, the invoice number on SHP-24816, a unit price on SHP-24817), so the corrections go through the real review service. The human steps live in `src/server/db/scenario-steps.ts` and run once per shipment.
 
 ### 7.3 `fixtures/samples/manifest.json`
 ```json
@@ -523,7 +523,7 @@ Seeded history makes S7 and S8 non-empty: corrections on SHP-24813/24816/24817 (
                                         "pageIssues": [], "fields": { "...": "PageExtraction" }, "lineItems": [] } }]
 }
 ```
-`source` ∈ `recorded | hand-authored`. The loader validates `output` with `PAGE_SCHEMAS[docType]`. Hand-authored files (from `pnpm samples:generate`) use `modelId: "hand-authored"`, take `text` from what `scripts/sample-data.ts` prints and `bbox` from the rendered layout, and give a fixed `recordedAt`. The generator stamps PDF metadata dates, so regenerating produces byte-identical samples: sha256 keys — and recorded fixtures keyed by them — stay valid. It also refuses to write when the ground truth for SHP-24811…24816 disagrees with `src/domain/checks/__fixtures__/snapshots.ts`.
+`source` ∈ `recorded | hand-authored`. The loader validates `output` with `PAGE_SCHEMAS[docType]`. Hand-authored files (from `pnpm samples:generate`) use `modelId: "hand-authored"`, take `text` from what `scripts/sample-data.ts` prints (or its declared `misread`) and `bbox` from the rendered layout, and give a fixed `recordedAt`. The generator stamps PDF metadata dates, so regenerating produces byte-identical samples: sha256 keys — and recorded fixtures keyed by them — stay valid. It also refuses to write when the ground truth for SHP-24811…24816 disagrees with `src/domain/checks/__fixtures__/snapshots.ts`.
 
 ---
 

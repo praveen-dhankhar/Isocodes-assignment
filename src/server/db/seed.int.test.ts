@@ -5,15 +5,14 @@ import { SAMPLE_REFS } from "../../../scripts/sample-data";
 import { auth } from "../auth";
 import { requireRole } from "../session";
 import { db } from "./client";
-import { crossCheckResults, documents, importers, shipments, suppliers, user } from "./schema";
+import { crossCheckResults, documents, fieldEdits, importers, shipments, suppliers, user } from "./schema";
 import { isLocalDatabase, seed, supplierKey } from "./seed";
 import { seedScenarios } from "./seed-scenarios";
 
-// Derived states only at M6; the human steps (M8.4, M9.4) move them on. SHP-24816 blocks on an ambiguous US date and
-// "1,000 KGS"; SHP-24817 on the bilingual description read at 0.78.
+// After the human steps of PLAN M8.4 (approval and export come with M9.4). SHP-24811/24814/24815 are left to review.
 const SEEDED_STATUS: Record<string, string> = {
   "SHP-24811": "NEEDS_REVIEW", "SHP-24812": "EXTRACTED", "SHP-24813": "EXTRACTED", "SHP-24814": "NEEDS_REVIEW", "SHP-24815": "NEEDS_REVIEW",
-  "SHP-24816": "NEEDS_REVIEW", "SHP-24817": "NEEDS_REVIEW", "SHP-24818": "NEEDS_REVIEW", "SHP-24819": "DRAFT",
+  "SHP-24816": "EXTRACTED", "SHP-24817": "READY_FOR_APPROVAL", "SHP-24818": "ON_HOLD", "SHP-24819": "DRAFT",
 };
 
 process.env.SEED_DEMO_PASSWORD ??= "integration-seed-password"; // read lazily by env(); test database only
@@ -81,5 +80,12 @@ describe("seedScenarios (PLAN M6.1)", () => {
     expect((await check("SHP-24814", "CC-06")).filter((c) => c.status === "FAIL")).toEqual([{ status: "FAIL", scope: "line:2" }]);
     expect(await db().select().from(documents).where(eq(documents.shipmentId, byRef["SHP-24819"]?.id ?? ""))).toHaveLength(1);
     expect((await db().select().from(documents).where(inArray(documents.shipmentId, rows.map((r) => r.id)))).every((d) => d.mode === "SAMPLE")).toBe(true);
+
+    // The seeded history holds real corrections, a manual entry and a submission by someone other than the creator.
+    const edits = await db().select({ action: fieldEdits.action, key: fieldEdits.fieldKey }).from(fieldEdits).where(inArray(fieldEdits.shipmentId, rows.map((r) => r.id)));
+    expect(edits.filter((e) => e.action === "CORRECT").map((e) => e.key).sort()).toEqual(["hsCode", "invoiceNumber", "netWeight", "unitPrice"]);
+    expect(edits.filter((e) => e.action === "MANUAL_ENTRY")).toHaveLength(2);
+    const [vikram] = await db().select({ id: user.id }).from(user).where(eq(user.email, "vikram@demo.test"));
+    expect(byRef["SHP-24817"]?.submittedBy).toBe(vikram?.id);
   }, 120_000); // 26 page renders on the first run
 });

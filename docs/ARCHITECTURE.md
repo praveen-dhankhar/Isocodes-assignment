@@ -137,7 +137,7 @@ Exact versions are pinned (no `^`) in `package.json` at scaffold time.
     │   └── export/ precedence.ts (A-05, rule → field)  csv.ts (layout CF-1)  __fixtures__/SHP-24811.cf1.csv (golden file)
     ├── server/                   # every file starts with `import 'server-only'`
     │   ├── auth.ts  session.ts
-    │   ├── db/ client.ts schema.ts seed.ts seed-scenarios.ts
+    │   ├── db/ client.ts schema.ts seed.ts seed-scenarios.ts scenario-steps.ts
     │   ├── storage/ index.ts local.ts supabase.ts
     │   ├── pdf/ render.ts text-layer.ts
     │   ├── uploads/validate.ts

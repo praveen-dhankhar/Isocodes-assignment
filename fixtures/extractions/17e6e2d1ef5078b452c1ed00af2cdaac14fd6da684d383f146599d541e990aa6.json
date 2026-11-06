@@ -175,8 +175,8 @@
               }
             },
             "unitPrice": {
-              "text": "11.30",
-              "confidence": 0.94,
+              "text": "11.80",
+              "confidence": 0.82,
               "bbox": {
                 "x": 0.77,
                 "y": 0.3772,

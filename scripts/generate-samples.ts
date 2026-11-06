@@ -171,7 +171,7 @@ function extractionFixture(ship: SampleShipment, doc: SampleDocument, sha256: st
   const aiValue = (pageNo: number, field: string, line: number | null, text: string | undefined, key: string) => {
     const at = where(field, line);
     if (text === undefined || !at || at.pageNo !== pageNo || unreadable(pageNo)) return { text: null, confidence: 0, bbox: null }; // prompt rule 2
-    return { text, confidence: confidenceFor(ship, doc, key), bbox: at.box };
+    return { text: doc.misread?.[key] ?? text, confidence: confidenceFor(ship, doc, key), bbox: at.box };
   };
   const slotKeys = (registry: Record<string, FieldDef>) => Object.keys(registry).filter((k) => registry[k]?.on[doc.docType]);
 

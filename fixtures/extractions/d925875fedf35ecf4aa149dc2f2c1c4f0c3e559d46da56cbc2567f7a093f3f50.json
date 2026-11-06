@@ -62,8 +62,8 @@
             }
           },
           "netWeight": {
-            "text": "560.00 KG",
-            "confidence": 0.98,
+            "text": "580.00 KG",
+            "confidence": 0.83,
             "bbox": {
               "x": 0.8354,
               "y": 0.3942,

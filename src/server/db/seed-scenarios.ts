@@ -5,6 +5,7 @@ import { selectProviders } from "../ai/provider";
 import { extractDocument } from "../services/extraction";
 import { createSampleShipment } from "../services/shipments";
 import { db } from "./client";
+import { HUMAN_SCENARIOS, steps, touchedByPeople } from "./scenario-steps";
 import { documents, shipments, user } from "./schema";
 
 // PLAN M6.1: each sample shipment goes through the real services (create, upload the bundled files, extract from the
@@ -14,11 +15,13 @@ const recordedOnly = (sha256: string) =>
 
 /**
  * Idempotent by ref: an existing sample shipment is not recreated, but a document a crashed run left unread is
- * extracted. Run after `seed()` (it needs the demo users).
+ * extracted. Then the human steps (scenario-steps.ts) run once per shipment. Run after `seed()` (it needs the users).
  */
 export async function seedScenarios(): Promise<{ shipments: number }> {
-  const [asha] = await db().select({ id: user.id }).from(user).where(eq(user.email, "asha@demo.test"));
-  if (!asha) throw new Error("The demo users are missing; seed them first");
+  const people = await db().select({ id: user.id, email: user.email, role: user.role }).from(user).where(inArray(user.email, ["asha@demo.test", "vikram@demo.test"]));
+  const asha = people.find((p) => p.email === "asha@demo.test");
+  const vikram = people.find((p) => p.email === "vikram@demo.test");
+  if (!asha || !vikram) throw new Error("The demo users are missing; seed them first");
   const existing = new Map(
     (await db().select({ id: shipments.id, ref: shipments.ref }).from(shipments).where(inArray(shipments.ref, SAMPLES.map((s) => s.ref)))).map((r) => [r.ref, r.id]),
   );
@@ -38,6 +41,8 @@ export async function seedScenarios(): Promise<{ shipments: number }> {
       const { document } = await extractDocument({ shipmentId, documentId: id, force: false, discardHumanEdits: false, actorId: asha.id }, { providers: recordedOnly });
       if (document.status !== "EXTRACTED") throw new Error(`${sample.ref} ${document.docType}: extraction ${document.status} ${document.errorCode ?? ""}`);
     }
+    const human = HUMAN_SCENARIOS[sample.ref];
+    if (human && !(await touchedByPeople(shipmentId))) await human(steps(shipmentId), { asha, vikram });
   }
   return { shipments: created };
 }
