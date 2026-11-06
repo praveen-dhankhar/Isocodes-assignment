@@ -18,6 +18,8 @@
     "test:int": "vitest run --project integration --passWithNoTests",
     "db:generate": "NODE_OPTIONS=--conditions=react-server drizzle-kit generate",
     "db:migrate": "NODE_OPTIONS=--conditions=react-server drizzle-kit migrate",
+    "db:seed": "tsx --conditions=react-server --env-file-if-exists=.env.local src/server/db/seed.ts",
+    "db:reset": "tsx --conditions=react-server --env-file-if-exists=.env.local scripts/db-reset.ts",
     "verify": "pnpm typecheck && pnpm lint && pnpm test && pnpm build"
   },
   "dependencies": {
@@ -50,6 +52,7 @@
     "eslint-config-next": "16.4.5",
     "fast-check": "4.10.2",
     "tailwindcss": "4.3.4",
+    "tsx": "4.23.15",
     "typescript": "5.9.3",
     "vitest": "5.1.0"
   }

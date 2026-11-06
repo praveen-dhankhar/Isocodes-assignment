@@ -24,8 +24,9 @@ Needs Node 22 (`.nvmrc`), Corepack (ships with Node) and Docker.
 ```bash
 corepack enable                  # uses the pnpm version pinned in package.json
 pnpm install
-docker compose up -d db          # Postgres 16: databases customs and customs_test
+docker compose up -d db          # Postgres 16 on localhost:5433: databases customs and customs_test
 cp .env.example .env.local       # then fill it in (below)
+pnpm db:reset                    # migrate and seed demo users + master data (local databases only)
 pnpm dev                         # http://localhost:3000
 ```
 
@@ -37,7 +38,10 @@ DATABASE_URL_TEST=postgres://postgres:postgres@localhost:5433/customs_test
 BETTER_AUTH_SECRET=              # openssl rand -base64 32
 BETTER_AUTH_URL=http://localhost:3000
 STORAGE_DRIVER=local
+SEED_DEMO_PASSWORD=              # any 8+ characters; the demo accounts below use it
 ```
+
+Demo accounts (password = `SEED_DEMO_PASSWORD`): `asha@demo.test` and `vikram@demo.test` (documentation executives), `meera@demo.test` (documentation manager).
 
 Leave `NVIDIA_API_KEY` empty to run without the live model. Every variable is described in [API_SPECS §8](docs/API_SPECS.md#8-environment-variables-names-only--values-never-in-the-repo).
 
@@ -50,6 +54,9 @@ Leave `NVIDIA_API_KEY` empty to run without the live model. Every variable is de
 | `pnpm lint` | ESLint with zero warnings allowed (includes layering rules) |
 | `pnpm test` / `pnpm test:watch` | Unit tests (`*.test.ts`) |
 | `pnpm test:int` | Integration tests (`*.int.test.ts`) against `DATABASE_URL_TEST` |
+| `pnpm db:generate` / `pnpm db:migrate` | New migration from `src/server/db/schema.ts` / apply migrations |
+| `pnpm db:seed` | Demo users, importers, suppliers; refuses a non-local database unless `--allow-remote` |
+| `pnpm db:reset` | Drop, migrate and seed; local databases only |
 | `pnpm verify` | typecheck + lint + unit tests + build; run before every commit |
 
 CI (`.github/workflows/ci.yml`) runs typecheck, lint, unit and integration tests against a Postgres 16 service, a build, and a gitleaks secret scan.
