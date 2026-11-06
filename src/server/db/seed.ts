@@ -5,7 +5,7 @@ import { identifierKey, normalizeText } from "@/domain/normalize/text";
 import type { Role } from "@/domain/status";
 import { env } from "@/lib/env";
 import { auth } from "../auth";
-import { db } from "./client";
+import { closeDb, db } from "./client";
 import { importers, suppliers, user } from "./schema";
 
 // API_SPECS §7.2: users and masters only; shipments are seeded through the real pipeline later (M6).
@@ -89,5 +89,5 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
       console.error(e instanceof Error ? e.message : e);
       process.exitCode = 1;
     })
-    .finally(() => db().$client.end());
+    .finally(() => closeDb());
 }

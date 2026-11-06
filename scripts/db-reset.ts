@@ -1,7 +1,7 @@
 import { drizzle } from "drizzle-orm/postgres-js";
 import { migrate } from "drizzle-orm/postgres-js/migrator";
 import postgres from "postgres";
-import { db } from "@/server/db/client";
+import { closeDb } from "@/server/db/client";
 import { isLocalDatabase, seed } from "@/server/db/seed";
 import { env } from "@/lib/env";
 
@@ -29,4 +29,4 @@ main()
     console.error(e instanceof Error ? e.message : e);
     process.exitCode = 1;
   })
-  .finally(() => db().$client.end());
+  .finally(() => closeDb());

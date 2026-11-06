@@ -18,3 +18,10 @@ export function db(): Db {
   instance ??= createDb(env().DATABASE_URL);
   return instance;
 }
+
+/** For scripts: closes the pool only if one was opened — never connects just to close (a bad URL would crash
+ * again and print the connection string). */
+export async function closeDb(): Promise<void> {
+  await instance?.$client.end();
+  instance = undefined;
+}
