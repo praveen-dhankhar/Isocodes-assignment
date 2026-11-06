@@ -7,10 +7,25 @@ import { deriveReviewStatus, nextStatusAfterDataChange } from "@/domain/status";
 import { AppError } from "@/lib/errors";
 import type { Tx } from "../db/client";
 import { crossCheckResults, shipments } from "../db/schema";
+import { shipmentStatus } from "../queries/shipments";
 import { audit } from "./audit";
 import { loadSnapshot } from "./snapshot";
 
 const fromExcluded = (column: string) => sql.raw(`excluded."${column}"`);
+
+/**
+ * Start of every mutation: lock the shipment row, refuse an exported shipment (read-only until reopened) and, when
+ * the caller sent one, check optimistic concurrency (API_SPECS §1: stale → 409 VERSION_CONFLICT with the current state).
+ */
+export async function lockShipment(tx: Tx, shipmentId: string, expectedVersion?: number) {
+  const [row] = await tx.select().from(shipments).where(eq(shipments.id, shipmentId)).for("update");
+  if (!row) throw new AppError("NOT_FOUND", "Shipment not found");
+  if (expectedVersion !== undefined && row.version !== expectedVersion) {
+    throw new AppError("VERSION_CONFLICT", "Someone else changed this shipment; reload to see the latest", { current: await shipmentStatus(tx, shipmentId) });
+  }
+  if (row.status === "EXPORTED") throw new AppError("INVALID_STATE", "Exported shipments are read-only until a manager reopens them");
+  return row;
+}
 
 /**
  * ARCHITECTURE §7.5, invariant 4: every write that can change checks calls this in the same transaction, before
