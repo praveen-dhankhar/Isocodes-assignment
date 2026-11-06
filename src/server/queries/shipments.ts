@@ -3,6 +3,7 @@ import { and, asc, desc, eq, ilike, isNull, or, sql } from "drizzle-orm";
 import type { DocType } from "@/domain/fields";
 import type { ShipmentStatus } from "@/domain/snapshot";
 import { AppError } from "@/lib/errors";
+import { SAMPLES } from "../../../scripts/sample-data";
 import { db, type Db, type Tx } from "../db/client";
 import { documents, importers, shipments, suppliers } from "../db/schema";
 
@@ -119,3 +120,6 @@ export const listSuppliers = () =>
   db().select({ id: suppliers.id, name: suppliers.name, countryCode: suppliers.countryCode }).from(suppliers).orderBy(asc(suppliers.name));
 
 export const listImporters = () => db().select({ id: importers.id, name: importers.name }).from(importers).orderBy(asc(importers.name));
+
+/** S3 sample-set picker: the bundled sets (API_SPECS §7.2). */
+export const listSampleSets = () => SAMPLES.map((s) => ({ ref: s.ref, title: s.title, documents: s.uploaded.length }));
