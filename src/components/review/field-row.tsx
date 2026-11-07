@@ -21,7 +21,7 @@ export function FieldValue({ field }: { field: FieldDTO }) {
   if (field.value === null) return <span className="text-muted-foreground">Not found</span>;
   if (NUMERIC.has(field.kind)) return <Num value={field.value} />;
   if (CODE.has(field.kind)) return <Mono>{field.display}</Mono>;
-  return <span className="break-words">{field.display}</span>;
+  return <span className="wrap-break-word">{field.display}</span>;
 }
 
 interface Props {

@@ -26,7 +26,7 @@ export default async function HistoryPage(props: PageProps<"/shipments/[id]/hist
                 </time>
                 <span className="font-medium">{e.actor}</span> {e.text}
               </p>
-              {e.detail && <p className="text-xs break-words text-muted-foreground tabular-nums">{e.detail}</p>}
+              {e.detail && <p className="text-xs wrap-break-word text-muted-foreground tabular-nums">{e.detail}</p>}
             </li>
           ))}
         </ol>
