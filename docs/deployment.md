@@ -3,6 +3,7 @@
 - **Live:** https://aidocextractor.vercel.app (Vercel, functions in `bom1` Mumbai)
 - **Database and files:** Supabase Postgres 16 and a private Storage bucket, region `ap-south-1` (Mumbai)
 - **Code:** https://github.com/praveen-dhankhar/Isocodes-assignment
+- **Demo video (75 s, captioned):** https://github.com/praveen-dhankhar/Isocodes-assignment/raw/main/docs/demo/demo.webm
 
 ## Demo logins
 

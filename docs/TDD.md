@@ -2,6 +2,7 @@
 
 - **Code:** https://github.com/praveen-dhankhar/Isocodes-assignment
 - **Live:** https://aidocextractor.vercel.app (Vercel `bom1`, Mumbai; demo logins in [`deployment.md`](deployment.md))
+- **Demo video (75 s, captioned):** https://github.com/praveen-dhankhar/Isocodes-assignment/raw/main/docs/demo/demo.webm — the brief's weight mismatch caught, traced and accepted; an uncertain scan value confirmed in one click; manager approval; Excel export; the accuracy report.
 - **Product spec:** [`PRD.md`](PRD.md) · **Architecture:** [`ARCHITECTURE.md`](ARCHITECTURE.md) · **Contracts:** [`API_SPECS.md`](API_SPECS.md) · **Build plan:** [`PLAN.md`](PLAN.md)
 
 ## 1. The problem and the slice built
@@ -167,6 +168,42 @@ What the numbers led to:
 | S6 export | A preview of exactly what will be filed, with where each column comes from (A-05). When the gate is closed, the reasons link to the screen that fixes them. |
 | S7 report | Live extractions by default; recorded samples are a labelled toggle, never mixed in silently. Calibration shows whether the confidence numbers can be believed. |
 | S8 history | One timeline merging events and field edits; notes appear as written. |
+
+### 7.1 Key screens
+
+**S4 review: the brief's mismatch, traced to its source.** Selecting CC-03 opens the packing list and boxes the value; the card shows what each document says and the difference. Mismatches are the only crimson on screen.
+
+![Review screen with CC-03 selected](images/s4-review-cc03.png)
+
+**Uncertain values are obvious at a glance and one click from done.** A skewed phone scan: two values are amber with Confirm and Correct on the card; the bad container check digit is a mismatch above them.
+
+![Review screen on a scanned bill of lading](images/s4-uncertain-scan.png)
+
+**Accept discrepancy, not "fix the number".** The dialog shows each document's value, prefills the value export would file (A-05) and needs a reason; correcting a field is only for misreads.
+
+![Accept discrepancy dialog](images/s4-accept-discrepancy.png)
+
+**S2 list and S3 upload.** Status, unresolved issues and mismatches per shipment; three upload slots or a bundled sample set.
+
+![Shipment list](images/s2-shipments.png)
+
+![New shipment](images/s3-new-shipment.png)
+
+**S5 approval and S6 export.** The manager reads a diff, not a form. The export preview shows the CF-1 rows and where each column comes from; Excel and CSV are written from the same rows.
+
+![Approval](images/s5-approval.png)
+
+![Export preview](images/s6-export.png)
+
+**S7 accuracy and S8 history.** Accuracy by field and supplier, calibration and the edit log; one timeline per shipment.
+
+![Accuracy report](images/s7-accuracy.png)
+
+![History](images/s8-history.png)
+
+**On a phone** the review screen becomes Document · Fields · Issues tabs.
+
+<img src="images/phone-review.png" alt="Review screen at 390 px" width="260">
 
 ## 8. Security and privacy
 
