@@ -2,6 +2,7 @@
 
 import { FileX2, Minus, Plus, RotateCcw, RotateCw, TriangleAlert } from "lucide-react";
 import Image from "next/image";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { DOC_LABEL, type DocType } from "@/domain/fields";
@@ -51,6 +52,7 @@ const IconButton = ({ label, keys, onClick, disabled, children }: { label: strin
 /** S4 left pane (ARCHITECTURE §11): document tabs, pages, zoom, rotation and the source box of the focused value. */
 export function DocumentViewer({ view, onView, documents, pages, highlight, highlightLabel, shipmentId, version, readOnly }: Props) {
   const doc = documents.find((d) => d.docType === view.docType);
+  const [loaded, setLoaded] = useState<string | null>(null);
   const docPages = pages[view.docType];
   const page = docPages.find((p) => p.pageNo === view.pageNo) ?? docPages[0];
   const quarter = ((view.rotation % 360) + 360) % 360;
@@ -143,8 +145,22 @@ export function DocumentViewer({ view, onView, documents, pages, highlight, high
         ) : (
           <div className="relative mx-auto transition-[width] duration-200 ease-out motion-reduce:transition-none" style={{ width: `${width}%` }}>
             <div className="relative origin-center bg-background shadow-sm ring-1 ring-border transition-transform duration-200 ease-out motion-reduce:transition-none" style={{ transform: `rotate(${view.rotation + view.fine}deg)` }}>
-              <Image src={page.url} alt={`${DOC_LABEL[view.docType]}, page ${page.pageNo}`} width={page.width} height={page.height} unoptimized priority className="block h-auto w-full select-none" draggable={false} />
-              {highlight && (
+              {/* key: a new element per page, so the previous page never stays on screen while this one loads */}
+              <Image
+                key={page.url}
+                src={page.url}
+                alt={`${DOC_LABEL[view.docType]}, page ${page.pageNo}`}
+                width={page.width}
+                height={page.height}
+                unoptimized
+                priority
+                onLoad={() => setLoaded(page.url)}
+                className={cn("block h-auto w-full select-none transition-opacity duration-150", loaded !== page.url && "opacity-0")}
+                draggable={false}
+              />
+              {loaded !== page.url && <div aria-hidden className="absolute inset-0 animate-pulse bg-muted motion-reduce:animate-none" />}
+              {/* The box is drawn only on the page it belongs to, once that page's image is showing. */}
+              {highlight && loaded === page.url && (
                 <div
                   aria-label={highlightLabel ? `Source of ${highlightLabel}` : "Source of the selected value"}
                   role="img"
