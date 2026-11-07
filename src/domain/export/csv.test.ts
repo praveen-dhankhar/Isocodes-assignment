@@ -64,8 +64,15 @@ describe("CF-1 export (API_SPECS §6)", () => {
     expect(rows.map((r) => r[HEADER.indexOf("QUANTITY")])).toEqual(["QUANTITY", "5000", "10000"]);
   });
 
+  it("leaves text unguarded for a format that has no formulas (XLSX)", () => {
+    const snap = withLineValue(reviewed24811(), "INVOICE", 1, "description", "=SUM(A1)");
+    const cells = buildExportRows(snap, MASTERS, runCrossChecks(snap, CHECK_CONFIG), { guard: false })[1] ?? [];
+    expect(cells[HEADER.indexOf("ITEM_DESCRIPTION")]).toBe("=SUM(A1)");
+  });
+
   it("names the file ref_invoice_CF1_<IST time>, with unsafe characters replaced", () => {
     expect(exportFileName("SHP-24811", "CB-2026-1187", new Date("2026-11-08T09:02:00Z"))).toBe("SHP-24811_CB-2026-1187_CF1_20261108-1432.csv");
     expect(exportFileName("SHP-24811", "INV/26 #4", new Date("2026-11-08T09:02:00Z"))).toBe("SHP-24811_INV_26__4_CF1_20261108-1432.csv");
+    expect(exportFileName("SHP-24811", "CB-2026-1187", new Date("2026-11-08T09:02:00Z"), "xlsx")).toBe("SHP-24811_CB-2026-1187_CF1_20261108-1432.xlsx");
   });
 });

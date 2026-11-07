@@ -33,8 +33,10 @@ test("Asha submits a clean sample, Meera approves and exports it", async ({ brow
 
   await meera.goto(`${url}/export`);
   await expect(meera.getByRole("columnheader", { name: /GROSS_WT_KG/ })).toBeVisible();
-  const [download] = await Promise.all([meera.waitForEvent("download"), meera.getByRole("button", { name: "Export and download CSV" }).click()]);
-  expect(download.suggestedFilename()).toMatch(/^SHP-\d+_CC-2026-0412_CF1_\d{8}-\d{4}\.csv$/);
-  await expect(meera.getByRole("link", { name: "Download again" })).toBeVisible();
+  const [download] = await Promise.all([meera.waitForEvent("download"), meera.getByRole("button", { name: "Export as Excel" }).click()]);
+  expect(download.suggestedFilename()).toMatch(/^SHP-\d+_CC-2026-0412_CF1_\d{8}-\d{4}\.xlsx$/);
+  // The same export is kept in both formats.
+  const [csv] = await Promise.all([meera.waitForEvent("download"), meera.getByRole("link", { name: "CSV", exact: true }).click()]);
+  expect(csv.suggestedFilename()).toMatch(/\.csv$/);
   await expect(meera.getByText("Exported").first()).toBeVisible();
 });

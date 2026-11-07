@@ -56,16 +56,20 @@ describe("export gate (PRD §10.3 gate 3, API_SPECS §4.6)", () => {
   it("an approved shipment exports the golden rows, becomes EXPORTED, and re-download is audited", async () => {
     const { shipmentId } = await approved24811();
     const out = await exportShipment({ shipmentId, expectedVersion: await version(shipmentId), actor: EXEC });
-    const text = new TextDecoder("utf-8", { ignoreBOM: true }).decode(out.bytes); // keep the BOM
+    const text = new TextDecoder("utf-8", { ignoreBOM: true }).decode(out.csv.bytes); // keep the BOM
     expect(text.startsWith("﻿SHIPMENT_REF,")).toBe(true);
     expect(text).toContain(",BLNGB2610447,XZQU4821171,240,3165.000,2880.000,1,LED panel light 40W,94054290,2400,PCS,6.80,16320.00\r\n");
-    expect(out.fileName).toMatch(/^SHP-\d+_CB-2026-1187_CF1_\d{8}-\d{4}\.csv$/);
+    expect(out.csv.fileName).toMatch(/^SHP-\d+_CB-2026-1187_CF1_\d{8}-\d{4}\.csv$/);
+    expect(out.xlsx.fileName).toMatch(/\.xlsx$/);
+    expect([...out.xlsx.bytes.subarray(0, 4)]).toEqual([0x50, 0x4b, 0x03, 0x04]); // a zip, as every .xlsx is
     expect((await ship(shipmentId))?.status).toBe("EXPORTED");
 
     // Exported is read-only; a new export needs reopen and approval again.
     expect((await failure(exportShipment({ shipmentId, expectedVersion: await version(shipmentId), actor: EXEC })))?.code).toBe("INVALID_STATE");
-    const again = await downloadExport({ shipmentId, exportId: out.exportId, actorId: MANAGER.id });
-    expect(again.bytes).toEqual(out.bytes);
+    const again = await downloadExport({ shipmentId, exportId: out.exportId, format: "csv", actorId: MANAGER.id });
+    expect(again.bytes).toEqual(out.csv.bytes);
+    const sheet = await downloadExport({ shipmentId, exportId: out.exportId, format: "xlsx", actorId: MANAGER.id });
+    expect(sheet.bytes).toEqual(out.xlsx.bytes);
     expect((await db().select().from(auditLogs).where(eq(auditLogs.shipmentId, shipmentId))).map((a) => a.action)).toEqual(expect.arrayContaining(["EXPORTED", "EXPORT_DOWNLOADED"]));
   });
 

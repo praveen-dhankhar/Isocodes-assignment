@@ -7,15 +7,17 @@ import { requireUser } from "@/server/session";
 export const runtime = "nodejs";
 
 const Params = z.object({ id: z.uuid(), exportId: z.uuid() });
+const Query = z.object({ format: z.enum(["csv", "xlsx"]).default("csv") });
 
-export async function GET(_request: Request, ctx: RouteContext<"/api/shipments/[id]/exports/[exportId]">) {
+export async function GET(request: Request, ctx: RouteContext<"/api/shipments/[id]/exports/[exportId]">) {
   try {
     const user = await requireUser();
     const { id, exportId } = Params.parse(await ctx.params);
-    const file = await downloadExport({ shipmentId: id, exportId, actorId: user.id });
+    const { format } = Query.parse({ format: new URL(request.url).searchParams.get("format") ?? undefined });
+    const file = await downloadExport({ shipmentId: id, exportId, format, actorId: user.id });
     return new Response(new Uint8Array(file.bytes), {
       headers: {
-        "Content-Type": "text/csv; charset=utf-8",
+        "Content-Type": file.contentType,
         "Content-Disposition": `attachment; filename="${file.fileName}"`,
         "X-Content-Type-Options": "nosniff",
         "Cache-Control": "private, no-store",

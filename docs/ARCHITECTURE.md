@@ -141,6 +141,7 @@ Exact versions are pinned (no `^`) in `package.json` at scaffold time.
     │   ├── db/ client.ts schema.ts seed.ts seed-scenarios.ts scenario-steps.ts
     │   ├── storage/ index.ts local.ts supabase.ts
     │   ├── pdf/ render.ts text-layer.ts
+    │   ├── export/ xlsx.ts (CF-1 rows → .xlsx)
     │   ├── uploads/validate.ts
     │   ├── ai/ provider.ts schemas.ts prompts.ts images.ts nvidia.ts sample.ts
     │   ├── services/ snapshot.ts recompute.ts shipments.ts documents.ts extraction.ts manual-entry.ts

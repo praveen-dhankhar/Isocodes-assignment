@@ -27,7 +27,7 @@ interface Props {
   history: Array<{ id: string; rowCount: number; layoutVersion: string; createdAt: string; by: string }>;
 }
 
-/** S6 (PRD F5): CF-1 rows as they will be filed, the gate's verdict in words, download and earlier files. */
+/** S6 (PRD F5): CF-1 rows as they will be filed, the gate's verdict in words, Excel or CSV download and earlier files. */
 export function ExportPreview({ shipmentId, status, version, reasons, unresolved, rows, history }: Props) {
   const router = useRouter();
   const [busy, setBusy] = useState(false);
@@ -41,18 +41,18 @@ export function ExportPreview({ shipmentId, status, version, reasons, unresolved
     WRONG_STATUS: { text: "Only an approved shipment can be exported.", href: `/shipments/${shipmentId}/approval`, link: "Approval" },
   };
 
-  async function download() {
+  async function download(format: "xlsx" | "csv") {
     setBusy(true);
     setError(null);
     try {
-      const res = await fetch(`/api/shipments/${shipmentId}/export`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ expectedVersion: version }) });
+      const res = await fetch(`/api/shipments/${shipmentId}/export`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ expectedVersion: version, format }) });
       if (!res.ok) {
         const body: unknown = await res.json().catch(() => null);
         const message = (body as { error?: { message?: string } } | null)?.error?.message;
         setError(message ?? `Export failed (HTTP ${res.status}).`);
         return;
       }
-      const name = /filename="([^"]+)"/.exec(res.headers.get("Content-Disposition") ?? "")?.[1] ?? "export.csv";
+      const name = /filename="([^"]+)"/.exec(res.headers.get("Content-Disposition") ?? "")?.[1] ?? `export.${format}`;
       const url = URL.createObjectURL(await res.blob());
       const a = Object.assign(document.createElement("a"), { href: url, download: name });
       a.click();
@@ -82,9 +82,14 @@ export function ExportPreview({ shipmentId, status, version, reasons, unresolved
       )}
       <div className="flex flex-wrap items-center gap-3">
         <h2 className="font-medium">Layout CF-1 · {body.length} row(s), one per invoice line</h2>
-        <ReasonButton className="ml-auto" reason={blocked} disabled={busy} onClick={() => void download()}>
-          <Download aria-hidden /> {busy ? "Exporting…" : "Export and download CSV"}
-        </ReasonButton>
+        <div className="ml-auto flex flex-wrap gap-2">
+          <ReasonButton reason={blocked} disabled={busy} onClick={() => void download("xlsx")}>
+            <Download aria-hidden /> {busy ? "Exporting…" : "Export as Excel"}
+          </ReasonButton>
+          <ReasonButton variant="outline" reason={blocked} disabled={busy} onClick={() => void download("csv")}>
+            Export as CSV
+          </ReasonButton>
+        </div>
       </div>
       {error && <p role="alert" className="text-sm">{error}</p>}
       <div className="overflow-x-auto rounded-lg border">
@@ -124,9 +129,14 @@ export function ExportPreview({ shipmentId, status, version, reasons, unresolved
                 <span>
                   {h.layoutVersion} · {h.rowCount} row(s) · {h.by} · <time className="tabular-nums">{formatDateTime(h.createdAt)}</time>
                 </span>
-                <a className="ml-auto underline underline-offset-4" href={`/api/shipments/${shipmentId}/exports/${h.id}`} download>
-                  Download again
-                </a>
+                <span className="ml-auto flex gap-3">
+                  <a className="underline underline-offset-4" href={`/api/shipments/${shipmentId}/exports/${h.id}?format=xlsx`} download>
+                    Excel
+                  </a>
+                  <a className="underline underline-offset-4" href={`/api/shipments/${shipmentId}/exports/${h.id}?format=csv`} download>
+                    CSV
+                  </a>
+                </span>
               </li>
             ))}
           </ul>

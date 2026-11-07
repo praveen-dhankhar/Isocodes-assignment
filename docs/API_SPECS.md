@@ -354,12 +354,12 @@ Streams the original with `Content-Disposition: attachment; filename="<sanitised
 ```ts
 export const ExportBody = z.object({ expectedVersion: z.number().int().positive() });
 ```
-Server, in one transaction with `SELECT … FOR UPDATE` on the shipment: rebuild snapshot → `canExport` → if blocked, 409 `EXPORT_BLOCKED` with `details.reasons`. Else build CSV (§6), store at `shipments/{sid}/exports/{exportId}.csv`, insert `exports` row, status → `EXPORTED`, audit `EXPORTED`.
+Server, in one transaction with `SELECT … FOR UPDATE` on the shipment: rebuild snapshot → `canExport` → if blocked, 409 `EXPORT_BLOCKED` with `details.reasons`. Else build CF-1 (§6) and store it twice: `shipments/{sid}/exports/{exportId}.csv` and the same key with `.xlsx`; insert the `exports` row, status → `EXPORTED`, audit `EXPORTED`. The body may add `format: "csv" | "xlsx"` (default `csv`): the response carries that file.
 - 200 body = CSV; headers `Content-Type: text/csv; charset=utf-8`, `Content-Disposition: attachment; filename="<name §6.4>"`, `X-Export-Id`, `X-Shipment-Version`.
 - An `EXPORTED` shipment gets 409 `INVALID_STATE` here. Earlier files are re-downloaded through §4.7; a changed shipment must be reopened (manager) and re-approved first.
 
 ### 4.7 `GET /api/shipments/:id/exports/:exportId`
-Streams a stored export; audit `EXPORT_DOWNLOADED`.
+Streams a stored export, `?format=csv` (default) or `?format=xlsx`; audit `EXPORT_DOWNLOADED` with the format.
 
 ---
 
@@ -441,7 +441,9 @@ All live in `src/server/actions/*.ts`, start with `'use server'`, validate input
 | 21 | UNIT_PRICE | INV line `unitPrice` | decimal as printed precision |
 | 22 | ITEM_VALUE | INV line `lineTotal` | decimal, currency minor units |
 
-`buildExportRows(snapshot, masters, outcomes) → string[][]` (header row first) is pure and unit-tested; it takes declared values from the check outcomes, which carry a resolution only while its fingerprint still matches. A declared value overrides its rule's column: CC-03 gross, CC-04 net, CC-05 packages, CC-07 containers, CC-02 invoice value, CC-08 invoice no., and per line CC-01 item value and CC-06 quantity. The injection guard applies to the free-text columns (ref, names, IEC, invoice no., B/L no., containers, description, UQC). `toCsv(rows) → string` handles quoting, BOM and CRLF.
+`buildExportRows(snapshot, masters, outcomes, { guard? }) → string[][]` (header row first) is pure and unit-tested; it takes declared values from the check outcomes, which carry a resolution only while its fingerprint still matches. A declared value overrides its rule's column: CC-03 gross, CC-04 net, CC-05 packages, CC-07 containers, CC-02 invoice value, CC-08 invoice no., and per line CC-01 item value and CC-06 quantity. The injection guard applies to the free-text columns (ref, names, IEC, invoice no., B/L no., containers, description, UQC). `toCsv(rows) → string` handles quoting, BOM and CRLF.
+
+**Excel (.xlsx).** The same rows, built with `{ guard: false }` (XLSX cells are never formulas), are written by `src/server/export/xlsx.ts`: one sheet named `CF-1`, bold frozen header row, text as inline strings (HSN codes and invoice numbers keep leading zeros), and the numeric columns (`NUMERIC_COLUMNS`: invoice value, packages, weights, item number, quantity, unit price, item value) as numbers whose display format keeps the printed decimals (3,165.000 stays three places, JPY none). It is a minimal hand-written package (stored zip, Node's `zlib.crc32`), validated with openpyxl.
 
 ### 6.3 Golden example — SHP-24811 after review
 Scenario (invented): the supplier confirms the invoice weight was a typo; the executive accepts the CC-03 discrepancy and declares 3,165.000 kg.
@@ -452,7 +454,7 @@ SHP-24811,Company P,TESTIEC001,Company B,CN,CB-2026-1187,14/10/2026,USD,FOB,1632
 This exact text (with BOM, and CRLF after every record including the last) is the golden file `src/domain/export/__fixtures__/SHP-24811.cf1.csv`. Importer and supplier names are the master records' names exactly ("Company P", "Company B"; the city is not part of the name).
 
 ### 6.4 File name
-`{SHIPMENT_REF}_{INVOICE_NO}_CF1_{yyyyMMdd-HHmm IST}.csv`, characters outside `[A-Za-z0-9._-]` replaced with `_`. Example: `SHP-24811_CB-2026-1187_CF1_20261108-1432.csv`.
+`{SHIPMENT_REF}_{INVOICE_NO}_CF1_{yyyyMMdd-HHmm IST}.csv` (or `.xlsx`), characters outside `[A-Za-z0-9._-]` replaced with `_`. Example: `SHP-24811_CB-2026-1187_CF1_20261108-1432.csv`.
 
 ---
 

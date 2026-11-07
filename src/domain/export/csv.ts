@@ -35,7 +35,12 @@ const guard = (cell: string) => (/^[=+\-@\t\r]/.test(cell) ? `'${cell}` : cell);
  * The CF-1 table, header row first. Values follow export precedence (A-05) unless an accepted discrepancy declared one;
  * `outcomes` carry only resolutions whose fingerprint still matches, so a stale declaration is never exported.
  */
-export function buildExportRows(snapshot: ShipmentSnapshot, masters: ExportMasters, outcomes: readonly CheckOutcome[]): string[][] {
+export function buildExportRows(
+  snapshot: ShipmentSnapshot,
+  masters: ExportMasters,
+  outcomes: readonly CheckOutcome[],
+  { guard: guardText = true }: { guard?: boolean } = {}, // XLSX cells are never formulas, so they need no guard
+): string[][] {
   const declared = (ruleId: RuleId, scope = "shipment") => {
     const r = outcomes.find((o) => o.ruleId === ruleId && o.scope === scope)?.resolution;
     return r?.type === "DISCREPANCY_ACCEPTED" ? (r.declaredValue ?? null) : null;
@@ -88,7 +93,7 @@ export function buildExportRows(snapshot: ShipmentSnapshot, masters: ExportMaste
 
   const rows = [...(inv?.lines ?? [])].sort((a, b) => a.lineNo - b.lineNo).map((line) => {
     const cells = { ...shipmentCells, ...lineCells(line) };
-    return HEADER.map((column) => (TEXT_COLUMNS.has(column) ? guard(cells[column] ?? "") : (cells[column] ?? "")));
+    return HEADER.map((column) => (guardText && TEXT_COLUMNS.has(column) ? guard(cells[column] ?? "") : (cells[column] ?? "")));
   });
   return [[...HEADER], ...rows];
 }
@@ -100,10 +105,15 @@ export function toCsv(rows: readonly (readonly string[])[]): string {
   return `﻿${rows.map((row) => row.map(quote).join(",")).join("\r\n")}\r\n`;
 }
 
-/** §6.4: {REF}_{INVOICE_NO}_CF1_{yyyyMMdd-HHmm IST}.csv; anything outside [A-Za-z0-9._-] becomes "_". */
-export function exportFileName(ref: string, invoiceNo: string | null, at: Date): string {
+/** Numeric CF-1 columns: an XLSX writes these as numbers; everything else (codes, HSN, dates) stays text. */
+export const NUMERIC_COLUMNS: ReadonlySet<string> = new Set<Column>([
+  "INVOICE_VALUE", "TOTAL_PACKAGES", "GROSS_WT_KG", "NET_WT_KG", "ITEM_SR_NO", "QUANTITY", "UNIT_PRICE", "ITEM_VALUE",
+]);
+
+/** §6.4: {REF}_{INVOICE_NO}_CF1_{yyyyMMdd-HHmm IST}.csv (or .xlsx); anything outside [A-Za-z0-9._-] becomes "_". */
+export function exportFileName(ref: string, invoiceNo: string | null, at: Date, ext: "csv" | "xlsx" = "csv"): string {
   const ist = new Date(at.getTime() + 330 * 60_000); // Asia/Kolkata, UTC+05:30, no DST (A-15)
   const two = (n: number) => String(n).padStart(2, "0");
   const stamp = `${ist.getUTCFullYear()}${two(ist.getUTCMonth() + 1)}${two(ist.getUTCDate())}-${two(ist.getUTCHours())}${two(ist.getUTCMinutes())}`;
-  return `${ref}_${invoiceNo ?? "NO-INVOICE"}_CF1_${stamp}.csv`.replace(/[^A-Za-z0-9._-]/g, "_");
+  return `${ref}_${invoiceNo ?? "NO-INVOICE"}_CF1_${stamp}.${ext}`.replace(/[^A-Za-z0-9._-]/g, "_");
 }

@@ -27,7 +27,7 @@ Everything a person changes is recorded. The manager's accuracy report shows whe
 | AI extraction: parties, invoice no. and date, currency, Incoterm, line items with HSN, packages, weights, containers | Field registry (PRD §6), vision model per page, confidence per field | Built |
 | Review screen, document beside the fields, low-confidence fields highlighted | S4: document 55% / fields 45%, amber for uncertain values, the source box drawn on the page | Built |
 | Cross-checks: invoice total vs line sum; packages and weights across all three documents | CC-02 (total), CC-01 (each line), CC-03 gross, CC-04 net, CC-05 packages; plus CC-06 lines, CC-07 containers, CC-08 invoice reference | Built |
-| Export in the filing software's import layout | CF-1 CSV, one row per invoice line (A-06: the real layout was not provided; the core build asks for CSV; XLSX is next) | CSV built |
+| Export in the filing software's Excel import layout | CF-1, one row per invoice line, downloadable as Excel (.xlsx) or CSV from the same export (A-06: the real layout was not provided) | Built |
 | Shipment status list | S2 with status, supplier and search filters | Built |
 | Edit history and accuracy report per field and supplier | S8 history, S7 accuracy, calibration and edit log | Built |
 | When the AI is wrong: low-confidence fields and failed cross-checks must be confirmed by a person; nothing exports until cleared | Confidence < 0.85 and every failed check are blocking issues; the export gate re-checks on the server | Built |
@@ -200,7 +200,7 @@ The brief leaves these open; each is labelled in code where it is applied (`// A
 | A-03 | Review threshold 0.85 on final confidence. |
 | A-04 | Tolerances: money 0.01 in invoice currency; weight 0.5 kg absolute; packages and quantities exact. |
 | A-05 | Export precedence: gross weight and packages B/L > PL > INV; net weight PL > INV > B/L; containers B/L > PL > INV; invoice-level fields from INV. A declared value from an accepted discrepancy overrides. |
-| A-06 | The filing software's import layout was not provided; CF-1 (CSV) is invented and must be swapped for the client's template. The brief's must-have says Excel; the core build says CSV, which this slice delivers. |
+| A-06 | The filing software's import layout was not provided; CF-1 is invented and must be swapped for the client's template. Each export is written as Excel (.xlsx, as the brief's must-have asks) and as CSV (as the core build asks) from the same rows. |
 | A-07 | Only party names are extracted; addresses, contact persons, phones and emails are not (data minimisation). |
 | A-08 | Importer contact details are entered by staff in the importer master (seeded with fake data) and masked by default. |
 | A-09 | Number format is detected per document; anything ambiguous goes to review. |
@@ -234,7 +234,7 @@ The brief leaves these open; each is labelled in code where it is applied (`// A
 ## 12. What's next
 
 1. Evaluate on the client's 200 past shipments (their 95% target) and get better boxes on scans: ask for word boxes separately or run an OCR pass on scans.
-2. Replace CF-1 with the client's real import template (one mapping file) and add XLSX output.
+2. Replace CF-1 with the client's real import template (one mapping file).
 3. Move extraction onto a job queue with retries, and add an e2e job to CI against a seeded Postgres service.
 4. Email intake of documents; a self-hosted NIM in an India region for production (A-16).
 5. Per-supplier learned hints (common misreads) fed back from the S7 data.

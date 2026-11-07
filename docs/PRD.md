@@ -299,7 +299,7 @@ Each is labelled in code comments as `// A-xx` where it is applied.
 | A-03 | Review threshold 0.85 on final confidence. |
 | A-04 | Tolerances: money 0.01 in invoice currency; weight 0.5 kg absolute; packages and quantities exact. |
 | A-05 | Export precedence: gross weight & packages BL > PL > INV; net weight PL > INV > BL; containers BL > PL > INV; invoice-level fields from INV. A declared value from an accepted discrepancy overrides. |
-| A-06 | The filing software's import layout was not provided; CF-1 (CSV) is invented and must be swapped for the client's template. The brief's must-have says Excel; the core build says CSV, which this slice delivers. |
+| A-06 | The filing software's import layout was not provided; CF-1 is invented and must be swapped for the client's template. Each export is written as Excel (.xlsx, as the brief's must-have asks) and as CSV (as the core build asks) from the same rows. |
 | A-07 | Only party names are extracted; addresses, contact persons, phones and emails are not (data minimisation). |
 | A-08 | Importer contact details are entered by staff in the importer master (seeded with fake data) and masked by default. |
 | A-09 | Number format is detected per document; anything ambiguous goes to review. |
@@ -328,7 +328,6 @@ Each is labelled in code comments as `// A-xx` where it is applied.
 - Live WhatsApp, SMS or email; payments. (Importer query is a stored mock notification.)
 - Email intake of documents; multi-invoice or consolidated shipments.
 - Model training or fine-tuning.
-- XLSX export (CSV only in this slice — next step).
 - Multi-tenant / multi-branch setup; native mobile app; offline mode.
 
 ## 16. Open questions for the client
@@ -350,4 +349,4 @@ Each is labelled in code comments as `// A-xx` where it is applied.
 | Statuses DRAFT, EXTRACTED, NEEDS_REVIEW, READY_FOR_APPROVAL, APPROVED, EXPORTED | Added `EXTRACTING` and `ON_HOLD`; `EXTRACTED` means "clean, awaiting submission" | Progress needs a state; importer queries need a hold. |
 | Mismatches fixed by editing fields | Field edits fix misreads; discrepancies are accepted or queried | Editing a field to hide a real document conflict would falsify the record and the accuracy report. |
 | `react-pdf` viewer | Server-rendered page images for every format | One viewer for PDFs and scans; boxes share one coordinate space. |
-| CSV/Excel export | CSV only | Core build names CSV; XLSX is next. |
+| CSV/Excel export | Both, from the same rows | The core build names CSV, the must-have names Excel; one export stores both files. |
