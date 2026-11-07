@@ -220,7 +220,7 @@ What the numbers led to:
 
 | Layer | Count | What it pins down |
 |---|---|---|
-| Unit (Vitest) | 626 tests, 37 files | normalisers and the typed-input gate, confidence caps, the CC-01…CC-08 engine on named scenarios SHP-24811…24816 (and property tests), blocking issues, the status machine, the export gate, CF-1 against a byte-exact golden file (BOM, CRLF, injection guard, JPY with no decimals), NVIDIA client retries and repair |
+| Unit (Vitest) | 629 tests, 38 files | normalisers and the typed-input gate, confidence caps, the CC-01…CC-08 engine on named scenarios SHP-24811…24816 (and property tests), blocking issues, the status machine, the export gate, CF-1 against a byte-exact golden file (BOM, CRLF, injection guard, JPY with no decimals), the Excel writer, NVIDIA client retries and repair |
 | Integration (Postgres) | 69 tests, 14 files | extraction (including three documents extracted at once — this found and fixed a lock-order deadlock), manual entry, review and resolutions, approval rules (`FORBIDDEN`, `SELF_APPROVAL_FORBIDDEN`, unacknowledged discrepancy), the export gate (`EXPORT_BLOCKED` reasons, `CHANGED_AFTER_APPROVAL` defence in depth, re-download audit), seed scenarios, report and history queries |
 | e2e (Playwright, recorded samples) | 10 tests, 5 specs | SHP-24811 CC-03 traced to the packing list; accepting it and submitting; J/Enter confirming an uncertain value; approve → export download; unknown file → FAILED → manual entry; 390 px smoke over S2/S5/S6/S7; CSP headers. The whole suite also passes against a production build. |
 
