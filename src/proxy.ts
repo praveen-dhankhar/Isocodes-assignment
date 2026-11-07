@@ -35,6 +35,6 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  // Pages only: API routes answer 401 themselves and send no HTML; static assets need neither check.
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+  // Pages only: API routes answer 401 themselves and send no HTML; static assets (and the public demo video) need neither check.
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|demo.webm).*)"],
 };

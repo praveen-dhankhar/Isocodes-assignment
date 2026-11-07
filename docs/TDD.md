@@ -2,7 +2,7 @@
 
 - **Code:** https://github.com/praveen-dhankhar/Isocodes-assignment
 - **Live:** https://aidocextractor.vercel.app (Vercel `bom1`, Mumbai; demo logins in [`deployment.md`](deployment.md))
-- **Demo video (75 s, captioned):** https://github.com/praveen-dhankhar/Isocodes-assignment/raw/main/docs/demo/demo.webm — the brief's weight mismatch caught, traced and accepted; an uncertain scan value confirmed in one click; manager approval; Excel export; the accuracy report.
+- **Demo video (75 s, captioned):** https://aidocextractor.vercel.app/demo.webm — the brief's weight mismatch caught, traced and accepted; an uncertain scan value confirmed in one click; manager approval; Excel export; the accuracy report.
 - **Product spec:** [`PRD.md`](PRD.md) · **Architecture:** [`ARCHITECTURE.md`](ARCHITECTURE.md) · **Contracts:** [`API_SPECS.md`](API_SPECS.md) · **Build plan:** [`PLAN.md`](PLAN.md)
 
 ## 1. The problem and the slice built

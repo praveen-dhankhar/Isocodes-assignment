@@ -2,7 +2,7 @@
 
 Extraction and cross-check tool for a customs broker at Nhava Sheva. Executives upload an invoice, packing list and bill of lading; a vision model (NVIDIA API) reads the fields; a deterministic engine cross-checks them; people resolve what doesn't match; a manager approves; the result exports as CSV for the filing software.
 
-**Live:** https://aidocextractor.vercel.app · **Design document:** [docs/TDD.md](docs/TDD.md) · **Deploy and demo guide:** [docs/deployment.md](docs/deployment.md) · **Demo video (75 s):** [docs/demo/demo.webm](https://github.com/praveen-dhankhar/Isocodes-assignment/raw/main/docs/demo/demo.webm)
+**Live:** https://aidocextractor.vercel.app · **Design document:** [docs/TDD.md](docs/TDD.md) · **Deploy and demo guide:** [docs/deployment.md](docs/deployment.md) · **Demo video (75 s):** [demo.webm](https://aidocextractor.vercel.app/demo.webm)
 
 ![Review screen: the brief's gross-weight mismatch traced to the packing list](docs/images/s4-review-cc03.png)
 
